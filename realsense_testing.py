@@ -94,7 +94,7 @@ with pyrs.Service() as serv:
             d = convert_z16_to_bgr(d)
             d = cv2.cvtColor(d, cv2.COLOR_BGR2GRAY)
 
-            d = cv2.adaptiveThreshold(d, 255, cv2.ADAPTIVE_THRESH_GAUSSIAN_C, cv2.THRESH_BINARY, 17, 2)
+            # d = cv2.adaptiveThreshold(d, 255, cv2.ADAPTIVE_THRESH_GAUSSIAN_C, cv2.THRESH_BINARY, 17, 2)
 
             # cv2.putText(cd, str(fps_smooth)[:4], (0, 50), cv2.FONT_HERSHEY_SIMPLEX, 2, (0, 0, 0))
             # cd = cv2.cvtColor(cd, cv2.COLOR_BGR2GRAY)
