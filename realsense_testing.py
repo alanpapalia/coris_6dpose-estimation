@@ -8,7 +8,6 @@ import cv2
 import pyrealsense as pyrs
 from pyrealsense.constants import rs_option
 
-folder = './frames/'
 depth_stream = pyrs.stream.DepthStream() #depth image taken straight from ir cameras
 dac_stream = pyrs.stream.DACStream()     #depth image corrected to pair w/ color_stream (fixes camera offset)
 color_stream = pyrs.stream.ColorStream() #rg color image
@@ -40,13 +39,17 @@ def convert_z16_to_bgr(frame):
 def promptClearImages():
     print('Do you want to clear image directory? (y/n)')
     if raw_input() == 'y':
-        for file in os.listdir(folder):
-            file_path = os.path.join(folder, file)
-            try:
-                if os.path.isfile(file_path):
-                    os.unlink(file_path)
-            except Exception as e:
-                print(e)
+        depth_folder = './frames/depth/'
+        color_folder = './frames/color/'
+        dirs = [depth_folder, color_folder]
+        for folder in dirs:
+            for file in os.listdir(folder):
+                file_path = os.path.join(folder, file)
+                try:
+                    if os.path.isfile(file_path):
+                        os.unlink(file_path)
+                except Exception as e:
+                    print(e)
 
 
 
@@ -59,7 +62,7 @@ def promptClearImages():
 
 
 
-promptClearImages()
+# promptClearImages()
 with pyrs.Service() as serv:
     with serv.Device(streams=(depth_stream, color_stream, dac_stream)) as dev:
 
@@ -88,22 +91,28 @@ with pyrs.Service() as serv:
                 last = now
 
             dev.wait_for_frames()
-            c = dev.color
-            c = cv2.cvtColor(c, cv2.COLOR_RGB2BGR)
-            d = dev.dac
-            d = convert_z16_to_bgr(d)
-            d = cv2.cvtColor(d, cv2.COLOR_BGR2GRAY)
+            color = dev.color
+            dep = dev.dac
 
-            # d = cv2.adaptiveThreshold(d, 255, cv2.ADAPTIVE_THRESH_GAUSSIAN_C, cv2.THRESH_BINARY, 17, 2)
+            grayscale = cv2.cvtColor(color, cv2.COLOR_RGB2GRAY)
+            color = cv2.cvtColor(color, cv2.COLOR_RGB2BGR)
+
+            dep = convert_z16_to_bgr(dep)
+            dep = cv2.cvtColor(dep, cv2.COLOR_BGR2GRAY)
+
+            dep = cv2.adaptiveThreshold(dep, 255, cv2.ADAPTIVE_THRESH_GAUSSIAN_C, cv2.THRESH_BINARY, 17, 2)
+            grayscale = cv2.adaptiveThreshold(grayscale, 255, cv2.ADAPTIVE_THRESH_GAUSSIAN_C, cv2.THRESH_BINARY, 17, 2)
 
             # cv2.putText(cd, str(fps_smooth)[:4], (0, 50), cv2.FONT_HERSHEY_SIMPLEX, 2, (0, 0, 0))
             # cd = cv2.cvtColor(cd, cv2.COLOR_BGR2GRAY)
             # print(cd.shape)
 
             cv2.namedWindow('ColorStream')
-            cv2.imshow('ColorStream', c)
+            cv2.imshow('ColorStream', color)
             cv2.namedWindow('DepthStream')
-            cv2.imshow('DepthStream', d)
+            cv2.imshow('DepthStream', dep)
+            cv2.namedWindow('GrayStream')
+            cv2.imshow('GrayStream', grayscale)
 
             keyPress = cv2.waitKey(1) & 0xFF
 
@@ -111,8 +120,11 @@ with pyrs.Service() as serv:
                 break
             # elif keyPress == ord('c'):
             if cnt%30 == 0:
-                dname = "./frames/depthFrame%d.jpg"%cnt
-                cname = "./frames/colorFrame%d.jpg" % cnt
-                cv2.imwrite(dname, d)
-                cv2.imwrite(cname, c)
+                dname = "./frames/depth/depthFrame%d.jpg"%cnt
+                cname = "./frames/color/colorFrame%d.jpg"%cnt
+                gname = "./frames/gray/grayFrame%d.jpg" % cnt
+                cv2.imwrite(dname, dep)
+                cv2.imwrite(cname, color)
+                cv2.imwrite(gname, grayscale)
+
 

@@ -2,116 +2,7 @@
 <project version="4">
   <component name="ChangeListManager">
     <list default="true" id="77f3bd98-671b-4e40-8fbc-de7426ee0fc7" name="Default" comment="">
-      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/frames/colorFrame1020.jpg" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/frames/colorFrame1050.jpg" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/frames/colorFrame1080.jpg" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/frames/colorFrame1110.jpg" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/frames/colorFrame1140.jpg" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/frames/colorFrame1170.jpg" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/frames/colorFrame120.jpg" beforeDir="false" afterPath="$PROJECT_DIR$/frames/colorFrame120.jpg" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/frames/colorFrame1200.jpg" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/frames/colorFrame1230.jpg" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/frames/colorFrame1260.jpg" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/frames/colorFrame1290.jpg" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/frames/colorFrame1320.jpg" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/frames/colorFrame1350.jpg" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/frames/colorFrame1380.jpg" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/frames/colorFrame1410.jpg" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/frames/colorFrame1440.jpg" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/frames/colorFrame1470.jpg" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/frames/colorFrame150.jpg" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/frames/colorFrame1500.jpg" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/frames/colorFrame1530.jpg" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/frames/colorFrame1560.jpg" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/frames/colorFrame1590.jpg" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/frames/colorFrame1620.jpg" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/frames/colorFrame1650.jpg" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/frames/colorFrame1680.jpg" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/frames/colorFrame1710.jpg" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/frames/colorFrame1740.jpg" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/frames/colorFrame1770.jpg" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/frames/colorFrame180.jpg" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/frames/colorFrame1800.jpg" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/frames/colorFrame1830.jpg" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/frames/colorFrame1860.jpg" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/frames/colorFrame1890.jpg" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/frames/colorFrame1920.jpg" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/frames/colorFrame1950.jpg" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/frames/colorFrame1980.jpg" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/frames/colorFrame2010.jpg" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/frames/colorFrame2040.jpg" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/frames/colorFrame2070.jpg" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/frames/colorFrame210.jpg" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/frames/colorFrame2100.jpg" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/frames/colorFrame2130.jpg" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/frames/colorFrame2160.jpg" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/frames/colorFrame2190.jpg" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/frames/colorFrame2220.jpg" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/frames/colorFrame2250.jpg" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/frames/colorFrame2280.jpg" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/frames/colorFrame2310.jpg" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/frames/colorFrame2340.jpg" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/frames/colorFrame2370.jpg" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/frames/colorFrame240.jpg" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/frames/colorFrame2400.jpg" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/frames/colorFrame2430.jpg" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/frames/colorFrame2460.jpg" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/frames/colorFrame2490.jpg" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/frames/colorFrame2520.jpg" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/frames/colorFrame2550.jpg" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/frames/colorFrame2580.jpg" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/frames/colorFrame2610.jpg" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/frames/colorFrame2640.jpg" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/frames/colorFrame2670.jpg" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/frames/colorFrame270.jpg" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/frames/colorFrame2700.jpg" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/frames/colorFrame2730.jpg" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/frames/colorFrame2760.jpg" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/frames/colorFrame2790.jpg" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/frames/colorFrame2820.jpg" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/frames/colorFrame2850.jpg" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/frames/colorFrame2880.jpg" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/frames/colorFrame2910.jpg" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/frames/colorFrame2940.jpg" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/frames/colorFrame2970.jpg" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/frames/colorFrame30.jpg" beforeDir="false" afterPath="$PROJECT_DIR$/frames/colorFrame30.jpg" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/frames/colorFrame300.jpg" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/frames/colorFrame3000.jpg" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/frames/colorFrame3030.jpg" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/frames/colorFrame3060.jpg" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/frames/colorFrame3090.jpg" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/frames/colorFrame3120.jpg" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/frames/colorFrame3150.jpg" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/frames/colorFrame3180.jpg" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/frames/colorFrame3210.jpg" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/frames/colorFrame3240.jpg" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/frames/colorFrame3270.jpg" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/frames/colorFrame330.jpg" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/frames/colorFrame3300.jpg" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/frames/colorFrame3330.jpg" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/frames/colorFrame3360.jpg" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/frames/colorFrame3390.jpg" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/frames/colorFrame3420.jpg" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/frames/colorFrame3450.jpg" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/frames/colorFrame3480.jpg" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/frames/colorFrame3510.jpg" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/frames/colorFrame3540.jpg" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/frames/colorFrame3570.jpg" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/frames/colorFrame360.jpg" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/frames/colorFrame3600.jpg" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/frames/colorFrame3630.jpg" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/frames/colorFrame3660.jpg" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/frames/colorFrame3690.jpg" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/frames/colorFrame3720.jpg" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/frames/colorFrame390.jpg" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/frames/colorFrame420.jpg" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/frames/colorFrame450.jpg" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/frames/colorFrame480.jpg" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/frames/colorFrame510.jpg" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/frames/colorFrame540.jpg" beforeDir="false" />
       <change beforePath="$PROJECT_DIR$/frames/colorFrame570.jpg" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/frames/colorFrame60.jpg" beforeDir="false" afterPath="$PROJECT_DIR$/frames/colorFrame60.jpg" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/frames/colorFrame600.jpg" beforeDir="false" />
       <change beforePath="$PROJECT_DIR$/frames/colorFrame630.jpg" beforeDir="false" />
       <change beforePath="$PROJECT_DIR$/frames/colorFrame660.jpg" beforeDir="false" />
@@ -122,120 +13,10 @@
       <change beforePath="$PROJECT_DIR$/frames/colorFrame810.jpg" beforeDir="false" />
       <change beforePath="$PROJECT_DIR$/frames/colorFrame840.jpg" beforeDir="false" />
       <change beforePath="$PROJECT_DIR$/frames/colorFrame870.jpg" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/frames/colorFrame90.jpg" beforeDir="false" afterPath="$PROJECT_DIR$/frames/colorFrame90.jpg" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/frames/colorFrame900.jpg" beforeDir="false" />
       <change beforePath="$PROJECT_DIR$/frames/colorFrame930.jpg" beforeDir="false" />
       <change beforePath="$PROJECT_DIR$/frames/colorFrame960.jpg" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/frames/colorFrame990.jpg" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/frames/depthFrame1020.jpg" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/frames/depthFrame1050.jpg" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/frames/depthFrame1080.jpg" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/frames/depthFrame1110.jpg" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/frames/depthFrame1140.jpg" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/frames/depthFrame1170.jpg" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/frames/depthFrame120.jpg" beforeDir="false" afterPath="$PROJECT_DIR$/frames/depthFrame120.jpg" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/frames/depthFrame1200.jpg" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/frames/depthFrame1230.jpg" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/frames/depthFrame1260.jpg" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/frames/depthFrame1290.jpg" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/frames/depthFrame1320.jpg" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/frames/depthFrame1350.jpg" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/frames/depthFrame1380.jpg" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/frames/depthFrame1410.jpg" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/frames/depthFrame1440.jpg" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/frames/depthFrame1470.jpg" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/frames/depthFrame150.jpg" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/frames/depthFrame1500.jpg" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/frames/depthFrame1530.jpg" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/frames/depthFrame1560.jpg" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/frames/depthFrame1590.jpg" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/frames/depthFrame1620.jpg" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/frames/depthFrame1650.jpg" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/frames/depthFrame1680.jpg" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/frames/depthFrame1710.jpg" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/frames/depthFrame1740.jpg" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/frames/depthFrame1770.jpg" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/frames/depthFrame180.jpg" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/frames/depthFrame1800.jpg" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/frames/depthFrame1830.jpg" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/frames/depthFrame1860.jpg" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/frames/depthFrame1890.jpg" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/frames/depthFrame1920.jpg" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/frames/depthFrame1950.jpg" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/frames/depthFrame1980.jpg" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/frames/depthFrame2010.jpg" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/frames/depthFrame2040.jpg" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/frames/depthFrame2070.jpg" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/frames/depthFrame210.jpg" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/frames/depthFrame2100.jpg" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/frames/depthFrame2130.jpg" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/frames/depthFrame2160.jpg" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/frames/depthFrame2190.jpg" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/frames/depthFrame2220.jpg" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/frames/depthFrame2250.jpg" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/frames/depthFrame2280.jpg" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/frames/depthFrame2310.jpg" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/frames/depthFrame2340.jpg" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/frames/depthFrame2370.jpg" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/frames/depthFrame240.jpg" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/frames/depthFrame2400.jpg" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/frames/depthFrame2430.jpg" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/frames/depthFrame2460.jpg" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/frames/depthFrame2490.jpg" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/frames/depthFrame2520.jpg" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/frames/depthFrame2550.jpg" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/frames/depthFrame2580.jpg" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/frames/depthFrame2610.jpg" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/frames/depthFrame2640.jpg" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/frames/depthFrame2670.jpg" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/frames/depthFrame270.jpg" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/frames/depthFrame2700.jpg" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/frames/depthFrame2730.jpg" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/frames/depthFrame2760.jpg" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/frames/depthFrame2790.jpg" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/frames/depthFrame2820.jpg" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/frames/depthFrame2850.jpg" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/frames/depthFrame2880.jpg" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/frames/depthFrame2910.jpg" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/frames/depthFrame2940.jpg" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/frames/depthFrame2970.jpg" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/frames/depthFrame30.jpg" beforeDir="false" afterPath="$PROJECT_DIR$/frames/depthFrame30.jpg" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/frames/depthFrame300.jpg" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/frames/depthFrame3000.jpg" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/frames/depthFrame3030.jpg" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/frames/depthFrame3060.jpg" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/frames/depthFrame3090.jpg" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/frames/depthFrame3120.jpg" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/frames/depthFrame3150.jpg" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/frames/depthFrame3180.jpg" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/frames/depthFrame3210.jpg" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/frames/depthFrame3240.jpg" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/frames/depthFrame3270.jpg" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/frames/depthFrame330.jpg" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/frames/depthFrame3300.jpg" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/frames/depthFrame3330.jpg" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/frames/depthFrame3360.jpg" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/frames/depthFrame3390.jpg" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/frames/depthFrame3420.jpg" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/frames/depthFrame3450.jpg" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/frames/depthFrame3480.jpg" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/frames/depthFrame3510.jpg" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/frames/depthFrame3540.jpg" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/frames/depthFrame3570.jpg" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/frames/depthFrame360.jpg" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/frames/depthFrame3600.jpg" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/frames/depthFrame3630.jpg" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/frames/depthFrame3660.jpg" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/frames/depthFrame3690.jpg" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/frames/depthFrame3720.jpg" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/frames/depthFrame390.jpg" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/frames/depthFrame420.jpg" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/frames/depthFrame450.jpg" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/frames/depthFrame480.jpg" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/frames/depthFrame510.jpg" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/frames/depthFrame540.jpg" beforeDir="false" />
       <change beforePath="$PROJECT_DIR$/frames/depthFrame570.jpg" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/frames/depthFrame60.jpg" beforeDir="false" afterPath="$PROJECT_DIR$/frames/depthFrame60.jpg" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/frames/depthFrame600.jpg" beforeDir="false" />
       <change beforePath="$PROJECT_DIR$/frames/depthFrame630.jpg" beforeDir="false" />
       <change beforePath="$PROJECT_DIR$/frames/depthFrame660.jpg" beforeDir="false" />
@@ -246,11 +27,10 @@
       <change beforePath="$PROJECT_DIR$/frames/depthFrame810.jpg" beforeDir="false" />
       <change beforePath="$PROJECT_DIR$/frames/depthFrame840.jpg" beforeDir="false" />
       <change beforePath="$PROJECT_DIR$/frames/depthFrame870.jpg" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/frames/depthFrame90.jpg" beforeDir="false" afterPath="$PROJECT_DIR$/frames/depthFrame90.jpg" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/frames/depthFrame900.jpg" beforeDir="false" />
       <change beforePath="$PROJECT_DIR$/frames/depthFrame930.jpg" beforeDir="false" />
       <change beforePath="$PROJECT_DIR$/frames/depthFrame960.jpg" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/frames/depthFrame990.jpg" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/realsense_testing.py" beforeDir="false" afterPath="$PROJECT_DIR$/realsense_testing.py" afterDir="false" />
     </list>
     <option name="EXCLUDED_CONVERTED_TO_IGNORED" value="true" />
     <option name="TRACKING_ENABLED" value="true" />
@@ -264,8 +44,8 @@
       <file leaf-file-name="realsense_testing.py" pinned="false" current-in-tab="true">
         <entry file="file://$PROJECT_DIR$/realsense_testing.py">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="258">
-              <caret line="107" column="44" lean-forward="true" selection-start-line="107" selection-start-column="44" selection-end-line="107" selection-end-column="44" />
+            <state relative-caret-position="228">
+              <caret line="117" lean-forward="true" selection-start-line="117" selection-end-line="117" />
             </state>
           </provider>
         </entry>
@@ -320,6 +100,7 @@
       <find>color</find>
       <find>depth_scale</find>
       <find>dac</find>
+      <find>folder</find>
     </findStrings>
   </component>
   <component name="Git.Settings">
@@ -510,6 +291,7 @@
   </component>
   <component name="ToolWindowManager">
     <frame x="-3" y="31" width="1286" height="947" extended-state="6" />
+    <editor active="true" />
     <layout>
       <window_info content_ui="combo" id="Project" order="0" visible="true" weight="0.24453124" />
       <window_info anchor="bottom" id="TODO" order="6" />
@@ -653,8 +435,8 @@
     </entry>
     <entry file="file://$PROJECT_DIR$/realsense_testing.py">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="258">
-          <caret line="107" column="44" lean-forward="true" selection-start-line="107" selection-start-column="44" selection-end-line="107" selection-end-column="44" />
+        <state relative-caret-position="228">
+          <caret line="117" lean-forward="true" selection-start-line="117" selection-end-line="117" />
         </state>
       </provider>
     </entry>
