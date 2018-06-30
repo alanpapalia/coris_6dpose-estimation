@@ -7,6 +7,7 @@ import numpy as np
 import cv2
 import pyrealsense as pyrs
 from pyrealsense.constants import rs_option
+import hand_segmentation as hs
 
 depth_stream = pyrs.stream.DepthStream() #depth image taken straight from ir cameras
 dac_stream = pyrs.stream.DACStream()     #depth image corrected to pair w/ color_stream (fixes camera offset)
@@ -41,7 +42,9 @@ def promptClearImages():
     if raw_input() == 'y':
         depth_folder = './frames/depth/'
         color_folder = './frames/color/'
-        dirs = [depth_folder, color_folder]
+        gray_folder = './frames/gray/'
+
+        dirs = [depth_folder, color_folder, gray_folder]
         for folder in dirs:
             for file in os.listdir(folder):
                 file_path = os.path.join(folder, file)
@@ -62,7 +65,7 @@ def promptClearImages():
 
 
 
-# promptClearImages()
+promptClearImages()
 with pyrs.Service() as serv:
     with serv.Device(streams=(depth_stream, color_stream, dac_stream)) as dev:
 
@@ -120,11 +123,12 @@ with pyrs.Service() as serv:
                 break
             # elif keyPress == ord('c'):
             if cnt%30 == 0:
-                dname = "./frames/depth/depthFrame%d.jpg"%cnt
-                cname = "./frames/color/colorFrame%d.jpg"%cnt
-                gname = "./frames/gray/grayFrame%d.jpg" % cnt
+                dname = "./frames/depth/frame%d.jpg"%cnt
+                cname = "./frames/color/frame%d.jpg"%cnt
+                gname = "./frames/gray/frame%d.jpg" % cnt
                 cv2.imwrite(dname, dep)
                 cv2.imwrite(cname, color)
                 cv2.imwrite(gname, grayscale)
 
-
+    hs.clearImages()
+    hs.depthImageSegmentation()
