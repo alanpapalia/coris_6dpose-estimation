@@ -9,6 +9,11 @@ from scipy import misc
 import cv2
 import pyrealsense as pyrs
 from pyrealsense.constants import rs_option
+from pyrealsense.extstruct import rs_extrinsics, rs_intrinsics
+from pyrealsense import offline
+
+
+
 
 
 def convert_z16_to_bgr(frame):
@@ -128,6 +133,11 @@ class RSControl:
 
                     if keyPress == ord('q'):
                         break
+                    d = rs_intrinsics(1,2,3)
+                    for name, dtype in d._fields_:
+                        print name, getattr(d, name)
+
+                    offline.save_depth_intrinsics(dev, './', 'intrinsics.txt')
 
                     if saveRate and cnt%saveRate == 0:
                         dname = "./frames/depth/frame%d.jpg"%cnt

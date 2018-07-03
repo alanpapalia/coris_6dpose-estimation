@@ -4,7 +4,14 @@ logging.basicConfig(level=logging.INFO)
 import hand_segmentation as hs
 import realsense_controls as rsc
 import image_controls as imControl
+from pyrealsense.extstruct import rs_extrinsics, rs_intrinsics
+import ctypes
 
+
+# print('fy: ' + str(rs_intrinsics.fy) + '\n')
+# print('fx: ' + str(getattr(rs_intrinsics.fx, 'value')) + '\n')
+# print('cx: ' + str(rs_intrinsics.ppx) + '\n')
+# print('cy: ' + str(rs_intrinsics.ppy) + '\n')
 
 #prompt to determine stream data to save
 print("Do you want to stream color data? (y/n)")

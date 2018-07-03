@@ -1,4 +1,9 @@
-import pcl
+import pcl, os, cv2, numpy
+
+fx = 581.6880493164062
+fy = 581.6880493164062
+ppx = 317.5009460449219
+ppy = 239.8851318359375
 
 
 def generatePointClouds():
@@ -12,11 +17,13 @@ def generatePointClouds():
         tracker = 0
         for i in range(len(imageDepth)):
             for j in range(len(imageDepth[0])):
-                depth_value = float(imageDepth[i][j]) / 10.0
-                X = float((i - 347)) * float(depth_value) / float(626.54) #Alan, replace these fx/fy/cx/cy with correct parameters using rostopic echo blahblahblah
-        Y = float((j - 225)) * float(depth_value) / float(632)
+                depth_value = float(imageDepth[i][j])
+                X = float((i - ppx)) * float(depth_value) / float(fx)
+        Y = float((j - ppy)) * float(depth_value) / float(fy)
                 image_points[tracker] = [X, Y, depth_value]
                 tracker += 1
+
+
 
     pclObject = pcl.PointCloud()
     pclObject.from_array(numpy.array(image_points, dtype=numpy.float32))
