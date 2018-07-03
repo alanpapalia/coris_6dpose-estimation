@@ -4,6 +4,8 @@ logging.basicConfig(level=logging.INFO)
 import os, shutil
 import time
 import numpy as np
+import scipy
+from scipy import misc
 import cv2
 import pyrealsense as pyrs
 from pyrealsense.constants import rs_option
@@ -70,6 +72,8 @@ class RSControl:
                 smoothing = 0.9
                 fps_smooth = 30
 
+                new_image = [[0.0] * 640] * 480
+
                 while True:
 
                     cnt += 1
@@ -84,20 +88,25 @@ class RSControl:
                     color = dev.color
                     dep = dev.dac
 
-                    f = open('testfile.txt', 'w')
-                    d = dev.dac * dev.depth_scale
 
+                    d = (dev.dac * dev.depth_scale)
+
+                    f = open('testfile.txt', 'w')
                     for i in range(len(d)):
                         for j in range(len(d[0])):
+                            new_image[i][j] = d[i][j]
                             f.write(str(i) + ', ' + str(j) + ': ')
                             if d[i][j] != 0:
-                                f.write('{:.5}'.format((d[i][j])))
-                                # f.write('{%.3f}'.format("%.3f" % (d[i][j])))
+                                # f.write('{:.5}'.format((d[i][j])))
+                                f.write(str(d[i][j]))
                             else:f.write('0')
                             f.write('\n')
                         f.write('\n')
+                    cv2.imwrite('testfile.bmp', (dev.dac))
+                    # f = cv2.FileStorage('alanimg.yml', flags = 1)
+                    # f.write(name = 'matrix', val = d)
+                    # f.release()
 
-                    cv2.imwrite('testfile.png', d)
 
                     grayscale = cv2.cvtColor(color, cv2.COLOR_RGB2GRAY)
                     color = cv2.cvtColor(color, cv2.COLOR_RGB2BGR)
