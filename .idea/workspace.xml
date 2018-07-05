@@ -2,6 +2,9 @@
 <project version="4">
   <component name="ChangeListManager">
     <list default="true" id="77f3bd98-671b-4e40-8fbc-de7426ee0fc7" name="Default" comment="">
+      <change afterPath="$PROJECT_DIR$/tracking.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/image_controls.py" beforeDir="false" afterPath="$PROJECT_DIR$/image_controls.py" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/pointcloud.py" beforeDir="false" afterPath="$PROJECT_DIR$/pointcloud.py" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/realsense_controls.py" beforeDir="false" afterPath="$PROJECT_DIR$/realsense_controls.py" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/realsense_testing.py" beforeDir="false" afterPath="$PROJECT_DIR$/realsense_testing.py" afterDir="false" />
@@ -20,8 +23,17 @@
       <file leaf-file-name="realsense_testing.py" pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/realsense_testing.py">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="408">
-              <caret line="30" column="20" selection-start-line="30" selection-start-column="20" selection-end-line="30" selection-end-column="20" />
+            <state relative-caret-position="555">
+              <caret line="43" lean-forward="true" selection-start-line="43" selection-end-line="43" />
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file leaf-file-name="hand_segmentation.py" pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/hand_segmentation.py">
+          <provider selected="true" editor-type-id="text-editor">
+            <state relative-caret-position="187">
+              <caret line="31" selection-start-line="31" selection-end-line="44" selection-end-column="76" />
             </state>
           </provider>
         </entry>
@@ -29,17 +41,26 @@
       <file leaf-file-name="realsense_controls.py" pinned="false" current-in-tab="true">
         <entry file="file://$PROJECT_DIR$/realsense_controls.py">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="150">
-              <caret line="126" column="50" lean-forward="true" selection-start-line="126" selection-start-column="50" selection-end-line="126" selection-end-column="50" />
+            <state relative-caret-position="247">
+              <caret line="60" column="13" selection-start-line="60" selection-start-column="13" selection-end-line="60" selection-end-column="13" />
             </state>
           </provider>
         </entry>
       </file>
-      <file leaf-file-name="pointcloud.py" pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/pointcloud.py">
+      <file leaf-file-name="depvals105.txt" pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/frames/depth/depvals105.txt">
           <provider selected="true" editor-type-id="text-editor">
-            <state>
-              <caret column="26" lean-forward="true" selection-start-column="26" selection-end-column="26" />
+            <state relative-caret-position="-77823">
+              <caret line="377" selection-start-line="377" selection-end-line="377" />
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file leaf-file-name="image_controls.py" pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/image_controls.py">
+          <provider selected="true" editor-type-id="text-editor">
+            <state relative-caret-position="127">
+              <caret line="47" column="21" selection-start-line="47" selection-start-column="21" selection-end-line="47" selection-end-column="21" />
             </state>
           </provider>
         </entry>
@@ -62,15 +83,25 @@
       <find>200</find>
       <find>color</find>
       <find>depth_scale</find>
-      <find>dac</find>
       <find>folder</find>
       <find>print</find>
       <find>imwr</find>
       <find>z16</find>
-      <find>scale</find>
       <find>.png</find>
       <find>scipy</find>
       <find>misc</find>
+      <find>intrin</find>
+      <find>scale</find>
+      <find>dac</find>
+      <find>fx</find>
+      <find>testfi</find>
+      <find>testf</find>
+      <find>cv</find>
+      <find>f</find>
+      <find>write</find>
+      <find>file</find>
+      <find>imwrite</find>
+      <find>np.</find>
     </findStrings>
   </component>
   <component name="Git.Settings">
@@ -85,9 +116,10 @@
         <option value="$PROJECT_DIR$/show_cv2.py" />
         <option value="$PROJECT_DIR$/show_depth.py" />
         <option value="$PROJECT_DIR$/hand_segmentation.py" />
-        <option value="$PROJECT_DIR$/image_controls.py" />
-        <option value="$PROJECT_DIR$/realsense_testing.py" />
         <option value="$PROJECT_DIR$/pointcloud.py" />
+        <option value="$PROJECT_DIR$/tracking.py" />
+        <option value="$PROJECT_DIR$/realsense_testing.py" />
+        <option value="$PROJECT_DIR$/image_controls.py" />
         <option value="$PROJECT_DIR$/realsense_controls.py" />
       </list>
     </option>
@@ -106,6 +138,7 @@
       <foldersAlwaysOnTop value="true" />
     </navigator>
     <panes>
+      <pane id="Scope" />
       <pane id="ProjectPane">
         <subPane>
           <expand>
@@ -116,30 +149,22 @@
             <path>
               <item name="pyrealsense_zr300" type="b2602c69:ProjectViewProjectNode" />
               <item name="pyrealsense_zr300" type="462c0819:PsiDirectoryNode" />
-              <item name="alan_test_images" type="462c0819:PsiDirectoryNode" />
+              <item name="frames" type="462c0819:PsiDirectoryNode" />
             </path>
             <path>
               <item name="pyrealsense_zr300" type="b2602c69:ProjectViewProjectNode" />
               <item name="pyrealsense_zr300" type="462c0819:PsiDirectoryNode" />
-              <item name="examples" type="462c0819:PsiDirectoryNode" />
-            </path>
-            <path>
-              <item name="pyrealsense_zr300" type="b2602c69:ProjectViewProjectNode" />
-              <item name="External Libraries" type="cb654da1:ExternalLibrariesNode" />
-            </path>
-            <path>
-              <item name="pyrealsense_zr300" type="b2602c69:ProjectViewProjectNode" />
-              <item name="External Libraries" type="cb654da1:ExternalLibrariesNode" />
-              <item name="&lt; Python 2.7 (venv) &gt;" type="70bed36:NamedLibraryElementNode" />
+              <item name="frames" type="462c0819:PsiDirectoryNode" />
+              <item name="depth" type="462c0819:PsiDirectoryNode" />
             </path>
           </expand>
           <select />
         </subPane>
       </pane>
-      <pane id="Scope" />
     </panes>
   </component>
   <component name="PropertiesComponent">
+    <property name="SearchEverywhereHistoryKey" value="&#9;FILE&#9;file:///home/robbie/PycharmProjects/pyrealsense_zr300/pointcloud.py" />
     <property name="settings.editor.selected.configurable" value="com.jetbrains.python.configuration.PyActiveSdkModuleConfigurable" />
   </component>
   <component name="RunDashboard">
@@ -168,6 +193,24 @@
       <option name="ADD_CONTENT_ROOTS" value="true" />
       <option name="ADD_SOURCE_ROOTS" value="true" />
       <option name="SCRIPT_NAME" value="$PROJECT_DIR$/hand_segmentation.py" />
+      <option name="PARAMETERS" value="" />
+      <option name="SHOW_COMMAND_LINE" value="false" />
+      <option name="EMULATE_TERMINAL" value="false" />
+      <option name="MODULE_MODE" value="false" />
+    </configuration>
+    <configuration name="image_controls" type="PythonConfigurationType" factoryName="Python" temporary="true">
+      <module name="pyrealsense_zr300" />
+      <option name="INTERPRETER_OPTIONS" value="" />
+      <option name="PARENT_ENVS" value="true" />
+      <envs>
+        <env name="PYTHONUNBUFFERED" value="1" />
+      </envs>
+      <option name="SDK_HOME" value="" />
+      <option name="WORKING_DIRECTORY" value="$PROJECT_DIR$" />
+      <option name="IS_MODULE_SDK" value="true" />
+      <option name="ADD_CONTENT_ROOTS" value="true" />
+      <option name="ADD_SOURCE_ROOTS" value="true" />
+      <option name="SCRIPT_NAME" value="$PROJECT_DIR$/image_controls.py" />
       <option name="PARAMETERS" value="" />
       <option name="SHOW_COMMAND_LINE" value="false" />
       <option name="EMULATE_TERMINAL" value="false" />
@@ -209,7 +252,7 @@
       <option name="EMULATE_TERMINAL" value="false" />
       <option name="MODULE_MODE" value="false" />
     </configuration>
-    <configuration name="show_cv2" type="PythonConfigurationType" factoryName="Python" temporary="true">
+    <configuration name="tracking" type="PythonConfigurationType" factoryName="Python" temporary="true">
       <module name="pyrealsense_zr300" />
       <option name="INTERPRETER_OPTIONS" value="" />
       <option name="PARENT_ENVS" value="true" />
@@ -221,25 +264,7 @@
       <option name="IS_MODULE_SDK" value="true" />
       <option name="ADD_CONTENT_ROOTS" value="true" />
       <option name="ADD_SOURCE_ROOTS" value="true" />
-      <option name="SCRIPT_NAME" value="$PROJECT_DIR$/show_cv2.py" />
-      <option name="PARAMETERS" value="" />
-      <option name="SHOW_COMMAND_LINE" value="false" />
-      <option name="EMULATE_TERMINAL" value="false" />
-      <option name="MODULE_MODE" value="false" />
-    </configuration>
-    <configuration name="show_depth" type="PythonConfigurationType" factoryName="Python" temporary="true">
-      <module name="pyrealsense_zr300" />
-      <option name="INTERPRETER_OPTIONS" value="" />
-      <option name="PARENT_ENVS" value="true" />
-      <envs>
-        <env name="PYTHONUNBUFFERED" value="1" />
-      </envs>
-      <option name="SDK_HOME" value="" />
-      <option name="WORKING_DIRECTORY" value="$PROJECT_DIR$" />
-      <option name="IS_MODULE_SDK" value="true" />
-      <option name="ADD_CONTENT_ROOTS" value="true" />
-      <option name="ADD_SOURCE_ROOTS" value="true" />
-      <option name="SCRIPT_NAME" value="$PROJECT_DIR$/show_depth.py" />
+      <option name="SCRIPT_NAME" value="$PROJECT_DIR$/tracking.py" />
       <option name="PARAMETERS" value="" />
       <option name="SHOW_COMMAND_LINE" value="false" />
       <option name="EMULATE_TERMINAL" value="false" />
@@ -247,18 +272,18 @@
     </configuration>
     <list>
       <item itemvalue="Python.realsense_testing" />
-      <item itemvalue="Python.show_depth" />
-      <item itemvalue="Python.show_cv2" />
       <item itemvalue="Python.hand_segmentation" />
       <item itemvalue="Python.realsense_controls" />
+      <item itemvalue="Python.tracking" />
+      <item itemvalue="Python.image_controls" />
     </list>
     <recent_temporary>
       <list>
         <item itemvalue="Python.realsense_testing" />
         <item itemvalue="Python.realsense_controls" />
+        <item itemvalue="Python.image_controls" />
+        <item itemvalue="Python.tracking" />
         <item itemvalue="Python.hand_segmentation" />
-        <item itemvalue="Python.show_depth" />
-        <item itemvalue="Python.show_cv2" />
       </list>
     </recent_temporary>
   </component>
@@ -277,14 +302,14 @@
   </component>
   <component name="ToolWindowManager">
     <frame x="-3" y="31" width="1286" height="947" extended-state="6" />
+    <editor active="true" />
     <layout>
       <window_info active="true" content_ui="combo" id="Project" order="0" visible="true" weight="0.24453124" />
       <window_info anchor="bottom" id="TODO" order="6" />
       <window_info anchor="bottom" id="Event Log" order="10" side_tool="true" />
-      <window_info anchor="bottom" id="Find" order="1" weight="0.32934132" />
       <window_info anchor="bottom" id="Version Control" order="9" />
       <window_info anchor="bottom" id="Python Console" order="7" />
-      <window_info anchor="bottom" id="Run" order="2" weight="0.3233533" />
+      <window_info anchor="bottom" id="Run" order="2" visible="true" weight="0.3005988" />
       <window_info id="Structure" order="1" side_tool="true" weight="0.25" />
       <window_info anchor="bottom" id="Terminal" order="8" weight="0.3297491" />
       <window_info id="Favorites" order="2" side_tool="true" />
@@ -295,6 +320,7 @@
       <window_info anchor="bottom" id="Message" order="0" />
       <window_info anchor="bottom" id="Inspection" order="5" weight="0.4" />
       <window_info anchor="bottom" id="Cvs" order="4" weight="0.25" />
+      <window_info anchor="bottom" id="Find" order="1" weight="0.32934132" />
     </layout>
   </component>
   <component name="VcsContentAnnotationSettings">
@@ -302,17 +328,10 @@
   </component>
   <component name="XDebuggerManager">
     <breakpoint-manager>
-      <option name="time" value="8" />
+      <option name="time" value="9" />
     </breakpoint-manager>
   </component>
   <component name="editorHistoryManager">
-    <entry file="file://$PROJECT_DIR$/realsense_testing.py">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="1890">
-          <caret line="126" column="56" lean-forward="true" selection-start-line="126" selection-start-column="56" selection-end-line="126" selection-end-column="56" />
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/hand_segmentation.py">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="360">
@@ -324,9 +343,6 @@
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="225">
           <caret line="16" column="53" selection-end-line="18" />
-          <folding>
-            <element signature="e#0#18#0" expanded="true" />
-          </folding>
         </state>
       </provider>
     </entry>
@@ -334,27 +350,11 @@
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="3435">
           <caret line="247" column="29" selection-start-line="247" selection-start-column="29" selection-end-line="247" selection-end-column="29" />
-          <folding>
-            <element signature="e#22#37#0" expanded="true" />
-            <marker date="1530206637612" expanded="true" signature="7302:7324" ph="..." />
-          </folding>
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/show_depth.py">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="870">
-          <caret line="58" selection-start-line="58" selection-end-line="58" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/show_cv2.py">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="855">
-          <caret line="57" column="38" selection-start-line="57" selection-start-column="38" selection-end-line="57" selection-end-column="38" />
-        </state>
-      </provider>
-    </entry>
+    <entry file="file://$PROJECT_DIR$/show_depth.py" />
+    <entry file="file://$PROJECT_DIR$/show_cv2.py" />
     <entry file="file://$PROJECT_DIR$/realsense_testing.py">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="1275">
@@ -362,20 +362,8 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/show_depth.py">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="870">
-          <caret line="58" selection-start-line="58" selection-end-line="58" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/show_cv2.py">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="855">
-          <caret line="57" column="38" selection-start-line="57" selection-start-column="38" selection-end-line="57" selection-end-column="38" />
-        </state>
-      </provider>
-    </entry>
+    <entry file="file://$PROJECT_DIR$/show_depth.py" />
+    <entry file="file://$PROJECT_DIR$/show_cv2.py" />
     <entry file="file://$PROJECT_DIR$/realsense_testing.py">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="555">
@@ -397,20 +385,8 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/show_vtk.py">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="283">
-          <caret line="102" selection-start-line="102" selection-end-line="102" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/show_matplotlib.py">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="150">
-          <caret line="10" column="18" lean-forward="true" selection-start-line="10" selection-start-column="18" selection-end-line="10" selection-end-column="18" />
-        </state>
-      </provider>
-    </entry>
+    <entry file="file://$PROJECT_DIR$/show_vtk.py" />
+    <entry file="file://$PROJECT_DIR$/show_matplotlib.py" />
     <entry file="jar:///usr/local/lib/python2.7/dist-packages/pyrealsense-2.2-py2.7-linux-x86_64.egg!/pyrealsense/core.py">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="359">
@@ -435,20 +411,8 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/show_cv2.py">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="855">
-          <caret line="57" column="38" selection-start-line="57" selection-start-column="38" selection-end-line="57" selection-end-column="38" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/show_depth.py">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="870">
-          <caret line="58" selection-start-line="58" selection-end-line="58" />
-        </state>
-      </provider>
-    </entry>
+    <entry file="file://$PROJECT_DIR$/show_cv2.py" />
+    <entry file="file://$PROJECT_DIR$/show_depth.py" />
     <entry file="file://$USER_HOME$/.PyCharmCE2018.1/system/python_stubs/1293275796/cv2/cv2/__init__.py">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="479">
@@ -460,9 +424,6 @@
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="120">
           <caret line="8" selection-end-line="8" />
-          <folding>
-            <element signature="e#0#16#0" expanded="true" />
-          </folding>
         </state>
       </provider>
     </entry>
@@ -477,36 +438,10 @@
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="270">
           <caret line="18" lean-forward="true" selection-start-line="18" selection-end-line="18" />
-          <folding>
-            <element signature="e#0#18#0" expanded="true" />
-          </folding>
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/hand_segmentation.py">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="210">
-          <caret line="15" column="16" lean-forward="true" selection-start-line="15" selection-start-column="16" selection-end-line="15" selection-end-column="16" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/testfile.jpg">
-      <provider selected="true" editor-type-id="images" />
-    </entry>
-    <entry file="file://$PROJECT_DIR$/image_controls.py">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="330">
-          <caret line="22" selection-start-line="22" selection-end-line="22" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/testfile.txt">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="255">
-          <caret line="17" column="8" lean-forward="true" selection-start-line="17" selection-start-column="8" selection-end-line="17" selection-end-column="8" />
-        </state>
-      </provider>
-    </entry>
+    <entry file="file://$PROJECT_DIR$/testfile.jpg" />
     <entry file="file://$PROJECT_DIR$/alanimg.yml">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="60">
@@ -514,9 +449,7 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/testfile.png">
-      <provider selected="true" editor-type-id="images" />
-    </entry>
+    <entry file="file://$PROJECT_DIR$/testfile.png" />
     <entry file="file://$PROJECT_DIR$/testfile.bmp">
       <provider selected="true" editor-type-id="images" />
     </entry>
@@ -524,17 +457,6 @@
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="416">
           <caret line="254" column="19" selection-start-line="254" selection-start-column="19" selection-end-line="254" selection-end-column="19" />
-          <folding>
-            <element signature="e#22#37#0" expanded="true" />
-            <marker date="1530206637612" expanded="true" signature="7302:7324" ph="..." />
-          </folding>
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/realsense_testing.py">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="408">
-          <caret line="30" column="20" selection-start-line="30" selection-start-column="20" selection-end-line="30" selection-end-column="20" />
         </state>
       </provider>
     </entry>
@@ -545,17 +467,112 @@
         </state>
       </provider>
     </entry>
+    <entry file="file://$PROJECT_DIR$/frames/depth/frame180.jpg" />
+    <entry file="file://$PROJECT_DIR$/frames/depth/frame240.jpg" />
+    <entry file="file://$PROJECT_DIR$/frames/depth/frame300.jpg" />
+    <entry file="file://$PROJECT_DIR$/frames/depth/frame60.jpg">
+      <provider selected="true" editor-type-id="images" />
+    </entry>
+    <entry file="file://$PROJECT_DIR$/frames/depth/frame90.jpg">
+      <provider selected="true" editor-type-id="images" />
+    </entry>
+    <entry file="file://$PROJECT_DIR$/frames/depth/frame150.jpg" />
+    <entry file="file://$PROJECT_DIR$/frames/depth/frame120.jpg">
+      <provider selected="true" editor-type-id="images" />
+    </entry>
+    <entry file="file://$PROJECT_DIR$/frames/depth/depvals60.out">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="45">
+          <caret column="3713" selection-start-column="3713" selection-end-column="3713" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/frames/depth/depvals30.out">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="30">
+          <caret column="2662" selection-start-column="2662" selection-end-column="2662" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/testfile.txt">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="405">
+          <caret line="57" column="8" lean-forward="true" selection-start-line="57" selection-start-column="8" selection-end-line="57" selection-end-column="8" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/frames/depth/frame30.jpg">
+      <provider selected="true" editor-type-id="images" />
+    </entry>
+    <entry file="file://$PROJECT_DIR$/tracking.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="558">
+          <caret line="39" column="30" lean-forward="true" selection-start-line="39" selection-start-column="30" selection-end-line="39" selection-end-column="30" />
+          <folding>
+            <element signature="e#0#9#0" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
     <entry file="file://$PROJECT_DIR$/pointcloud.py">
       <provider selected="true" editor-type-id="text-editor">
-        <state>
-          <caret column="26" lean-forward="true" selection-start-column="26" selection-end-column="26" />
+        <state relative-caret-position="15">
+          <caret line="1" column="7" selection-start-line="1" selection-start-column="7" selection-end-line="1" selection-end-column="12" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/test.txt">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="287">
+          <caret line="303" column="29" selection-start-line="303" selection-start-column="29" selection-end-line="303" selection-end-column="29" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/frames/depth/depvals15.out">
+      <provider selected="true" editor-type-id="text-editor" />
+    </entry>
+    <entry file="file://$PROJECT_DIR$/frames/depth/readvals30.out">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="30">
+          <caret column="2664" selection-start-column="2664" selection-end-column="2664" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/frames/depth/depvals30.jpg">
+      <provider selected="true" editor-type-id="images" />
+    </entry>
+    <entry file="file://$PROJECT_DIR$/image_controls.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="127">
+          <caret line="47" column="21" selection-start-line="47" selection-start-column="21" selection-end-line="47" selection-end-column="21" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/hand_segmentation.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="187">
+          <caret line="31" selection-start-line="31" selection-end-line="44" selection-end-column="76" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/frames/depth/depvals105.txt">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="-77823">
+          <caret line="377" selection-start-line="377" selection-end-line="377" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/realsense_testing.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="555">
+          <caret line="43" lean-forward="true" selection-start-line="43" selection-end-line="43" />
         </state>
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/realsense_controls.py">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="150">
-          <caret line="126" column="50" lean-forward="true" selection-start-line="126" selection-start-column="50" selection-end-line="126" selection-end-column="50" />
+        <state relative-caret-position="247">
+          <caret line="60" column="13" selection-start-line="60" selection-start-column="13" selection-end-line="60" selection-end-column="13" />
         </state>
       </provider>
     </entry>

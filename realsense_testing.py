@@ -4,14 +4,9 @@ logging.basicConfig(level=logging.INFO)
 import hand_segmentation as hs
 import realsense_controls as rsc
 import image_controls as imControl
-from pyrealsense.extstruct import rs_extrinsics, rs_intrinsics
-import ctypes
+import tracking
 
-
-# print('fy: ' + str(rs_intrinsics.fy) + '\n')
-# print('fx: ' + str(getattr(rs_intrinsics.fx, 'value')) + '\n')
-# print('cx: ' + str(rs_intrinsics.ppx) + '\n')
-# print('cy: ' + str(rs_intrinsics.ppy) + '\n')
+tracking_dir = './frames/color/'
 
 #prompt to determine stream data to save
 print("Do you want to stream color data? (y/n)")
@@ -23,9 +18,12 @@ saveRate = raw_input()
 try: saveRate = int(saveRate)
 except: saveRate = 0
 
+fps = 0.25
+
 #if want to save frames, first clear out old ones
 if saveRate != 0:
     imControl.clearTestImages()
+    fps = saveRate/30
 
 #initialize realsense device
 rs = rsc.RSControl()
@@ -43,7 +41,19 @@ elif depStrm:
     rs.addDepStream()
     rs.startDepthStreams(saveRate)
 
+
+
+# pcd.generatePointClouds('./frames/depth')
 # print("Do you want to segment the depth images? (y/n)")
 # if raw_input() == 'y':
 #     hs.clearImages()
 #     hs.depthImageSegmentation()
+
+
+print("Do you want to run tracking? (y/n)")
+if raw_input() == 'y':
+    # print("How many frames to remove from the start?")
+    # nRem = int(raw_input())
+    # tracking.clearUntrackedImg(tracking_dir, nRem)
+    tracking.trackColorImg(tracking_dir, fps)
+
