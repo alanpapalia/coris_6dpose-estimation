@@ -2,14 +2,327 @@
 <project version="4">
   <component name="ChangeListManager">
     <list default="true" id="77f3bd98-671b-4e40-8fbc-de7426ee0fc7" name="Default" comment="">
-      <change afterPath="$PROJECT_DIR$/tracking.py" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/image_controls.py" beforeDir="false" afterPath="$PROJECT_DIR$/image_controls.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/pointcloud.py" beforeDir="false" afterPath="$PROJECT_DIR$/pointcloud.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/frames/depth/depvals1005.txt" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/frames/depth/depvals1020.txt" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/frames/depth/depvals1035.txt" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/frames/depth/depvals105.txt" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/frames/depth/depvals1050.txt" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/frames/depth/depvals1065.txt" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/frames/depth/depvals1080.txt" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/frames/depth/depvals1095.txt" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/frames/depth/depvals1110.txt" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/frames/depth/depvals1125.txt" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/frames/depth/depvals1140.txt" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/frames/depth/depvals1155.txt" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/frames/depth/depvals1170.txt" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/frames/depth/depvals1185.txt" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/frames/depth/depvals120.txt" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/frames/depth/depvals1200.txt" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/frames/depth/depvals1215.txt" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/frames/depth/depvals1230.txt" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/frames/depth/depvals1245.txt" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/frames/depth/depvals1260.txt" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/frames/depth/depvals1275.txt" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/frames/depth/depvals1290.txt" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/frames/depth/depvals1305.txt" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/frames/depth/depvals1320.txt" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/frames/depth/depvals1335.txt" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/frames/depth/depvals135.txt" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/frames/depth/depvals1350.txt" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/frames/depth/depvals1365.txt" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/frames/depth/depvals1380.txt" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/frames/depth/depvals1395.txt" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/frames/depth/depvals1410.txt" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/frames/depth/depvals1425.txt" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/frames/depth/depvals1440.txt" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/frames/depth/depvals1455.txt" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/frames/depth/depvals1470.txt" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/frames/depth/depvals1485.txt" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/frames/depth/depvals15.txt" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/frames/depth/depvals150.txt" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/frames/depth/depvals1500.txt" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/frames/depth/depvals1515.txt" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/frames/depth/depvals1530.txt" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/frames/depth/depvals1545.txt" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/frames/depth/depvals1560.txt" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/frames/depth/depvals1575.txt" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/frames/depth/depvals1590.txt" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/frames/depth/depvals1605.txt" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/frames/depth/depvals1620.txt" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/frames/depth/depvals1635.txt" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/frames/depth/depvals165.txt" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/frames/depth/depvals1650.txt" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/frames/depth/depvals1665.txt" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/frames/depth/depvals1680.txt" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/frames/depth/depvals1695.txt" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/frames/depth/depvals1710.txt" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/frames/depth/depvals1725.txt" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/frames/depth/depvals1740.txt" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/frames/depth/depvals1755.txt" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/frames/depth/depvals1770.txt" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/frames/depth/depvals1785.txt" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/frames/depth/depvals180.txt" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/frames/depth/depvals1800.txt" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/frames/depth/depvals1815.txt" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/frames/depth/depvals1830.txt" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/frames/depth/depvals1845.txt" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/frames/depth/depvals1860.txt" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/frames/depth/depvals1875.txt" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/frames/depth/depvals1890.txt" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/frames/depth/depvals1905.txt" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/frames/depth/depvals1920.txt" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/frames/depth/depvals1935.txt" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/frames/depth/depvals195.txt" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/frames/depth/depvals1950.txt" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/frames/depth/depvals1965.txt" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/frames/depth/depvals1980.txt" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/frames/depth/depvals1995.txt" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/frames/depth/depvals2010.txt" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/frames/depth/depvals2025.txt" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/frames/depth/depvals2040.txt" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/frames/depth/depvals2055.txt" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/frames/depth/depvals2070.txt" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/frames/depth/depvals2085.txt" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/frames/depth/depvals210.txt" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/frames/depth/depvals2100.txt" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/frames/depth/depvals2115.txt" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/frames/depth/depvals2130.txt" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/frames/depth/depvals2145.txt" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/frames/depth/depvals2160.txt" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/frames/depth/depvals2175.txt" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/frames/depth/depvals2190.txt" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/frames/depth/depvals2205.txt" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/frames/depth/depvals2220.txt" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/frames/depth/depvals2235.txt" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/frames/depth/depvals225.txt" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/frames/depth/depvals2250.txt" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/frames/depth/depvals2265.txt" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/frames/depth/depvals2280.txt" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/frames/depth/depvals2295.txt" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/frames/depth/depvals2310.txt" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/frames/depth/depvals2325.txt" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/frames/depth/depvals2340.txt" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/frames/depth/depvals2355.txt" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/frames/depth/depvals2370.txt" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/frames/depth/depvals2385.txt" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/frames/depth/depvals240.txt" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/frames/depth/depvals255.txt" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/frames/depth/depvals270.txt" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/frames/depth/depvals285.txt" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/frames/depth/depvals30.txt" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/frames/depth/depvals300.txt" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/frames/depth/depvals315.txt" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/frames/depth/depvals330.txt" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/frames/depth/depvals345.txt" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/frames/depth/depvals360.txt" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/frames/depth/depvals375.txt" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/frames/depth/depvals390.txt" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/frames/depth/depvals405.txt" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/frames/depth/depvals420.txt" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/frames/depth/depvals435.txt" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/frames/depth/depvals45.txt" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/frames/depth/depvals450.txt" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/frames/depth/depvals465.txt" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/frames/depth/depvals480.txt" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/frames/depth/depvals495.txt" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/frames/depth/depvals510.txt" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/frames/depth/depvals525.txt" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/frames/depth/depvals540.txt" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/frames/depth/depvals555.txt" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/frames/depth/depvals570.txt" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/frames/depth/depvals585.txt" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/frames/depth/depvals60.txt" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/frames/depth/depvals600.txt" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/frames/depth/depvals615.txt" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/frames/depth/depvals630.txt" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/frames/depth/depvals645.txt" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/frames/depth/depvals660.txt" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/frames/depth/depvals675.txt" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/frames/depth/depvals690.txt" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/frames/depth/depvals705.txt" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/frames/depth/depvals720.txt" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/frames/depth/depvals735.txt" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/frames/depth/depvals75.txt" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/frames/depth/depvals750.txt" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/frames/depth/depvals765.txt" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/frames/depth/depvals780.txt" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/frames/depth/depvals795.txt" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/frames/depth/depvals810.txt" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/frames/depth/depvals825.txt" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/frames/depth/depvals840.txt" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/frames/depth/depvals855.txt" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/frames/depth/depvals870.txt" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/frames/depth/depvals885.txt" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/frames/depth/depvals90.txt" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/frames/depth/depvals900.txt" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/frames/depth/depvals915.txt" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/frames/depth/depvals930.txt" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/frames/depth/depvals945.txt" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/frames/depth/depvals960.txt" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/frames/depth/depvals975.txt" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/frames/depth/depvals990.txt" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/frames/depth/frame1005.jpg" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/frames/depth/frame1020.jpg" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/frames/depth/frame1035.jpg" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/frames/depth/frame105.jpg" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/frames/depth/frame1050.jpg" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/frames/depth/frame1065.jpg" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/frames/depth/frame1080.jpg" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/frames/depth/frame1095.jpg" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/frames/depth/frame1110.jpg" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/frames/depth/frame1125.jpg" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/frames/depth/frame1140.jpg" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/frames/depth/frame1155.jpg" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/frames/depth/frame1170.jpg" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/frames/depth/frame1185.jpg" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/frames/depth/frame120.jpg" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/frames/depth/frame1200.jpg" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/frames/depth/frame1215.jpg" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/frames/depth/frame1230.jpg" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/frames/depth/frame1245.jpg" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/frames/depth/frame1260.jpg" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/frames/depth/frame1275.jpg" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/frames/depth/frame1290.jpg" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/frames/depth/frame1305.jpg" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/frames/depth/frame1320.jpg" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/frames/depth/frame1335.jpg" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/frames/depth/frame135.jpg" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/frames/depth/frame1350.jpg" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/frames/depth/frame1365.jpg" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/frames/depth/frame1380.jpg" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/frames/depth/frame1395.jpg" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/frames/depth/frame1410.jpg" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/frames/depth/frame1425.jpg" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/frames/depth/frame1440.jpg" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/frames/depth/frame1455.jpg" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/frames/depth/frame1470.jpg" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/frames/depth/frame1485.jpg" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/frames/depth/frame15.jpg" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/frames/depth/frame150.jpg" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/frames/depth/frame1500.jpg" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/frames/depth/frame1515.jpg" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/frames/depth/frame1530.jpg" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/frames/depth/frame1545.jpg" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/frames/depth/frame1560.jpg" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/frames/depth/frame1575.jpg" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/frames/depth/frame1590.jpg" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/frames/depth/frame1605.jpg" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/frames/depth/frame1620.jpg" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/frames/depth/frame1635.jpg" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/frames/depth/frame165.jpg" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/frames/depth/frame1650.jpg" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/frames/depth/frame1665.jpg" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/frames/depth/frame1680.jpg" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/frames/depth/frame1695.jpg" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/frames/depth/frame1710.jpg" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/frames/depth/frame1725.jpg" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/frames/depth/frame1740.jpg" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/frames/depth/frame1755.jpg" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/frames/depth/frame1770.jpg" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/frames/depth/frame1785.jpg" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/frames/depth/frame180.jpg" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/frames/depth/frame1800.jpg" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/frames/depth/frame1815.jpg" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/frames/depth/frame1830.jpg" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/frames/depth/frame1845.jpg" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/frames/depth/frame1860.jpg" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/frames/depth/frame1875.jpg" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/frames/depth/frame1890.jpg" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/frames/depth/frame1905.jpg" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/frames/depth/frame1920.jpg" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/frames/depth/frame1935.jpg" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/frames/depth/frame195.jpg" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/frames/depth/frame1950.jpg" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/frames/depth/frame1965.jpg" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/frames/depth/frame1980.jpg" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/frames/depth/frame1995.jpg" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/frames/depth/frame2010.jpg" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/frames/depth/frame2025.jpg" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/frames/depth/frame2040.jpg" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/frames/depth/frame2055.jpg" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/frames/depth/frame2070.jpg" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/frames/depth/frame2085.jpg" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/frames/depth/frame210.jpg" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/frames/depth/frame2100.jpg" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/frames/depth/frame2115.jpg" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/frames/depth/frame2130.jpg" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/frames/depth/frame2145.jpg" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/frames/depth/frame2160.jpg" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/frames/depth/frame2175.jpg" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/frames/depth/frame2190.jpg" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/frames/depth/frame2205.jpg" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/frames/depth/frame2220.jpg" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/frames/depth/frame2235.jpg" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/frames/depth/frame225.jpg" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/frames/depth/frame2250.jpg" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/frames/depth/frame2265.jpg" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/frames/depth/frame2280.jpg" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/frames/depth/frame2295.jpg" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/frames/depth/frame2310.jpg" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/frames/depth/frame2325.jpg" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/frames/depth/frame2340.jpg" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/frames/depth/frame2355.jpg" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/frames/depth/frame2370.jpg" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/frames/depth/frame2385.jpg" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/frames/depth/frame240.jpg" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/frames/depth/frame255.jpg" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/frames/depth/frame270.jpg" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/frames/depth/frame285.jpg" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/frames/depth/frame30.jpg" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/frames/depth/frame300.jpg" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/frames/depth/frame315.jpg" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/frames/depth/frame330.jpg" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/frames/depth/frame345.jpg" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/frames/depth/frame360.jpg" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/frames/depth/frame375.jpg" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/frames/depth/frame390.jpg" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/frames/depth/frame405.jpg" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/frames/depth/frame420.jpg" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/frames/depth/frame435.jpg" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/frames/depth/frame45.jpg" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/frames/depth/frame450.jpg" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/frames/depth/frame465.jpg" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/frames/depth/frame480.jpg" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/frames/depth/frame495.jpg" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/frames/depth/frame510.jpg" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/frames/depth/frame525.jpg" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/frames/depth/frame540.jpg" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/frames/depth/frame555.jpg" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/frames/depth/frame570.jpg" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/frames/depth/frame585.jpg" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/frames/depth/frame60.jpg" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/frames/depth/frame600.jpg" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/frames/depth/frame615.jpg" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/frames/depth/frame630.jpg" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/frames/depth/frame645.jpg" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/frames/depth/frame660.jpg" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/frames/depth/frame675.jpg" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/frames/depth/frame690.jpg" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/frames/depth/frame705.jpg" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/frames/depth/frame720.jpg" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/frames/depth/frame735.jpg" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/frames/depth/frame75.jpg" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/frames/depth/frame750.jpg" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/frames/depth/frame765.jpg" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/frames/depth/frame780.jpg" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/frames/depth/frame795.jpg" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/frames/depth/frame810.jpg" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/frames/depth/frame825.jpg" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/frames/depth/frame840.jpg" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/frames/depth/frame855.jpg" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/frames/depth/frame870.jpg" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/frames/depth/frame885.jpg" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/frames/depth/frame90.jpg" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/frames/depth/frame900.jpg" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/frames/depth/frame915.jpg" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/frames/depth/frame930.jpg" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/frames/depth/frame945.jpg" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/frames/depth/frame960.jpg" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/frames/depth/frame975.jpg" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/frames/depth/frame990.jpg" beforeDir="false" />
       <change beforePath="$PROJECT_DIR$/realsense_controls.py" beforeDir="false" afterPath="$PROJECT_DIR$/realsense_controls.py" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/realsense_testing.py" beforeDir="false" afterPath="$PROJECT_DIR$/realsense_testing.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/testfile.bmp" beforeDir="false" afterPath="$PROJECT_DIR$/testfile.bmp" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/testfile.txt" beforeDir="false" afterPath="$PROJECT_DIR$/testfile.txt" afterDir="false" />
     </list>
     <option name="EXCLUDED_CONVERTED_TO_IGNORED" value="true" />
     <option name="TRACKING_ENABLED" value="true" />
@@ -23,8 +336,8 @@
       <file leaf-file-name="realsense_testing.py" pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/realsense_testing.py">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="555">
-              <caret line="43" lean-forward="true" selection-start-line="43" selection-end-line="43" />
+            <state relative-caret-position="397">
+              <caret line="37" column="23" selection-start-line="37" selection-start-column="23" selection-end-line="37" selection-end-column="23" />
             </state>
           </provider>
         </entry>
@@ -41,17 +354,8 @@
       <file leaf-file-name="realsense_controls.py" pinned="false" current-in-tab="true">
         <entry file="file://$PROJECT_DIR$/realsense_controls.py">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="247">
-              <caret line="60" column="13" selection-start-line="60" selection-start-column="13" selection-end-line="60" selection-end-column="13" />
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file leaf-file-name="depvals105.txt" pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/frames/depth/depvals105.txt">
-          <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="-77823">
-              <caret line="377" selection-start-line="377" selection-end-line="377" />
+            <state relative-caret-position="432">
+              <caret line="180" selection-start-line="180" selection-end-line="180" />
             </state>
           </provider>
         </entry>
@@ -118,8 +422,8 @@
         <option value="$PROJECT_DIR$/hand_segmentation.py" />
         <option value="$PROJECT_DIR$/pointcloud.py" />
         <option value="$PROJECT_DIR$/tracking.py" />
-        <option value="$PROJECT_DIR$/realsense_testing.py" />
         <option value="$PROJECT_DIR$/image_controls.py" />
+        <option value="$PROJECT_DIR$/realsense_testing.py" />
         <option value="$PROJECT_DIR$/realsense_controls.py" />
       </list>
     </option>
@@ -150,12 +454,6 @@
               <item name="pyrealsense_zr300" type="b2602c69:ProjectViewProjectNode" />
               <item name="pyrealsense_zr300" type="462c0819:PsiDirectoryNode" />
               <item name="frames" type="462c0819:PsiDirectoryNode" />
-            </path>
-            <path>
-              <item name="pyrealsense_zr300" type="b2602c69:ProjectViewProjectNode" />
-              <item name="pyrealsense_zr300" type="462c0819:PsiDirectoryNode" />
-              <item name="frames" type="462c0819:PsiDirectoryNode" />
-              <item name="depth" type="462c0819:PsiDirectoryNode" />
             </path>
           </expand>
           <select />
@@ -304,12 +602,12 @@
     <frame x="-3" y="31" width="1286" height="947" extended-state="6" />
     <editor active="true" />
     <layout>
-      <window_info active="true" content_ui="combo" id="Project" order="0" visible="true" weight="0.24453124" />
+      <window_info content_ui="combo" id="Project" order="0" visible="true" weight="0.24453124" />
       <window_info anchor="bottom" id="TODO" order="6" />
       <window_info anchor="bottom" id="Event Log" order="10" side_tool="true" />
       <window_info anchor="bottom" id="Version Control" order="9" />
       <window_info anchor="bottom" id="Python Console" order="7" />
-      <window_info anchor="bottom" id="Run" order="2" visible="true" weight="0.3005988" />
+      <window_info active="true" anchor="bottom" id="Run" order="2" visible="true" weight="0.3005988" />
       <window_info id="Structure" order="1" side_tool="true" weight="0.25" />
       <window_info anchor="bottom" id="Terminal" order="8" weight="0.3297491" />
       <window_info id="Favorites" order="2" side_tool="true" />
@@ -564,15 +862,15 @@
     </entry>
     <entry file="file://$PROJECT_DIR$/realsense_testing.py">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="555">
-          <caret line="43" lean-forward="true" selection-start-line="43" selection-end-line="43" />
+        <state relative-caret-position="397">
+          <caret line="37" column="23" selection-start-line="37" selection-start-column="23" selection-end-line="37" selection-end-column="23" />
         </state>
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/realsense_controls.py">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="247">
-          <caret line="60" column="13" selection-start-line="60" selection-start-column="13" selection-end-line="60" selection-end-column="13" />
+        <state relative-caret-position="432">
+          <caret line="180" selection-start-line="180" selection-end-line="180" />
         </state>
       </provider>
     </entry>

@@ -32,14 +32,16 @@ rs = rsc.RSControl()
 if colStrm and depStrm:
     rs.addColorStream()
     rs.addDepStream()
-    rs.startColorAndDepthStreams(saveRate)
+    rs.startStreams(saveRate)
+    # rs.startColorAndDepthStreams(saveRate)
 elif colStrm:
     rs.addColorStream()
-    rs.startColorStream(saveRate)
+    rs.startStreams(saveRate)
+    # rs.startColorStream(saveRate)
 elif depStrm:
-    rs.addColorStream()
     rs.addDepStream()
-    rs.startDepthStreams(saveRate)
+    rs.startStreams(saveRate)
+    # rs.startDepthStreams(saveRate)
 
 
 
