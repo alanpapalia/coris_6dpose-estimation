@@ -50,6 +50,9 @@ class RSControl:
         self.strms = []
         self.streamColor = False
         self.streamDepth = False
+        self.streamPts = False
+        self.streamIR = False
+
 
     # add depth stream to camera
     def addDepStream(self):
@@ -63,70 +66,13 @@ class RSControl:
         self.strms.append(self.color_stream)
         self.streamColor = True
 
-    # create camera instance w/ color and adjusted depth streams
-    # Params: saveRate - how many frames between saving to file (0 for no save)
-    def startColorAndDepthStreams(self, saveRate):
-        with pyrs.Service() as serv:
-            with serv.Device(streams=self.strms) as dev:
+    def addPointStream(self):
+        self.strms.append(self.pt_stream)
+        self.streamPts = True
 
-                dev.apply_ivcam_preset(0)
-
-                try:  # set custom gain/exposure values to obtain good depth image
-                    custom_options = [(rs_option.RS_OPTION_R200_LR_EXPOSURE, 30.0),
-                                      (rs_option.RS_OPTION_R200_LR_GAIN, 100.0)]
-                    dev.set_device_options(*zip(*custom_options))
-                except pyrs.RealsenseError:
-                    pass  # options are not available on all devices
-
-                cnt = 0
-                last = time.time()
-                smoothing = 0.9
-                fps_smooth = 30
-
-                while True:
-
-                    cnt += 1
-                    if (cnt % 10) == 0:
-                        now = time.time()
-                        dt = now - last
-                        fps = 10/dt
-                        fps_smooth = (fps_smooth * smoothing) + (fps * (1.0-smoothing))
-                        last = now
-
-                    dev.wait_for_frames()
-                    color = dev.color
-
-                    # dep = dev.dac
-                    d = (dev.dac * dev.depth_scale)
-
-                    grayscale = cv2.cvtColor(color, cv2.COLOR_RGB2GRAY)
-                    color = cv2.cvtColor(color, cv2.COLOR_RGB2BGR)
-
-                    # dep = convert_z16_to_bgr(dep)
-                    # dep = cv2.cvtColor(dep, cv2.COLOR_BGR2GRAY)
-                    # dep = cv2.adaptiveThreshold(dep, 255, cv2.ADAPTIVE_THRESH_GAUSSIAN_C, cv2.THRESH_BINARY, 17, 2)
-
-                    grayscale = cv2.adaptiveThreshold(grayscale, 255, cv2.ADAPTIVE_THRESH_GAUSSIAN_C, cv2.THRESH_BINARY, 17, 2)
-
-                    cv2.namedWindow('ColorStream')
-                    cv2.imshow('ColorStream', color)
-                    cv2.namedWindow('DepthStream')
-                    cv2.imshow('DepthStream', d)
-                    cv2.namedWindow('GrayStream')
-                    cv2.imshow('GrayStream', grayscale)
-
-                    keyPress = cv2.waitKey(1) & 0xFF
-
-                    if keyPress == ord('q'):
-                        break
-
-                    if saveRate and cnt%saveRate == 0:
-                        dname = "./frames/depth/frame%d.jpg"%cnt
-                        cname = "./frames/color/frame%d.jpg"%cnt
-                        gname = "./frames/gray/frame%d.jpg" % cnt
-                        cv2.imwrite(dname, d)
-                        cv2.imwrite(cname, color)
-                        cv2.imwrite(gname, grayscale)
+    def addIRStream(self):
+        self.strms.append(self.ir_stream)
+        self.streamIR = True
 
     # create camera instance w/ color and adjusted depth streams
     # Params: saveRate - how many frames between saving to file (0 for no save)
@@ -159,17 +105,17 @@ class RSControl:
                         last = now
 
                     dev.wait_for_frames()
-                    color = dev.color
-
-
-                    grayscale = cv2.cvtColor(color, cv2.COLOR_RGB2GRAY)
-                    color = cv2.cvtColor(color, cv2.COLOR_RGB2BGR)
-
-                    grayscale = cv2.adaptiveThreshold(grayscale, 255, cv2.ADAPTIVE_THRESH_GAUSSIAN_C,
-                                                      cv2.THRESH_BINARY, 17, 2)
 
                     #if want to stream color images
                     if self.streamColor:
+
+                        color = dev.color
+                        grayscale = cv2.cvtColor(color, cv2.COLOR_RGB2GRAY)
+                        color = cv2.cvtColor(color, cv2.COLOR_RGB2BGR)
+
+                        # grayscale = cv2.adaptiveThreshold(grayscale, 255, cv2.ADAPTIVE_THRESH_GAUSSIAN_C,
+                        #                                   cv2.THRESH_BINARY, 17, 2)
+
                         cv2.namedWindow('ColorStream')
                         cv2.imshow('ColorStream', color)
                         cv2.namedWindow('GrayStream')
@@ -177,133 +123,39 @@ class RSControl:
 
                     #if want to stream depth images
                     if self.streamDepth:
-                        dep = (dev.dac * dev.depth_scale)
+                        dep = dev.dac * dev.depth_scale
                         cv2.namedWindow('DepthStream')
                         cv2.imshow('DepthStream', dep)
+
+                    #if want to stream point images
+                    if self.streamPts:
+                        pts = dev.points
+                        cv2.namedWindow('PointStream')
+                        cv2.imshow('PointStream', pts)
+
+                    #if want to stream IR images
+                    if self.streamIR:
+                        irStrm = dev.infrared
+                        cv2.namedWindow('IRStream')
+                        cv2.imshow('IRStream', irStrm)
 
                     #wait and check if 'q' was pressed. If so, end streams
                     keyPress = cv2.waitKey(1) & 0xFF
                     if keyPress == ord('q'):
                         break
 
-                    #if saving frames requested save desired streams
+                    # if saving frames is requested, save desired streams
                     if saveRate and cnt % saveRate == 0:
                         if self.streamDepth:
                             dname = "./frames/depth/frame%d.jpg" % cnt
                             cv2.imwrite(dname, dep)
                             ret, dTest = cv2.threshold(dep, 2, 10, cv2.THRESH_TOZERO_INV)
                             cv2.imwrite(dname, dTest)
-                            np.savetxt('./frames/depth/depvals%d.txt' % cnt, dTest) #save depth img to text for analysis
+                            np.savetxt('./frames/depth/thresh_depvals%d.txt' % cnt, dTest)
+                            np.savetxt('./frames/depth/unproc_depvals%d.txt' % cnt, dTest)
+
                         if self.streamColor:
                             cname = "./frames/color/frame%d.jpg" % cnt
                             gname = "./frames/gray/frame%d.jpg" % cnt
                             cv2.imwrite(cname, color)
                             cv2.imwrite(gname, grayscale)
-
-
-
-    # create camera instance w/ color depth streams
-    # Params: saveRate - how many frames between saving to file (0 for no save)
-    def startColorStream(self, saveRate):
-        with pyrs.Service() as serv:
-            with serv.Device(streams=self.strms) as dev:
-
-                dev.apply_ivcam_preset(0)
-
-                try:  # set custom gain/exposure values to obtain good depth image
-                    custom_options = [(rs_option.RS_OPTION_R200_LR_EXPOSURE, 30.0),
-                                      (rs_option.RS_OPTION_R200_LR_GAIN, 100.0)]
-                    dev.set_device_options(*zip(*custom_options))
-                except pyrs.RealsenseError:
-                    pass  # options are not available on all devices
-
-                cnt = 0
-                last = time.time()
-                smoothing = 0.9
-                fps_smooth = 30
-
-                while True:
-
-                    cnt += 1
-                    if (cnt % 10) == 0:
-                        now = time.time()
-                        dt = now - last
-                        fps = 10/dt
-                        fps_smooth = (fps_smooth * smoothing) + (fps * (1.0-smoothing))
-                        last = now
-
-                    dev.wait_for_frames()
-                    color = dev.color
-
-                    grayscale = cv2.cvtColor(color, cv2.COLOR_RGB2GRAY)
-                    color = cv2.cvtColor(color, cv2.COLOR_RGB2BGR)
-
-                    grayscale = cv2.adaptiveThreshold(grayscale, 255, cv2.ADAPTIVE_THRESH_GAUSSIAN_C, cv2.THRESH_BINARY, 17, 2)
-
-                    cv2.namedWindow('ColorStream')
-                    cv2.imshow('ColorStream', color)
-                    cv2.namedWindow('GrayStream')
-                    cv2.imshow('GrayStream', grayscale)
-
-                    keyPress = cv2.waitKey(1) & 0xFF
-                    if keyPress == ord('q'):
-                        break
-
-                    if saveRate and cnt%saveRate == 0:
-                        cname = "./frames/color/frame%d.jpg"%cnt
-                        gname = "./frames/gray/frame%d.jpg" % cnt
-                        cv2.imwrite(cname, color)
-                        cv2.imwrite(gname, grayscale)
-
-
-
-
-    # create camera instance w/ color and adjusted depth streams
-    # Params: saveRate - how many frames between saving to file (0 for no save)
-    def startDepthStreams(self, saveRate):
-        with pyrs.Service() as serv:
-            with serv.Device(streams=self.strms) as dev:
-
-                dev.apply_ivcam_preset(0)
-
-                try:  # set custom gain/exposure values to obtain good depth image
-                    custom_options = [(rs_option.RS_OPTION_R200_LR_EXPOSURE, 30.0),
-                                      (rs_option.RS_OPTION_R200_LR_GAIN, 100.0)]
-                    dev.set_device_options(*zip(*custom_options))
-                except pyrs.RealsenseError:
-                    pass  # options are not available on all devices
-
-                cnt = 0
-                last = time.time()
-                smoothing = 0.9
-                fps_smooth = 30
-
-                while True:
-                    cnt += 1
-                    if (cnt % 10) == 0:
-                        now = time.time()
-                        dt = now - last
-                        fps = 10 / dt
-                        fps_smooth = (fps_smooth * smoothing) + (fps * (1.0 - smoothing))
-                        last = now
-
-                    dev.wait_for_frames()
-                    dep = (dev.dac * dev.depth_scale)
-                    # dep = cv2.cvtColor(dep, cv2.COLOR_BGR2GRAY)
-                    # dep = cv2.adaptiveThreshold(dep, 255, cv2.ADAPTIVE_THRESH_GAUSSIAN_C, cv2.THRESH_BINARY, 17, 2)
-
-                    cv2.namedWindow('DepthStream')
-                    cv2.imshow('DepthStream', dep)
-
-                    keyPress = cv2.waitKey(1) & 0xFF
-                    if keyPress == ord('q'):
-                        break
-
-                    if saveRate and cnt % saveRate == 0:
-                        dname = "./frames/depth/frame%d.jpg" % cnt
-                        ret, dTest = cv2.threshold(dep, 2, 10, cv2.THRESH_TOZERO_INV)
-                        cv2.imwrite(dname, dTest)
-                        np.savetxt('./frames/depth/depvals%d.txt'%cnt, dTest)
-                        # dread = cv2.imread(dname, 2)
-                        # np.savetxt('./frames/depth/readvals%d.out'%cnt, dread)
-

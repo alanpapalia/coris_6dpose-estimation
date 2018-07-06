@@ -9,12 +9,12 @@ import PIL
 from PIL import Image
 from numpy import *
 
+depth_folder = './frames/depth/'
+color_folder = './frames/color/'
+gray_folder = './frames/gray/'
+cleaned_image_folder = './frames/seg/'
+
 def clearTestImages():
-
-    depth_folder = './frames/depth/'
-    color_folder = './frames/color/'
-    gray_folder = './frames/gray/'
-
     dirs = [depth_folder, color_folder, gray_folder]
     for folder in dirs:
         for file in os.listdir(folder):
@@ -29,14 +29,12 @@ def clearTestImages():
 def processDepthImage(img):
     print()
 
-def saveDepthImageAsTXT():
-    print()
+def saveDepthImageAsTXT(arr, name):
+    np.savetxt('./frames/depth/full_proc_'+name+'.txt', arr)  # save depth img to text for analysis
 
 def checkDepthImage(img):
     nRow, nCol = img.shape
-
     f = open('test.txt', 'w')
-
     for r in xrange(nRow):
         for c in xrange(nCol):
             pVal = img[r][c]
@@ -47,22 +45,25 @@ def checkDepthImage(img):
 
 def colBasedDepImgSeg():
     print('Processing images...')
-    for file_name in os.listdir(color_folder):
-        imageRGB = cv2.imread(color_folder + file_name, 1)
+    for file_name in os.listdir(gray_folder):
+        imageGray = cv2.imread(gray_folder + file_name, 0)
         imageDepth = cv2.imread(depth_folder + file_name, 2)
 
-        for i in range(len(imageRGB)):
-            for j in range(len(imageRGB[0])):
-                if imageRGB[i][j][0] < 50 and imageRGB[i][j][1] < 50 and imageRGB[i][j][2] < 50:
-                    imageRGB[i][j] = [0, 0, 0]
-                    imageDepth[i][j] = 0
+        for i in range(len(imageGray)):
+            for j in range(len(imageGray[0])):
+                if imageGray[i][j] < 20:
+                    imageGray[i][j] = 255  # maybe don't want?
+                    # imageDepth[i][j] = 0
 
-        cv2.imwrite(cleaned_image_folder + 'color_' + file_name, imageRGB)
+        cv2.imwrite(cleaned_image_folder + 'gray_' + file_name, imageGray)  # maybe don't want?
         cv2.imwrite(cleaned_image_folder + 'depth_' + file_name, imageDepth)
+        saveDepthImageAsTXT(imageDepth, file_name[:-4])
 
-# img = 'frame20.jpg'
-# dir = './frames/depth/'
-# file = asarray(Image.open(dir + img))
-# # print(file)
-# checkDepthImage(file)
-
+def clearImages():
+    for file in os.listdir(cleaned_image_folder):
+        file_path = os.path.join(cleaned_image_folder, file)
+        try:
+            if os.path.isfile(file_path):
+                os.unlink(file_path)
+        except Exception as e:
+            print(e)
