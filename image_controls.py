@@ -12,14 +12,16 @@ from numpy import *
 depth_folder = './frames/depth/'
 color_folder = './frames/color/'
 gray_folder = './frames/gray/'
+ir_folder = './frames/IR/'
+pts_folder = './frames/points/'
 cleaned_image_folder = './frames/seg/'
 
 def clearTestImages():
-    dirs = [depth_folder, color_folder, gray_folder]
+    dirs = [depth_folder, color_folder, gray_folder, pts_folder, ir_folder]
     for folder in dirs:
         for file in os.listdir(folder):
             file_path = os.path.join(folder, file)
-            try:
+            try: 
                 if os.path.isfile(file_path):
                     os.unlink(file_path)
             except Exception as e:
@@ -53,7 +55,7 @@ def colBasedDepImgSeg():
             for j in range(len(imageGray[0])):
                 if imageGray[i][j] < 20:
                     imageGray[i][j] = 255  # maybe don't want?
-                    # imageDepth[i][j] = 0
+                    imageDepth[i][j] = 0
 
         cv2.imwrite(cleaned_image_folder + 'gray_' + file_name, imageGray)  # maybe don't want?
         cv2.imwrite(cleaned_image_folder + 'depth_' + file_name, imageDepth)

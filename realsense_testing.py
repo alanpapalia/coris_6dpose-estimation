@@ -1,3 +1,11 @@
+""" 
+This is the main python script which calls all auxilliary scripts to perform
+object tracking through the Intel RealSense ZR300 Cameras
+
+[description]
+
+"""
+
 import logging
 import realsense_controls as rsc
 import image_controls as imControl
@@ -5,52 +13,61 @@ import tracking
 
 logging.basicConfig(level=logging.INFO)
 
-tracking_dir = './frames/color/'
+color_dir = './frames/color/'
+depth_dir = './frames/depth/'
+
+# initialize realsense device
+rs = rsc.RSControl()
 
 # prompt to determine stream data to save
 print("Do you want to stream color data? (y/n)")
-colStrm = raw_input() == 'y'
+if raw_input() == 'y':
+    rs.addColorStream()
+
 print("Do you want to stream depth data? (y/n)")
-depStrm = raw_input() == 'y'
+if raw_input() == 'y':
+    rs.addDepStream()
+
+print("Do you want to stream point data? (y/n)")
+if raw_input() == 'y':
+    rs.addPointStream()
+
 print("Frame save rate? (0 for no save)")
 saveRate = raw_input()
 try: saveRate = int(saveRate)
 except: saveRate = 0
 
-fps = 0.25
+print("Do you want to segment the depth images? (y/n)")
+segDepImg = raw_input()
+if segDepImg == 'y':
+    rs.colBasDepSeg = True
 
+# print("Do you want to run color tracking? (y/n)")
+# if raw_input() == 'y':
+#     print("How many frames to remove from the start?")
+#     nRem = int(raw_input())
+#     tracking.runColorTracking(color_dir, nRem)
+
+# print("Do you want to run depth tracking? (y/n)")
+# if raw_input() == 'y':
+#     print("How many frames to remove from the start?")
+#     nRem = int(raw_input())
+#     tracking.runDepthTracking(depth_dir, nRem)
+
+fps = 0.25
 # if want to save frames, first clear out old ones
 if saveRate != 0:
     imControl.clearTestImages()
     fps = saveRate/30
 
-# initialize realsense device
-rs = rsc.RSControl()
+rs.startStreams(saveRate)
 
-
-if colStrm and depStrm:
-    rs.addColorStream()
-    rs.addDepStream()
-    rs.startStreams(saveRate)
-elif colStrm:
-    rs.addColorStream()
-    rs.startStreams(saveRate)
-elif depStrm:
-    rs.addDepStream()
-    rs.startStreams(saveRate)
-
-
-# pcd.generatePointClouds('./frames/depth')
-print("Do you want to segment the depth images? (y/n)")
-if raw_input() == 'y':
+if segDepImg == 'y':
     imControl.clearImages()  # erases previously segmented images
     imControl.colBasedDepImgSeg()
 
+# pcd.generatePointClouds('./frames/depth')
 
 
-# print("Do you want to run tracking? (y/n)")
-# if raw_input() == 'y':
-    # print("How many frames to remove from the start?")
-    # nRem = int(raw_input())
-    # tracking.clearUntrackedImg(tracking_dir, nRem)
-    # tracking.trackColorImg(tracking_dir, fps)
+
+

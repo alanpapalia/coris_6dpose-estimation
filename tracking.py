@@ -3,10 +3,13 @@ import numpy as np
 import cv2
 import time
 
+"""Function written to track image based on the color frames written to the given directory
+
+dir - directory containing color images
+fps - frames per second, for giving more realistic feedback in showing the tracked video
+"""
 def trackColorImg(dir, fps):
-
     cnt = 0
-
     for file_name in os.listdir(dir):
 
         if cnt == 0:
@@ -51,7 +54,12 @@ def trackColorImg(dir, fps):
             cv2.imwrite(dir+'track/'+str(cnt)+".jpg",img2)
         cnt+= 1
 
-#takes directory to clear and number of frames to remove from beginning
+"""
+Takes directory to clear and number of frames to remove from beginning for sake of processing
+
+dir - directory to remove frames from
+nRem - number of frames to remove from start of directory
+"""
 def clearUntrackedImg(dir, nRem):
     cnt = 0
     for file_name in os.listdir(dir):
@@ -67,10 +75,13 @@ def clearUntrackedImg(dir, nRem):
 
         cnt += 1
 
-# tracking_dir = './frames/color/'
-# print("Do you want to run tracking? (y/n)")
-# if raw_input() == 'y':
-    # print("How many frames to remove from the start?")
-    # nRem = int(raw_input())
-    # clearUntrackedImg(tracking_dir, nRem)
-    # trackColorImg(tracking_dir)
+"""
+Driver function to call tracking functions
+
+dir - directory of color images
+fps - frames per second of recorded video
+nRem - number of frames to remove from start of recorded video
+"""
+def runColorTracking(dir, fps, nRem):
+    clearUntrackedImg(dir, nRem)
+    trackColorImg(dir, fps)
