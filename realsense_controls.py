@@ -1,10 +1,11 @@
 import logging
 logging.basicConfig(level=logging.INFO)
 
-import pcl
-import pcl.pcl_visualization
+# import pcl
+# import pcl.pcl_visualization
 
-import os, shutil
+import os
+import shutil
 import time
 import numpy as np
 import scipy
@@ -13,6 +14,7 @@ import cv2
 import pyrealsense as pyrs
 from pyrealsense.constants import rs_option
 from pyrealsense import offline
+import image_controls as imControl
 
 from mpl_toolkits.mplot3d import axes3d
 import matplotlib.pyplot as plt
@@ -43,25 +45,29 @@ def convert_z16_to_bgr(frame):
 
     return rgb_frame
 
+
 """
 Returns layers of 3D array
 
 arr - array passed in
 layer - index of desired layer
 """
+
+
 def getArrayLayers(arr, layer):
     nR, nC, nL = arr.shape
-    newArr = np.zeros(shape = (nR,nC))
+    newArr = np.zeros(shape=(nR, nC))
     for r in xrange(nR):
         for c in xrange(nC):
             val = arr[r][c][layer]
             # if val >= 1:
-                # print ('layer%d: '%layer + str(arr[r][c][layer]))
+            # print ('layer%d: '%layer + str(arr[r][c][layer]))
             if layer == 2 and val > 2.25:
                 newArr[r][c] = 0
             else:
                 newArr[r][c] = arr[r][c][layer]
     return newArr
+
 
 """
 Takes 3D array and makes one layer into
@@ -70,6 +76,8 @@ Takes 3D array and makes one layer into
 arr - 480x640x3 img
 layer - desired layer to slice from (0, 1, or 2)
 """
+
+
 def nonZeroData(arr, layer):
     nR, nC, nL = arr.shape
     newArr = []
@@ -81,20 +89,23 @@ def nonZeroData(arr, layer):
                     newArr.append(val)
     return newArr
 
+
 """
 Prints a 3d scatterplot to visualize XYZ data
 """
+
+
 def make3DMap(X, Y, Z):
     fig = plt.figure()
-    ax = fig.gca(projection = '3d')
+    ax = fig.gca(projection='3d')
 
     # surf = ax.scatter(X.flatten(), Y.flatten(), Z.flatten(), s = 20)
-    surf = ax.scatter(X, Y, Z, s = 20)
+    surf = ax.scatter(X, Y, Z, s=20)
     ax.set_xlim(-1, 1)
     ax.set_ylim(-1, 1)
     ax.set_xlabel('X Axis')
     ax.set_ylabel('Y Axis')
-    ax.set_zlabel('Z Axis')    
+    ax.set_zlabel('Z Axis')
     plt.show()
 
 
@@ -103,12 +114,21 @@ def segDepFromGrayscale(dep, gs, thresh):
         for j in range(len(gs[0])):
             if gs[i][j] < thresh:
                 gs[i][j] = 255  # maybe don't want?
-                dep[i][j] = 0 
+                dep[i][j] = 0
+
+
+"""
+Class to perform all controls for realsense cameras.
+This covers all streams and some integration between the hardware and image processing
+"""
+
 
 class RSControl:
 
-    depth_stream = pyrs.stream.DepthStream()  # depth image taken straight from ir cameras
-    dac_stream = pyrs.stream.DACStream()  # depth image corrected to pair w/ color_stream (fixes camera offset)
+    # depth image taken straight from ir cameras
+    depth_stream = pyrs.stream.DepthStream()
+    # depth image corrected to pair w/ color_stream (fixes camera offset)
+    dac_stream = pyrs.stream.DACStream()
     ir_stream = pyrs.stream.InfraredStream()  # IR image
     pt_stream = pyrs.stream.PointStream()  # point image
     color_stream = pyrs.stream.ColorStream()  # rgb color image
@@ -120,10 +140,12 @@ class RSControl:
         self.streamPts = False
         self.streamIR = False
         self.colBasDepSeg = False
+        self.waterSeg = False
 
-    """    
+    """
     Add color to list of camera streams
     """
+
     def addColorStream(self):
         self.strms.append(self.color_stream)
         self.streamColor = True
@@ -131,10 +153,12 @@ class RSControl:
     """
     add depth to list of camera streams
     """
+
     def addDepStream(self):
 
-        if len(self.strms) == 0: # if color_stream hasn't been added
-            self.strms.append(self.color_stream) # because throws error w/o color stream
+        if len(self.strms) == 0:  # if color_stream hasn't been added
+            # because throws error w/o color stream
+            self.strms.append(self.color_stream)
 
         self.strms.append(self.depth_stream)
         self.strms.append(self.dac_stream)
@@ -142,10 +166,12 @@ class RSControl:
 
     def addPointStream(self):
         if len(self.strms) == 0:  # if color_stream hasn't been added
-            self.strms.append(self.color_stream)  # because throws error w/o color stream
+            # because throws error w/o color stream
+            self.strms.append(self.color_stream)
 
         if len(self.strms) == 1:  # if depth streams haven't been added
-            self.strms.append(self.depth_stream)  # because throws error w/o these streams
+            # because throws error w/o these streams
+            self.strms.append(self.depth_stream)
             self.strms.append(self.dac_stream)
 
         self.strms.append(self.pt_stream)
@@ -183,17 +209,19 @@ class RSControl:
                             now = time.time()
                             dt = now - last
                             fps = 10 / dt
-                            fps_smooth = (fps_smooth * smoothing) + (fps * (1.0 - smoothing))
+                            fps_smooth = (fps_smooth * smoothing) + \
+                                (fps * (1.0 - smoothing))
                             last = now
 
                         dev.wait_for_frames()
 
-                        #if want to stream color images
+                        # if want to stream color images
                         if self.streamColor:
 
-                            color = dev.color
-                            grayscale = cv2.cvtColor(dev.color, cv2.COLOR_RGB2GRAY)
-                            color = cv2.cvtColor(color, cv2.COLOR_RGB2BGR)
+                            color = cv2.cvtColor(dev.color, cv2.COLOR_RGB2BGR)
+                            grayscale = cv2.cvtColor(
+                                dev.color, cv2.COLOR_BGR2GRAY)
+
                             # grayscale = cv2.adaptiveThreshold(grayscale, 255, cv2.ADAPTIVE_THRESH_GAUSSIAN_C,
                             #                                   cv2.THRESH_BINARY, 17, 2)
                             cv2.namedWindow('ColorStream')
@@ -201,32 +229,41 @@ class RSControl:
                             cv2.namedWindow('GrayStream')
                             cv2.imshow('GrayStream', grayscale)
 
-                        #if want to stream depth images
+                            if self.waterSeg:
+                                colSeg = color
+                                # imControl.threshColImg(colSeg)
+                                cv2.namedWindow('Watershed Seg')
+                                cv2.imshow('Watershed Seg',
+                                           # imControl.watershedSegment(colSeg))
+                                           imControl.watershedSegment(color))
+
+                        # if want to stream depth images
                         if self.streamDepth:
                             dep = dev.dac * dev.depth_scale
-                            ret, dep = cv2.threshold(dep, 1.7, 10, cv2.THRESH_TOZERO_INV)
-                            segDepFromGrayscale(dep, cv2.cvtColor(dev.color, cv2.COLOR_RGB2GRAY), 25)
+                            ret, dep = cv2.threshold(
+                                dep, 1.7, 10, cv2.THRESH_TOZERO_INV)
+                            segDepFromGrayscale(dep, cv2.cvtColor(
+                                dev.color, cv2.COLOR_RGB2GRAY), 25)
                             cv2.namedWindow('DepthStream')
                             cv2.imshow('DepthStream', dep)
 
-                        #if want to stream point images
+                        # if want to stream point images
                         if self.streamPts:
                             pts = dev.points
                             # pts = cv2.cvtColor(pts, cv2.COLOR_XYZ2BGR)
                             cv2.namedWindow('PointStream')
                             cv2.imshow('PointStream', pts)
 
-                        #if want to stream IR images
+                        # if want to stream IR images
                         if self.streamIR:
                             irStrm = dev.infrared
                             cv2.namedWindow('IRStream')
                             cv2.imshow('IRStream', irStrm)
 
-                        #wait and check if 'q' was pressed. If so, end streams
+                        # wait and check if 'q' was pressed. If so, end streams
                         keyPress = cv2.waitKey(1) & 0xFF
                         if keyPress == ord('q'):
                             break
-
 
                         # if saving frames is requested, save desired streams
                         if saveRate and cnt % saveRate == 0:
@@ -234,15 +271,19 @@ class RSControl:
                             if self.streamDepth:
                                 dname = "./frames/depth/frame%d.jpg" % cnt
                                 cv2.imwrite(dname, dep)
-                                ret, dTest = cv2.threshold(dep, 2, 10, cv2.THRESH_TOZERO_INV)
+                                ret, dTest = cv2.threshold(
+                                    dep, 2, 10, cv2.THRESH_TOZERO_INV)
                                 cv2.imwrite(dname, dTest)
 
-                                np.savetxt('./frames/depth/thresh_depvals%d.txt' % cnt, dTest)
-                                np.savetxt('./frames/depth/unproc_depvals%d.txt' % cnt, dTest)
+                                np.savetxt(
+                                    './frames/depth/thresh_depvals%d.txt' % cnt, dTest)
+                                np.savetxt(
+                                    './frames/depth/unproc_depvals%d.txt' % cnt, dTest)
 
                                 if self.colBasDepSeg:
                                     gname = "./frames/gray/frame%d.jpg" % cnt
-                                    grayscale = cv2.cvtColor(dev.color, cv2.COLOR_RGB2GRAY)
+                                    grayscale = cv2.cvtColor(
+                                        dev.color, cv2.COLOR_RGB2GRAY)
                                     cv2.imwrite(gname, grayscale)
 
                             if self.streamColor:
@@ -265,7 +306,6 @@ class RSControl:
                                 # np.savetxt('./frames/points/zframe_vals%d.txt' % cnt, zlayer, fmt = '%.2f')
                                 make3DMap(xlayer, ylayer, zlayer)
 
-
                             if self.streamIR:
                                 irname = "./frames/IR/frame%d.jpg" % cnt
-                                cv2.imwrite(itname, irStrm)                          
+                                cv2.imwrite(itname, irStrm)

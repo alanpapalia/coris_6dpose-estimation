@@ -1,15 +1,13 @@
-""" 
+"""
 This is the main python script which calls all auxilliary scripts to perform
 object tracking through the Intel RealSense ZR300 Cameras
-
-[description]
-
 """
 
 import logging
 import realsense_controls as rsc
 import image_controls as imControl
 import tracking
+
 
 logging.basicConfig(level=logging.INFO)
 
@@ -34,13 +32,20 @@ if raw_input() == 'y':
 
 print("Frame save rate? (0 for no save)")
 saveRate = raw_input()
-try: saveRate = int(saveRate)
-except: saveRate = 0
+try:
+    saveRate = int(saveRate)
+except:
+    saveRate = 0
 
 print("Do you want to segment the depth images? (y/n)")
 segDepImg = raw_input()
 if segDepImg == 'y':
     rs.colBasDepSeg = True
+
+print("Do you want to run watershed segmentation of the color images? (y/n)")
+waterSeg = raw_input()
+if waterSeg == 'y':
+    rs.waterSeg = True
 
 # print("Do you want to run color tracking? (y/n)")
 # if raw_input() == 'y':
@@ -67,7 +72,3 @@ if segDepImg == 'y':
     imControl.colBasedDepImgSeg()
 
 # pcd.generatePointClouds('./frames/depth')
-
-
-
-
