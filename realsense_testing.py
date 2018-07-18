@@ -17,6 +17,8 @@ depth_dir = './frames/depth/'
 # initialize realsense device
 rs = rsc.RSControl()
 
+nCams = int(raw_input("How many cameras are you using? (0/1/2)"))
+
 # prompt to determine stream data to save
 print("Do you want to stream color data? (y/n)")
 if raw_input() == 'y':
@@ -47,6 +49,7 @@ waterSeg = raw_input()
 if waterSeg == 'y':
     rs.waterSeg = True
 
+
 # print("Do you want to run color tracking? (y/n)")
 # if raw_input() == 'y':
 #     print("How many frames to remove from the start?")
@@ -65,7 +68,9 @@ if saveRate != 0:
     imControl.clearTestImages()
     fps = saveRate/30
 
-rs.startStreams(saveRate)
+if nCams > 0:
+	rs.startStreams(saveRate, nCams)
+	# rs.startStreams(saveRate)
 
 if segDepImg == 'y':
     imControl.clearImages()  # erases previously segmented images

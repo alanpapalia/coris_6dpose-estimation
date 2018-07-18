@@ -183,129 +183,323 @@ class RSControl:
 
     # create camera instance w/ color and adjusted depth streams
     # Params: saveRate - how many frames between saving to file (0 for no save)
-    def startStreams(self, saveRate):
+    def startStreams(self, saveRate, nCams):
         if len(self.strms) != 0:
             with pyrs.Service() as serv:
-                with serv.Device(streams=self.strms) as dev:
+                if nCams == 1:
+                    with serv.Device(streams=self.strms) as dev:
 
-                    dev.apply_ivcam_preset(0)
+                        dev.apply_ivcam_preset(0)
 
-                    try:  # set custom gain/exposure values to obtain good depth image
-                        custom_options = [(rs_option.RS_OPTION_R200_LR_EXPOSURE, 30.0),
-                                          (rs_option.RS_OPTION_R200_LR_GAIN, 100.0)]
-                        dev.set_device_options(*zip(*custom_options))
-                    except pyrs.RealsenseError:
-                        pass  # options are not available on all devices
+                        try:  # set custom gain/exposure values to obtain good depth image
+                            custom_options = [(rs_option.RS_OPTION_R200_LR_EXPOSURE, 30.0),
+                                              (rs_option.RS_OPTION_R200_LR_GAIN, 100.0)]
+                            dev.set_device_options(*zip(*custom_options))
+                        except pyrs.RealsenseError:
+                            pass  # options are not available on all devices
 
-                    cnt = 0
-                    last = time.time()
-                    smoothing = 0.9
-                    fps_smooth = 30
+                        cnt = 0
+                        last = time.time()
+                        smoothing = 0.9
+                        fps_smooth = 30
 
-                    while True:
+                        while True:
 
-                        cnt += 1
-                        if (cnt % 10) == 0:
-                            now = time.time()
-                            dt = now - last
-                            fps = 10 / dt
-                            fps_smooth = (fps_smooth * smoothing) + \
-                                (fps * (1.0 - smoothing))
-                            last = now
+                            cnt += 1
+                            if (cnt % 10) == 0:
+                                now = time.time()
+                                dt = now - last
+                                fps = 10 / dt
+                                fps_smooth = (fps_smooth * smoothing) + \
+                                    (fps * (1.0 - smoothing))
+                                last = now
 
-                        dev.wait_for_frames()
+                            dev.wait_for_frames()
 
-                        # if want to stream color images
-                        if self.streamColor:
+                            # if want to stream color images
+                            if self.streamColor:
 
-                            color = cv2.cvtColor(dev.color, cv2.COLOR_RGB2BGR)
-                            grayscale = cv2.cvtColor(
-                                dev.color, cv2.COLOR_BGR2GRAY)
+                                color = cv2.cvtColor(dev.color, cv2.COLOR_RGB2BGR)
+                                grayscale = cv2.cvtColor(
+                                    dev.color, cv2.COLOR_BGR2GRAY)
 
-                            # grayscale = cv2.adaptiveThreshold(grayscale, 255, cv2.ADAPTIVE_THRESH_GAUSSIAN_C,
-                            #                                   cv2.THRESH_BINARY, 17, 2)
-                            cv2.namedWindow('ColorStream')
-                            cv2.imshow('ColorStream', color)
-                            cv2.namedWindow('GrayStream')
-                            cv2.imshow('GrayStream', grayscale)
+                                # grayscale = cv2.adaptiveThreshold(grayscale, 255, cv2.ADAPTIVE_THRESH_GAUSSIAN_C,
+                                #                                   cv2.THRESH_BINARY, 17, 2)
+                                cv2.namedWindow('ColorStream')
+                                cv2.imshow('ColorStream', color)
+                                cv2.namedWindow('GrayStream')
+                                cv2.imshow('GrayStream', grayscale)
 
-                            if self.waterSeg:
-                                colSeg = color
-                                # imControl.threshColImg(colSeg)
-                                cv2.namedWindow('Watershed Seg')
-                                cv2.imshow('Watershed Seg',
-                                           # imControl.watershedSegment(colSeg))
-                                           imControl.watershedSegment(color))
+                                if self.waterSeg:
+                                    colSeg = color
+                                    # imControl.threshColImg(colSeg)
+                                    cv2.namedWindow('Watershed Seg')
+                                    cv2.imshow('Watershed Seg',
+                                               # imControl.watershedSegment(colSeg))
+                                               imControl.watershedSegment(color))
 
-                        # if want to stream depth images
-                        if self.streamDepth:
-                            dep = dev.dac * dev.depth_scale
-                            ret, dep = cv2.threshold(
-                                dep, 1.7, 10, cv2.THRESH_TOZERO_INV)
-                            segDepFromGrayscale(dep, cv2.cvtColor(
-                                dev.color, cv2.COLOR_RGB2GRAY), 25)
-                            cv2.namedWindow('DepthStream')
-                            cv2.imshow('DepthStream', dep)
-
-                        # if want to stream point images
-                        if self.streamPts:
-                            pts = dev.points
-                            # pts = cv2.cvtColor(pts, cv2.COLOR_XYZ2BGR)
-                            cv2.namedWindow('PointStream')
-                            cv2.imshow('PointStream', pts)
-
-                        # if want to stream IR images
-                        if self.streamIR:
-                            irStrm = dev.infrared
-                            cv2.namedWindow('IRStream')
-                            cv2.imshow('IRStream', irStrm)
-
-                        # wait and check if 'q' was pressed. If so, end streams
-                        keyPress = cv2.waitKey(1) & 0xFF
-                        if keyPress == ord('q'):
-                            break
-
-                        # if saving frames is requested, save desired streams
-                        if saveRate and cnt % saveRate == 0:
-
+                            # if want to stream depth images
                             if self.streamDepth:
-                                dname = "./frames/depth/frame%d.jpg" % cnt
-                                cv2.imwrite(dname, dep)
-                                ret, dTest = cv2.threshold(
-                                    dep, 2, 10, cv2.THRESH_TOZERO_INV)
-                                cv2.imwrite(dname, dTest)
+                                dep = dev.dac * dev.depth_scale
+                                ret, dep = cv2.threshold(
+                                    dep, 1.7, 10, cv2.THRESH_TOZERO_INV)
+                                segDepFromGrayscale(dep, cv2.cvtColor(
+                                    dev.color, cv2.COLOR_RGB2GRAY), 25)
+                                cv2.namedWindow('DepthStream')
+                                cv2.imshow('DepthStream', dep)
 
-                                np.savetxt(
-                                    './frames/depth/thresh_depvals%d.txt' % cnt, dTest)
-                                np.savetxt(
-                                    './frames/depth/unproc_depvals%d.txt' % cnt, dTest)
+                            # if want to stream point images
+                            if self.streamPts:
+                                pts = dev.points
+                                # pts = cv2.cvtColor(pts, cv2.COLOR_XYZ2BGR)
+                                cv2.namedWindow('PointStream')
+                                cv2.imshow('PointStream', pts)
 
-                                if self.colBasDepSeg:
+                            # if want to stream IR images
+                            if self.streamIR:
+                                irStrm = dev.infrared
+                                cv2.namedWindow('IRStream')
+                                cv2.imshow('IRStream', irStrm)
+
+                            # wait and check if 'q' was pressed. If so, end streams
+                            keyPress = cv2.waitKey(1) & 0xFF
+                            if keyPress == ord('q'):
+                                break
+
+                            # if saving frames is requested, save desired streams
+                            if saveRate and cnt % saveRate == 0:
+
+                                if self.streamDepth:
+                                    dname = "./frames/depth/frame%d.jpg" % cnt
+                                    cv2.imwrite(dname, dep)
+                                    ret, dTest = cv2.threshold(
+                                        dep, 2, 10, cv2.THRESH_TOZERO_INV)
+                                    cv2.imwrite(dname, dTest)
+
+                                    np.savetxt(
+                                        './frames/depth/thresh_depvals%d.txt' % cnt, dTest)
+                                    np.savetxt(
+                                        './frames/depth/unproc_depvals%d.txt' % cnt, dTest)
+
+                                    if self.colBasDepSeg:
+                                        gname = "./frames/gray/frame%d.jpg" % cnt
+                                        grayscale = cv2.cvtColor(
+                                            dev.color, cv2.COLOR_RGB2GRAY)
+                                        cv2.imwrite(gname, grayscale)
+
+                                if self.streamColor:
+                                    cname = "./frames/color/frame%d.jpg" % cnt
                                     gname = "./frames/gray/frame%d.jpg" % cnt
-                                    grayscale = cv2.cvtColor(
-                                        dev.color, cv2.COLOR_RGB2GRAY)
+                                    cv2.imwrite(cname, color)
                                     cv2.imwrite(gname, grayscale)
 
+                                if self.streamPts:
+                                    ptname = "./frames/points/frame%d.jpeg" % cnt
+                                    cv2.imwrite(ptname, pts)
+                                    # xlayer = getArrayLayers(pts, 0)
+                                    # ylayer = getArrayLayers(pts, 1)
+                                    # zlayer = getArrayLayers(pts, 2)
+                                    xlayer = nonZeroData(pts, 0)
+                                    ylayer = nonZeroData(pts, 1)
+                                    zlayer = nonZeroData(pts, 2)
+                                    # np.savetxt('./frames/points/xframe_vals%d.txt' % cnt, xlayer, fmt = '%.2f')
+                                    # np.savetxt('./frames/points/yframe_vals%d.txt' % cnt, ylayer, fmt = '%.2f')
+                                    # np.savetxt('./frames/points/zframe_vals%d.txt' % cnt, zlayer, fmt = '%.2f')
+                                    # make3DMap(xlayer, ylayer, zlayer)
+
+                                if self.streamIR:
+                                    irname = "./frames/IR/frame%d.jpg" % cnt
+                                    cv2.imwrite(itname, irStrm)
+                elif nCams == 2:
+                    with serv.Device(device_id=0, streams=self.strms) as dev1, serv.Device(device_id=1, streams=self.strms) as  dev2:
+
+                        dev1.apply_ivcam_preset(0)
+                        dev2.apply_ivcam_preset(0)
+
+                        try:  # set custom gain/exposure values to obtain good depth image
+                            custom_options = [(rs_option.RS_OPTION_R200_LR_EXPOSURE, 30.0),
+                                              (rs_option.RS_OPTION_R200_LR_GAIN, 100.0)]
+                            dev1.set_device_options(*zip(*custom_options))
+                            dev2.set_device_options(*zip(*custom_options))
+                        except pyrs.RealsenseError:
+                            pass  # options are not available on all devices
+
+                        cnt = 0
+                        last = time.time()
+                        smoothing = 0.9
+                        fps_smooth = 30
+
+                        while True:
+
+                            cnt += 1
+                            if (cnt % 10) == 0:
+                                now = time.time()
+                                dt = now - last
+                                fps = 10 / dt
+                                fps_smooth = (fps_smooth * smoothing) + \
+                                    (fps * (1.0 - smoothing))
+                                last = now
+
+                            dev1.wait_for_frames()
+                            dev2.wait_for_frames()
+
+                            # if want to stream color images
                             if self.streamColor:
-                                cname = "./frames/color/frame%d.jpg" % cnt
-                                gname = "./frames/gray/frame%d.jpg" % cnt
-                                cv2.imwrite(cname, color)
-                                cv2.imwrite(gname, grayscale)
 
+                                color1 = cv2.cvtColor(dev1.color, cv2.COLOR_RGB2BGR)
+                                grayscale1 = cv2.cvtColor(
+                                    dev1.color, cv2.COLOR_BGR2GRAY)
+
+                                # grayscale = cv2.adaptiveThreshold(grayscale, 255, cv2.ADAPTIVE_THRESH_GAUSSIAN_C,
+                                #                                   cv2.THRESH_BINARY, 17, 2)
+                                cv2.namedWindow('ColorStream1')
+                                cv2.imshow('ColorStream1', color1)
+                                cv2.namedWindow('GrayStream1')
+                                cv2.imshow('GrayStream1', grayscale1)
+
+                                color2 = cv2.cvtColor(dev2.color, cv2.COLOR_RGB2BGR)
+                                grayscale2 = cv2.cvtColor(
+                                    dev2.color, cv2.COLOR_BGR2GRAY)
+
+                                # grayscale = cv2.adaptiveThreshold(grayscale, 255, cv2.ADAPTIVE_THRESH_GAUSSIAN_C,
+                                #                                   cv2.THRESH_BINARY, 17, 2)
+                                cv2.namedWindow('ColorStream2')
+                                cv2.imshow('ColorStream2', color2)
+                                cv2.namedWindow('GrayStream2')
+                                cv2.imshow('GrayStream2', grayscale2)
+
+                                if self.waterSeg:
+                                    colSeg1 = color1
+                                    cv2.namedWindow('Watershed Seg1')
+                                    cv2.imshow('Watershed Seg1',
+                                               imControl.watershedSegment(color1))
+
+                                    colSeg2 = color2
+                                    cv2.namedWindow('Watershed Seg2')
+                                    cv2.imshow('Watershed Seg2',
+                                               imControl.watershedSegment(color2))
+
+                            # if want to stream depth images
+                            if self.streamDepth:
+                                dep1 = dev1.dac * dev1.depth_scale
+
+                                #threshold depth1
+
+                                ret, dep1 = cv2.threshold(
+                                    dep1, 1.7, 10, cv2.THRESH_TOZERO_INV)
+                                segDepFromGrayscale(dep1, cv2.cvtColor(
+                                    dev1.color, cv2.COLOR_RGB2GRAY), 25)
+                                cv2.namedWindow('DepthStream1')
+                                cv2.imshow('DepthStream1', dep1)
+
+                                dep2 = dev2.dac * dev2.depth_scale
+
+                                # threshold depth2
+
+                                ret, dep2 = cv2.threshold(
+                                    dep2, 1.7, 10, cv2.THRESH_TOZERO_INV)
+                                segDepFromGrayscale(dep2, cv2.cvtColor(
+                                    dev1.color, cv2.COLOR_RGB2GRAY), 25)
+                                cv2.namedWindow('DepthStream2')
+                                cv2.imshow('DepthStream2', dep2)
+
+                            # if want to stream point images
                             if self.streamPts:
-                                ptname = "./frames/points/frame%d.jpeg" % cnt
-                                cv2.imwrite(ptname, pts)
-                                # xlayer = getArrayLayers(pts, 0)
-                                # ylayer = getArrayLayers(pts, 1)
-                                # zlayer = getArrayLayers(pts, 2)
-                                xlayer = nonZeroData(pts, 0)
-                                ylayer = nonZeroData(pts, 1)
-                                zlayer = nonZeroData(pts, 2)
-                                # np.savetxt('./frames/points/xframe_vals%d.txt' % cnt, xlayer, fmt = '%.2f')
-                                # np.savetxt('./frames/points/yframe_vals%d.txt' % cnt, ylayer, fmt = '%.2f')
-                                # np.savetxt('./frames/points/zframe_vals%d.txt' % cnt, zlayer, fmt = '%.2f')
-                                make3DMap(xlayer, ylayer, zlayer)
+                                pts1 = dev1.points
+                                # pts = cv2.cvtColor(pts, cv2.COLOR_XYZ2BGR)
+                                cv2.namedWindow('PointStream1')
+                                cv2.imshow('PointStream1', pts1)
+                                pts2 = dev2.points
+                                # pts = cv2.cvtColor(pts, cv2.COLOR_XYZ2BGR)
+                                cv2.namedWindow('PointStream2')
+                                cv2.imshow('PointStream2', pts2)
 
+                            # if want to stream IR images
                             if self.streamIR:
-                                irname = "./frames/IR/frame%d.jpg" % cnt
-                                cv2.imwrite(itname, irStrm)
+                                irStrm1 = dev1.infrared
+                                cv2.namedWindow('IRStream1')
+                                cv2.imshow('IRStream1', irStrm1)
+                                irStrm2 = dev2.infrared
+                                cv2.namedWindow('IRStream2')
+                                cv2.imshow('IRStream2', irStrm2)
+
+
+                            # wait and check if 'q' was pressed. If so, end streams
+                            keyPress = cv2.waitKey(1) & 0xFF
+                            if keyPress == ord('q'):
+                                break
+
+                            # if saving frames is requested, save desired streams
+                            if saveRate and cnt % saveRate == 0:
+                                for x in xrange(1, nCams+1):
+                                    if self.streamDepth:
+                                        dname1 = "./frames/depth1/frame%d.jpg" % cnt
+                                        cv2.imwrite(dname1, dep1)
+                                        ret, dTest1 = cv2.threshold(
+                                            dep1, 2, 10, cv2.THRESH_TOZERO_INV)
+                                        cv2.imwrite(dname, dTest1)
+
+                                        # np.savetxt(
+                                        #     './frames/depth/thresh_depvals%d.txt' % cnt, dTest)
+                                        # np.savetxt(
+                                        #     './frames/depth/unproc_depvals%d.txt' % cnt, dTest)
+
+                                        dname2 = "./frames/depth2/frame%d.jpg" % cnt
+                                        cv2.imwrite(dname2, dep2)
+                                        ret, dTest1 = cv2.threshold(
+                                            dep1, 2, 10, cv2.THRESH_TOZERO_INV)
+                                        cv2.imwrite(dname2, dTest2)
+
+                                        # np.savetxt(
+                                        #     './frames/depth/thresh_depvals%d.txt' % cnt, dTest)
+                                        # np.savetxt(
+                                        #     './frames/depth/unproc_depvals%d.txt' % cnt, dTest)
+
+                                        if self.colBasDepSeg:
+                                            gname1 = "./frames/gray1/frame%d.jpg" % cnt
+                                            grayscale1 = cv2.cvtColor(
+                                                dev1.color, cv2.COLOR_RGB2GRAY)
+                                            cv2.imwrite(gname1, grayscale1)
+                                            gname2 = "./frames/gray2/frame%d.jpg" % cnt
+                                            grayscale2 = cv2.cvtColor(
+                                                dev2.color, cv2.COLOR_RGB2GRAY)
+                                            cv2.imwrite(gname2, grayscale2)
+
+
+                                        if self.colBasDepSeg:
+                                            gname1 = "./frames/gray1/frame%d.jpg" % cnt
+                                            grayscale1 = cv2.cvtColor(
+                                                dev1.color, cv2.COLOR_RGB2GRAY)
+                                            cv2.imwrite(gname1, grayscale1)
+
+                                    if self.streamColor:
+                                        cname1 = "./frames/color1/frame%d.jpg" % cnt
+                                        gname1 = "./frames/gray1/frame%d.jpg" % cnt
+                                        cv2.imwrite(cname1, color1)
+                                        cv2.imwrite(gname1, grayscale1)
+                                        cname2 = "./frames/color2/frame%d.jpg" % cnt
+                                        gname2 = "./frames/gray2/frame%d.jpg" % cnt
+                                        cv2.imwrite(cname2, color2)
+                                        cv2.imwrite(gname2, grayscale2)
+
+                                    if self.streamPts:
+                                        ptname1 = "./frames/points1/frame%d.jpeg" % cnt
+                                        cv2.imwrite(ptname1, pts1)
+                                        ptname2 = "./frames/points2/frame%d.jpeg" % cnt
+                                        cv2.imwrite(ptname2, pts2)
+                                        # xlayer = getArrayLayers(pts, 0)
+                                        # ylayer = getArrayLayers(pts, 1)
+                                        # zlayer = getArrayLayers(pts, 2)
+                                        # xlayer = nonZeroData(pts1, 0)
+                                        # ylayer = nonZeroData(pts1, 1)
+                                        # zlayer = nonZeroData(pts1, 2)
+                                        # np.savetxt('./frames/points/xframe_vals%d.txt' % cnt, xlayer, fmt = '%.2f')
+                                        # np.savetxt('./frames/points/yframe_vals%d.txt' % cnt, ylayer, fmt = '%.2f')
+                                        # np.savetxt('./frames/points/zframe_vals%d.txt' % cnt, zlayer, fmt = '%.2f')
+                                        # make3DMap(xlayer, ylayer, zlayer)
+
+                                    if self.streamIR:
+                                        irname1 = "./frames/IR1/frame%d.jpg" % cnt
+                                        cv2.imwrite(itname1, irStrm1)
+                                        irname2 = "./frames/IR2/frame%d.jpg" % cnt
+                                        cv2.imwrite(itname2, irStrm2)

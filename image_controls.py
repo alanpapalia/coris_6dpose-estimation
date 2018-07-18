@@ -19,8 +19,6 @@ cleaned_image_folder = './frames/seg/'
 
 # cv2.namedWindow('Test Window')
 
-sys.path.insert(0, './pegbis/')
-import peg_seg as pegbis
 
 
 def clearTestImages():
