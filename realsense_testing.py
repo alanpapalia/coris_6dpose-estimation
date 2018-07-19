@@ -64,8 +64,8 @@ rs = rsc.RSControl()
 
 nCams = 1
 rs.addColorStream()
-rs.addDepStream()
-rs.addPointStream()
+# rs.addDepStream()
+# rs.addPointStream()
 saveRate = 1;
 
 # if want to save frames, first clear out old ones
@@ -73,8 +73,8 @@ if saveRate != 0:
     imControl.clearTestImages(nCams)
 
 if nCams > 0:
-	rs.startStreams(saveRate, nCams)
-	# rs.startStreams(saveRate)
+	# rs.startStreams(saveRate, nCams)
+	rs.saveFeed(saveRate, nCams)
 
 # if segDepImg == 'y':
 #     imControl.clearImages()  # erases previously segmented images

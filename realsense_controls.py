@@ -241,7 +241,7 @@ class RSControl:
 
                             # if want to stream depth images
                             if self.streamDepth:
-                                dep = dev.dac * dev.depth_scale
+                                dep = (dev.dac * dev.depth_scale).astype(np.float32)
                                 ret, dep = cv2.threshold(
                                     dep, 1.7, 10, cv2.THRESH_TOZERO_INV)
 
@@ -335,7 +335,7 @@ class RSControl:
 
                             # if want to stream depth images
                             if self.streamDepth:
-                                dep1 = dev1.dac * dev1.depth_scale
+                                dep1 = (dev1.dac * dev1.depth_scale).astype(np.float32)
 
                                 #threshold depth to ignore beyond desired range
                                 ret, dep1 = cv2.threshold(
@@ -348,7 +348,7 @@ class RSControl:
                                 cv2.namedWindow('DepthStream1')
                                 cv2.imshow('DepthStream1', dep1)
 
-                                dep2 = dev2.dac * dev2.depth_scale
+                                dep2 = (dev2.dac * dev2.depth_scale).astype(np.float32)
 
                                 #threshold depth to ignore beyond desired range
                                 ret, dep2 = cv2.threshold(
@@ -378,6 +378,7 @@ class RSControl:
                                 break
 
     def saveFeed(self, saveRate, nCams):
+            cv2.namedWindow('Control Panel')
             if len(self.strms) != 0:
                 with pyrs.Service() as serv:
                     if nCams == 1:
@@ -419,7 +420,7 @@ class RSControl:
                                 if saveRate and cnt % saveRate == 0:
                                     if self.streamColor:
                                         color = cv2.cvtColor(dev.color, cv2.COLOR_RGB2BGR)
-                                        cname = "./frames/color/frame%d.jpg" % cnt
+                                        cname = "./frames/single_camera/color/frame%d.jpg" % cnt
                                         cv2.imwrite(cname, color)
 
                                         # grayscale = cv2.cvtColor(
@@ -428,7 +429,7 @@ class RSControl:
                                         # cv2.imwrite(gname, grayscale)
 
                                     if self.streamDepth:
-                                        dep = dev.dac * dev.depth_scale
+                                        dep = (dev.dac * dev.depth_scale).astype(np.float32)
                                         ret, dep = cv2.threshold(
                                             dep, 1.7, 10, cv2.THRESH_TOZERO_INV)
 
@@ -436,26 +437,26 @@ class RSControl:
                                         # segDepFromGrayscale(dep, cv2.cvtColor(
                                         #     dev.color, cv2.COLOR_RGB2GRAY), 25)
 
-                                        dname = "./frames/depth/frame%d.jpg" % cnt
+                                        dname = "./frames/single_camera/depth/frame%d.jpg" % cnt
                                         cv2.imwrite(dname, dep)
                                         ret, dTest = cv2.threshold(
                                             dep, 2, 10, cv2.THRESH_TOZERO_INV)
                                         cv2.imwrite(dname, dTest)
 
                                         np.savetxt(
-                                            './frames/depth/thresh_depvals%d.txt' % cnt, dTest)
+                                            './frames/single_camera/depth/thresh_depvals%d.txt' % cnt, dTest)
                                         np.savetxt(
-                                            './frames/depth/unproc_depvals%d.txt' % cnt, dTest)
+                                            './frames/single_camera/depth/unproc_depvals%d.txt' % cnt, dTest)
 
                                         if self.colBasDepSeg:
-                                            gname = "./frames/gray/frame%d.jpg" % cnt
+                                            gname = "./frames/single_camera/gray/frame%d.jpg" % cnt
                                             grayscale = cv2.cvtColor(
                                                 dev.color, cv2.COLOR_RGB2GRAY)
                                             cv2.imwrite(gname, grayscale)
 
                                     if self.streamPts:
                                         pts = dev.points
-                                        ptname = "./frames/points/frame%d.jpeg" % cnt
+                                        ptname = "./frames/single_camera/points/frame%d.jpeg" % cnt
                                         cv2.imwrite(ptname, pts)
                                         # xlayer = getArrayLayers(pts, 0)
                                         # ylayer = getArrayLayers(pts, 1)
@@ -512,16 +513,16 @@ class RSControl:
                                         if self.streamColor:
                                             color1 = cv2.cvtColor(dev1.color, cv2.COLOR_RGB2BGR)
                                             color2 = cv2.cvtColor(dev2.color, cv2.COLOR_RGB2BGR)
-                                            cname1 = "./frames/color1/frame%d.jpg" % cnt
+                                            cname1 = "./frames/two_camera/color1/frame%d.jpg" % cnt
                                             cv2.imwrite(cname1, color1)
-                                            cname2 = "./frames/color2/frame%d.jpg" % cnt
+                                            cname2 = "./frames/two_camera/color2/frame%d.jpg" % cnt
                                             cv2.imwrite(cname2, color2)
 
                                         if self.streamDepth:
                                             dep1 = dev1.dac * dev1.depth_scale
                                             dep2 = dev2.dac * dev2.depth_scale
 
-                                            dname1 = "./frames/depth1/frame%d.jpg" % cnt
+                                            dname1 = "./frames/two_camera/depth1/frame%d.jpg" % cnt
                                             cv2.imwrite(dname1, dep1)
 
                                             # ret, dTest1 = cv2.threshold(
@@ -533,7 +534,7 @@ class RSControl:
                                             # np.savetxt(
                                             #     './frames/depth/unproc_depvals%d.txt' % cnt, dTest)
 
-                                            dname2 = "./frames/depth2/frame%d.jpg" % cnt
+                                            dname2 = "./frames/two_camera/depth2/frame%d.jpg" % cnt
                                             cv2.imwrite(dname2, dep2)
 
                                             # threshold to only track depth in certain range
@@ -547,9 +548,9 @@ class RSControl:
                                             #     './frames/depth/unproc_depvals%d.txt' % cnt, dTest)
 
                                         if self.streamPts:
-                                            ptname1 = "./frames/points1/frame%d.jpeg" % cnt
+                                            ptname1 = "./frames/two_camera/points1/frame%d.jpeg" % cnt
                                             cv2.imwrite(ptname1, pts1)
-                                            ptname2 = "./frames/points2/frame%d.jpeg" % cnt
+                                            ptname2 = "./frames/two_camera/points2/frame%d.jpeg" % cnt
                                             cv2.imwrite(ptname2, pts2)
                                             # xlayer = getArrayLayers(pts, 0)
                                             # ylayer = getArrayLayers(pts, 1)
@@ -620,7 +621,7 @@ class RSControl:
 
                                 # if want to stream depth images
                                 if self.streamDepth:
-                                    dep = dev.dac * dev.depth_scale
+                                    dep = (dev.dac * dev.depth_scale).astype(np.float32)
                                     ret, dep = cv2.threshold(
                                         dep, 1.7, 10, cv2.THRESH_TOZERO_INV)
                                     segDepFromGrayscale(dep, cv2.cvtColor(
