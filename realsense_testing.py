@@ -17,11 +17,7 @@ depth_dir = './frames/depth/'
 # initialize realsense device
 rs = rsc.RSControl()
 
-try:
-    nCams = int(raw_input("How many cameras are you using? (0/1/2)\n"))
-except Exception as e:
-    print '\nNot a valid number \nEnding program\n\n'
-    exit()
+nCams = int(raw_input("How many cameras are you using? (0/1/2)"))
 
 # prompt to determine stream data to save
 print("Do you want to stream color data? (y/n)")

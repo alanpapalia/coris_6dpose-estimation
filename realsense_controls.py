@@ -240,9 +240,9 @@ class RSControl:
 
                             # if want to stream depth images
                             if self.streamDepth:
-                                dep = (dev.dac * dev.depth_scale).astype(np.float32)  
-                                # print(type(dep))
-                                ret, dep = cv2.threshold(dep, 1.7, 10, cv2.THRESH_TOZERO_INV)
+                                dep = dev.dac * dev.depth_scale
+                                ret, dep = cv2.threshold(
+                                    dep, 1.7, 10, cv2.THRESH_TOZERO_INV)
                                 segDepFromGrayscale(dep, cv2.cvtColor(
                                     dev.color, cv2.COLOR_RGB2GRAY), 25)
                                 cv2.namedWindow('DepthStream')
