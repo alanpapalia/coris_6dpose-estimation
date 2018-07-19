@@ -20,9 +20,25 @@ cleaned_image_folder = './frames/seg/'
 # cv2.namedWindow('Test Window')
 
 
+def clearTestImages(nCams):
+    if nCams == 1:
+        depth_folder = './frames/single_camera/depth/'
+        color_folder = './frames/single_camera/color/'
+        gray_folder = './frames/single_camera/gray/'
+        pts_folder = './frames/single_camera/points/'
+        dirs = [depth_folder, color_folder, gray_folder, pts_folder, ir_folder]
+    elif nCams == 2:
+        depth_folder1 = './frames/two_camera/depth1/'
+        color_folder1 = './frames/two_camera/color1/'
+        gray_folder1 = './frames/two_camera/gray1/'
+        pts_folder1 = './frames/two_camera/points1/'
+        depth_folder2 = './frames/two_camera/depth2/'
+        color_folder2 = './frames/two_camera/color2/'
+        gray_folder2 = './frames/two_camera/gray2/'
+        pts_folder2 = './frames/two_camera/points2/'
+        dirs = [depth_folder1, color_folder1, gray_folder1, ir_folder1, pts_folder1,
+                depth_folder2, color_folder2, gray_folder2, ir_folder2, pts_folder2]
 
-def clearTestImages():
-    dirs = [depth_folder, color_folder, gray_folder, pts_folder, ir_folder]
     for folder in dirs:
         for file in os.listdir(folder):
             file_path = os.path.join(folder, file)
