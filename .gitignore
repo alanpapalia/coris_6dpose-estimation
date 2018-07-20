@@ -6,7 +6,7 @@ __pycache__/
 *$py.class
 
 #all saved frames, comment when want to share
-/frames/*
+# /frames/*
 /test_images/*
 /alan_test_images/*
 
