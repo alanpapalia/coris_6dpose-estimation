@@ -162,3 +162,46 @@ def threshColImg(colImg):
             if g2[r][c] == 0:
                 colImg[r][c] = (0, 0, 0)
     return
+
+
+""" Returns list of frames from video in chronological
+order """
+
+
+def getFrameList(frameDir):
+    frames = ()
+
+    for f in os.listdir(frameDir):
+        try:
+            if os.path.isfile(file_path):
+                frames.append(cv2.imread(frameDir+f))
+        except Exception as e:
+            print(e)
+
+    return frames
+
+
+""" Runs background subtraction on images """
+
+
+def runBGSubMOG2(frames):
+    fgbg = cv2.createBackgroundSubtractorMOG2()
+    cv2.namedWindow('original')
+    cv2.namedWindow('bg subtracted')
+
+    while True:
+        for f in frames:
+            # show original image
+            cv2.imshow('original', f)
+
+            # perform bg subtraction
+            fgmask = fgbg.apply(f)
+
+            # show bg subtracted image
+            cv2.imshow('bg subtracted', fgmask)
+
+            # wait for user to press 'q' to end
+            k = cv2.waitKey(10) & 0xff
+            keyPress = cv2.waitKey(1) & 0xFF
+            if keyPress == ord('q'):
+                return
