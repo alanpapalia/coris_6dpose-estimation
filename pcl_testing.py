@@ -8,6 +8,7 @@ pcd_folder = './frames/single_camera/PCD/'
 def generatePointClouds():
     file_tracker = 1
     for file_name in os.listdir(ptsFolder):
+        # while file_tracker % 10 != 0:
         image_points = np.loadtxt(ptsFolder+file_name, dtype=np.float32)
         pclObject = pcl.PointCloud()
         pclObject.from_array(np.array(image_points, dtype=np.float32))

@@ -89,7 +89,7 @@ def nonZeroData(arr):
     for r in xrange(nR):
         for c in xrange(nC):
             val = arr[r][c][2]
-            if val > 0.000001 and val < 2:
+            if val > 0.000001 and val < 0.88:
                 nzPts.append((arr[r][c][0], arr[r][c][1], arr[r][c][2]))
                 # ylayer.append()
                 # zlayer.append(arr[r][c][2])
@@ -683,12 +683,12 @@ class RSControl:
                                         cv2.imwrite(gname, grayscale)
 
                                     if self.streamPts:
-                                        ptname = "./frames/points/frame%d.jpeg" % cnt
-                                        cv2.imwrite(ptname, pts)
+                                        # ptname = "./frames/points/frame%d.jpeg" % cnt
+                                        # cv2.imwrite(ptname, pts)
                                         # xlayer = getArrayLayers(pts, 0)
                                         # ylayer = getArrayLayers(pts, 1)
                                         # zlayer = getArrayLayers(pts, 2)
-                                        # xlayer, ylayer, zlayer = nonZeroData(pts)
+                                        xlayer, ylayer, zlayer = nonZeroData(pts)
                                         # np.savetxt('./frames/points/xframe_vals%d.txt' % cnt, xlayer, fmt = '%.2f')
                                         # np.savetxt('./frames/points/yframe_vals%d.txt' % cnt, ylayer, fmt = '%.2f')
                                         # np.savetxt('./frames/points/zframe_vals%d.txt' % cnt, zlayer, fmt = '%.2f')
