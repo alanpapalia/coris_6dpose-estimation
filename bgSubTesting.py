@@ -4,6 +4,10 @@ import os
 from watershed import Watershed
 from PIL import Image
 import matplotlib.pyplot as plt
+import numpy as np
+
+# Code here is for the purpose of testing
+# various background subtraction methods
 
 
 """ Takes directory of gray frames and masks
@@ -33,21 +37,31 @@ def cannyDetectAllGrayInDir(grayFrameDir):
         # img = imControl.maskSmallWhtSquares(img)
         cv2.imwrite(grayFrameDir+f, img)
 
+
+""" iterates through all grayscale
+images created and calculates/draws
+checkerboard corners for them. Also
+writes the corners to .txt file
+"""
+
 def findCornersAllGrayInDir(grayFrameDir):
+    pSize = (9,8)
     for f in os.listdir(grayFrameDir):
         print("Working on: " + f)
         img = cv2.imread(grayFrameDir+f, 0)
-        ret, corners = cv2.findChessboardCorners(img, (10, 9), None)
-        print corners
+        ret, corners = cv2.findChessboardCorners(img, pSize, cv2.CALIB_CB_ADAPTIVE_THRESH + cv2.CALIB_CB_NORMALIZE_IMAGE + cv2.CALIB_CB_FAST_CHECK)
+        cv2.drawChessboardCorners(img, pSize, corners, ret  )
+        corners = corners[:,0,:]
+        np.savetxt('corners.txt', corners)
 
         # img = imControl.maskSmallWhtSquares(img)
         cv2.imwrite(grayFrameDir+f, img)
 
 """ Attempt a watershed segmentation
-of color images
+of color images based on code pulled from github
+
+--results were poor, overly segmented
 """
-
-
 def watershedGrayImg(gImg):
     w = Watershed()
     labels = w.apply(gImg)

@@ -1,5 +1,9 @@
 #!/bin/bash
 
+# bash script that runs realsense testing, makes
+# video and puts video and frames in directory
+# specified by $outDir
+
 python realsense_testing.py
 
 echo
@@ -8,8 +12,6 @@ echo
 echo "Enter the name of the trial number"
 read trialLabel
 
-# echo "Enter the captured frame rate (fps)"
-# read fRate
 
 
 inDir="./frames/single_camera/color/"

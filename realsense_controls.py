@@ -71,23 +71,29 @@ def getArrayLayers(arr, layer):
 
 """
 Takes 3D array and makes one layer into
- a 1D array of non-zero values
+three 1D arrays of non-zero values 
+
+Intended to take XYZ and return as thresholded
+X, Y, Z arrays respectively
 
 arr - 480x640x3 img
 layer - desired layer to slice from (0, 1, or 2)
 """
 
 
-def nonZeroData(arr, layer):
+def nonZeroData(arr):
     nR, nC, nL = arr.shape
-    newArr = []
+    nzPts = []
+    # ylayer = []
+    # zlayer = []
     for r in xrange(nR):
         for c in xrange(nC):
-            val = arr[r][c][layer]
-            if abs(val) > 0.000001:
-                if arr[r][c][2] < 2:
-                    newArr.append(val)
-    return newArr
+            val = arr[r][c][2]
+            if val > 0.000001 and val < 2:
+                nzPts.append((arr[r][c][0], arr[r][c][1], arr[r][c][2]))
+                # ylayer.append()
+                # zlayer.append(arr[r][c][2])
+    return nzPts
 
 
 """
@@ -140,6 +146,7 @@ class RSControl:
         self.streamPts = False
         self.colBasDepSeg = False
         self.waterSeg = False
+        self.findCorners = False
 
     """
     Add color to list of camera streams
@@ -226,11 +233,18 @@ class RSControl:
                             if self.streamColor:
                                 color = cv2.cvtColor(dev.color, cv2.COLOR_RGB2BGR)
                                 grayscale = cv2.cvtColor(
-                                    dev.color, cv2.COLOR_BGR2GRAY)
+                                    color, cv2.COLOR_BGR2GRAY)
+
+                                if self.findCorners:
+                                    # (9,8) hardcoded based on test setup, is dimensions of board
+                                    psize = (9,8)
+                                    ret, corners = imControl.getCheckerboardCorners(grayscale, psize)                        
+                                    cv2.drawChessboardCorners(grayscale, psize, corners, ret)
+
                                 # cv2.namedWindow('ColorStream')
                                 cv2.imshow('ColorStream', color)
                                 # cv2.namedWindow('GrayStream')
-                                # cv2.imshow('GrayStream', grayscale)
+                                cv2.imshow('GrayStream', grayscale)
 
                                 if self.waterSeg:
                                     colSeg = color
@@ -238,6 +252,8 @@ class RSControl:
                                     cv2.imshow('Watershed Seg',
                                                # imControl.watershedSegment(colSeg))
                                                imControl.watershedSegment(color))
+
+
 
                             # if want to stream depth images
                             if self.streamDepth:
@@ -444,9 +460,9 @@ class RSControl:
                                         cv2.imwrite(dname, dTest)
 
                                         np.savetxt(
-                                            './frames/single_camera/depth/thresh_depvals%d.txt' % cnt, dTest)
+                                            './frames/single_camera/depth/thresh_depvals%d.txt' % cnt, dTest, fmt='%1.4f')
                                         np.savetxt(
-                                            './frames/single_camera/depth/unproc_depvals%d.txt' % cnt, dTest)
+                                            './frames/single_camera/depth/unproc_depvals%d.txt' % cnt, dTest, fmt='%1.4f')
 
                                         if self.colBasDepSeg:
                                             gname = "./frames/single_camera/gray/frame%d.jpg" % cnt
@@ -456,17 +472,16 @@ class RSControl:
 
                                     if self.streamPts:
                                         pts = dev.points
-                                        ptname = "./frames/single_camera/points/frame%d.jpeg" % cnt
-                                        cv2.imwrite(ptname, pts)
+                                        # ptname = "./frames/single_camera/points/frame%d.jpeg" % cnt
+                                        # cv2.imwrite(ptname, pts)
                                         # xlayer = getArrayLayers(pts, 0)
                                         # ylayer = getArrayLayers(pts, 1)
                                         # zlayer = getArrayLayers(pts, 2)
-                                        # xlayer = nonZeroData(pts, 0)
-                                        # ylayer = nonZeroData(pts, 1)
-                                        # zlayer = nonZeroData(pts, 2)
-                                        # np.savetxt('./frames/points/xframe_vals%d.txt' % cnt, xlayer, fmt = '%.2f')
-                                        # np.savetxt('./frames/points/yframe_vals%d.txt' % cnt, ylayer, fmt = '%.2f')
-                                        # np.savetxt('./frames/points/zframe_vals%d.txt' % cnt, zlayer, fmt = '%.2f')
+                                        nzPts = nonZeroData(pts)
+                                        np.savetxt('./frames/single_camera/points/nonzeroPts%d.txt' % cnt, nzPts, fmt = '%1.4f')
+                                        # np.savetxt('./frames/single_camera/points/xframe_vals%d.txt' % cnt, xlayer, fmt = '%1.4f')
+                                        # np.savetxt('./frames/single_camera/points/yframe_vals%d.txt' % cnt, ylayer, fmt = '%1.4f')
+                                        # np.savetxt('./frames/single_camera/points/zframe_vals%d.txt' % cnt, zlayer, fmt = '%1.4f')
                                         # make3DMap(xlayer, ylayer, zlayer)
 
                     elif nCams == 2:
@@ -602,7 +617,7 @@ class RSControl:
 
                                     color = cv2.cvtColor(dev.color, cv2.COLOR_RGB2BGR)
                                     grayscale = cv2.cvtColor(
-                                        dev.color, cv2.COLOR_BGR2GRAY)
+                                        color, cv2.COLOR_BGR2GRAY)
 
                                     # grayscale = cv2.adaptiveThreshold(grayscale, 255, cv2.ADAPTIVE_THRESH_GAUSSIAN_C,
                                     #                                   cv2.THRESH_BINARY, 17, 2)
@@ -673,9 +688,7 @@ class RSControl:
                                         # xlayer = getArrayLayers(pts, 0)
                                         # ylayer = getArrayLayers(pts, 1)
                                         # zlayer = getArrayLayers(pts, 2)
-                                        xlayer = nonZeroData(pts, 0)
-                                        ylayer = nonZeroData(pts, 1)
-                                        zlayer = nonZeroData(pts, 2)
+                                        # xlayer, ylayer, zlayer = nonZeroData(pts)
                                         # np.savetxt('./frames/points/xframe_vals%d.txt' % cnt, xlayer, fmt = '%.2f')
                                         # np.savetxt('./frames/points/yframe_vals%d.txt' % cnt, ylayer, fmt = '%.2f')
                                         # np.savetxt('./frames/points/zframe_vals%d.txt' % cnt, zlayer, fmt = '%.2f')
@@ -805,9 +818,9 @@ class RSControl:
                                             cv2.imwrite(dname, dTest1)
 
                                             np.savetxt(
-                                                './frames/depth/thresh_depvals%d.txt' % cnt, dTest)
+                                                './frames/depth/thresh_depvals%d.txt' % cnt, dep1)
                                             np.savetxt(
-                                                './frames/depth/unproc_depvals%d.txt' % cnt, dTest)
+                                                './frames/depth/unproc_depvals%d.txt' % cnt, dTest1)
 
                                             dname2 = "./frames/depth2/frame%d.jpg" % cnt
                                             cv2.imwrite(dname2, dep2)
@@ -816,9 +829,9 @@ class RSControl:
                                             cv2.imwrite(dname2, dTest2)
 
                                             np.savetxt(
-                                                './frames/depth/thresh_depvals%d.txt' % cnt, dTest)
+                                                './frames/depth/thresh_depvals%d.txt' % cnt, dep2)
                                             np.savetxt(
-                                                './frames/depth/unproc_depvals%d.txt' % cnt, dTest)
+                                                './frames/depth/unproc_depvals%d.txt' % cnt, dTest2)
 
                                             if self.colBasDepSeg:
                                                 gname1 = "./frames/gray1/frame%d.jpg" % cnt

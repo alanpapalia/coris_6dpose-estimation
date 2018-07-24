@@ -19,6 +19,16 @@ cleaned_image_folder = './frames/seg/'
 
 # cv2.namedWindow('Test Window')
 
+def getCheckerboardCorners(grayImg, pSize):
+    ret, corners = cv2.findChessboardCorners(grayImg, pSize, cv2.CALIB_CB_ADAPTIVE_THRESH)
+    # ret, corners = cv2.findChessboardCorners(grayImg, pSize, cv2.CALIB_CB_ADAPTIVE_THRESH + cv2.CALIB_CB_NORMALIZE_IMAGE + cv2.CALIB_CB_FAST_CHECK)
+    # ret, corners = cv2.findChessboardCorners(grayImg, pSize, cv2.CALIB_CB_ADAPTIVE_THRESH + cv2.CALIB_CB_NORMALIZE_IMAGE + cv2.CALIB_CB_FAST_CHECK)
+    print corners
+    if (corners is not None):
+        print corners.shape
+        corners = corners[:,0,:]
+        np.savetxt('corners.txt', corners)
+    return ret, corners
 
 def clearTestImages(nCams):
     if nCams == 1:
