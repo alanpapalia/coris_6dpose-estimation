@@ -6,15 +6,21 @@ ptsFolder = './frames/single_camera/points/'
 pcd_folder = './frames/single_camera/PCD/'
 
 def generatePointClouds():
-    file_tracker = 1
+    file_tracker = 0
+    pcdArr = []
     for file_name in os.listdir(ptsFolder):
-        # while file_tracker % 10 != 0:
-        image_points = np.loadtxt(ptsFolder+file_name, dtype=np.float32)
-        pclObject = pcl.PointCloud()
-        pclObject.from_array(np.array(image_points, dtype=np.float32))
-        pclObject.to_file(pcd_folder + 'PCDFile' + str(file_tracker) + '.pcd')
-        pcl.save(pclObject, pcd_folder + 'PLYFile' + str(file_tracker) + '.ply')
-        file_tracker += 1
+        if file_tracker == 0:
+            pcdArr = np.loadtxt(ptsFolder+file_name, dtype=np.float32)
+            file_tracker += 1
+        else:
+            image_points = np.loadtxt(ptsFolder+file_name, dtype=np.float32) 
+            pcdArr = np.concatenate((pcdArr, image_points))        
+
+    pclObject = pcl.PointCloud()
+    pclObject.from_array(np.array(pcdArr, dtype=np.float32))
+    pclObject.to_file(pcd_folder + 'PCDFile' + str(file_tracker) + '.pcd')
+    pcl.save(pclObject, pcd_folder + 'PLYFile' + str(file_tracker) + '.ply')
+
 
 
 generatePointClouds()    
