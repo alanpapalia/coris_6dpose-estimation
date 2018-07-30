@@ -1,5 +1,6 @@
 """
-This is the main python script which calls all auxilliary scripts to perform
+This is the main python script which should be used manually
+for camera testing. It calls all auxilliary scripts to perform
 object tracking through the Intel RealSense ZR300 Cameras
 """
 
@@ -7,6 +8,7 @@ import logging
 import realsense_controls as rsc
 import image_controls as imControl
 import tracking
+
 
 
 logging.basicConfig(level=logging.INFO)

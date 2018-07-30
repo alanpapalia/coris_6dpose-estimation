@@ -28,15 +28,27 @@ def maskAllGrayInDir(grayFrameDir):
 
 def cannyDetectAllGrayInDir(grayFrameDir):
     for f in os.listdir(grayFrameDir):
-        print("Working on: " + f)
+        print("Working on: " +  grayFrameDir + f)
         img = cv2.imread(grayFrameDir+f, 0)
         # ret, img = cv2.threshold(img, 20, 255, cv2.THRESH_TOZERO)
         # ret, img = cv2.threshold(img, 220, 255, cv2.THRESH_TOZERO_INV)
         img = cv2.Canny(img, 70, 120)
 
         # img = imControl.maskSmallWhtSquares(img)
-        cv2.imwrite(grayFrameDir+f, img)
+        cv2.imwrite(grayFrameDir+"canny_"+f, img)
 
+
+def cannyDetectDepth(depthDir):
+    for f in os.listdir(depthDir):
+        print("Working on: " +  depthDir + f)
+        img = cv2.imread(depthDir+f, 0)
+        img = cv2.multiply(img, np.array([30]))
+        # ret, img = cv2.threshold(img, 20, 255, cv2.THRESH_TOZERO)
+        # ret, img = cv2.threshold(img, 220, 255, cv2.THRESH_TOZERO_INV)
+        img = cv2.Canny(img, 0, 255)
+
+        # img = imControl.maskSmallWhtSquares(img)
+        cv2.imwrite(depthDir+"canny_"+f, img)
 
 """ iterates through all grayscale
 images created and calculates/draws
@@ -68,15 +80,15 @@ def watershedGrayImg(gImg):
     return labels
 
 
-baseDir = './frames/single_camera/color/'
-tDir = raw_input("Which trial would you like to test? (t1/t2/t3/t4)\n")
-frameDir = baseDir+tDir+'/frameData/'
-grayFrameDir = baseDir+tDir+'/grayFrames/'
+# baseDir = './frames/single_camera/'
+# tDir = raw_input("Which trial would you like to test? (t1/t2/t3/t4)\n")
+# frameDir = baseDir+tDir+'/color/'
+# grayFrameDir = baseDir+tDir+'/gray/'
 
-imControl.makeGrayFrames(frameDir)
+# imControl.makeGrayFrames(frameDir)
 
 # cannyDetectAllGrayInDir(grayFrameDir)
-findCornersAllGrayInDir(grayFrameDir)
+# findCornersAllGrayInDir(grayFrameDir)
 # frames = imControl.getFrameList(frameDir)
 # bgSubs = imControl.runBGSubMOG2(frames, 0.5)
 

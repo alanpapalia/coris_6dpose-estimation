@@ -30,6 +30,42 @@ def getCheckerboardCorners(grayImg, pSize):
         np.savetxt('corners.txt', corners)
     return ret, corners
 
+"""
+    takes in 2D image in array form and a filename and writes to file
+    in form (pixVal, row, col)
+
+    Was used to validate depth image text files
+"""
+def labelImagePixels(img, fileName):
+    f = open(fileName, 'w')
+    rows, cols = img.shape
+    for r in xrange(rows):
+        line = ''
+        for c in xrange(cols):
+            line += '(' + (str)(img[r][c]) + ', ' +  (str)(r) + ', '  + (str)(c) + ') | '
+        f.write(line)
+
+"""
+    takes color and depth images and sets to black pixels of
+    colImg that correspond to targeted vals of depImg
+
+colImg - 3D Array of form (row, col, [red, green, blue])
+depImg - 2D Array of form (row, col, depth)
+thresh - thresholding depth value
+over - boolean value (if True set vals > thresh to 0, if False set vals < thresh to 0)
+"""
+def segColFromDepth(colImg, depImg, thresh, over):
+
+    if over:
+        rows, cols = np.nonzero(depImg > thresh)
+    else:
+        rows, cols = np.nonzero(depImg < thresh)
+
+    for i in xrange(len(rows)):
+        colImg[rows[i]][cols[i]] = [0, 0, 0]
+
+
+
 def clearTestImages(nCams):
     if nCams == 1:
         depth_folder = './frames/single_camera/depth/'
@@ -223,7 +259,7 @@ def runBGSubMOG2(frames, transition_threshold):
 
 """Method pulled from online
 
-[description]
+https://www.programcreek.com/python/example/89318/cv2.morphologyEx
 """
 
 
@@ -239,8 +275,7 @@ def denoise_foreground(img, fgmask):
 
 
 """ Make a new directory given filepath
-
-[description]
+if there is no existing directory
 """
 
 
@@ -259,7 +294,7 @@ directory
 
 
 def makeGrayFrames(frameDir):
-    grayDir = frameDir + "../grayFrames/"
+    grayDir = frameDir + "../gray/"
     makeFolder(grayDir)
     for f in os.listdir(frameDir):
         try:
@@ -367,3 +402,18 @@ def watershedSeg(img):
 
     markers = cv2.watershed(img, markers)
     img[markers == -1] = [255, 0, 0]
+
+# """
+# Takes formatted file location and generates 
+# a .ply file of XYZRGB format
+# """
+# def makeRGBXYZPly(fileLoc):
+#     lines = [line.rstrip('\n') for line in open('filename')]
+
+
+
+
+
+
+
+
