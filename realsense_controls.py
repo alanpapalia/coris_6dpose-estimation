@@ -670,10 +670,10 @@ class RSControl:
                                 if self.streamColor:
 
                                     color = cv2.cvtColor(dev.color, cv2.COLOR_RGB2BGR)
-                                    
+
                                     if self.streamDepth:
                                         imControl.segColFromDepth(color, dep, 0.88, True)
-                                        imControl.segColFromDepth(color, dep, 0.65, False)
+                                        # imControl.segColFromDepth(color, dep, 0.65, False)
 
                                     grayscale = cv2.cvtColor(
                                         color, cv2.COLOR_BGR2GRAY)
@@ -698,41 +698,47 @@ class RSControl:
                                 keyPress = cv2.waitKey(1) & 0xFF
                                 if keyPress == ord('q'):
                                     break
+                                if keyPress == ord('c'):
+                                    np.savetxt(
+                                        './frames/single_camera/depth/unproc_depvals%d.txt' % cnt, dep, newline=' ', fmt='%1.4f')
+                                    cname = "./frames/single_camera/color/frame%d.png" % cnt
+                                    cv2.imwrite(cname, color)
+
 
                                 # if saving frames is requested, save desired streams
-                                if saveRate and cnt % saveRate == 0:
-                                    if self.streamDepth:
-                                        # dep = (dev.dac * dev.depth_scale).astype(np.float32)
-                                        # ret, dep = cv2.threshold(dep, 1.7, 10, cv2.THRESH_TOZERO_INV)
+                                # if saveRate and cnt % saveRate == 0:
+                                #     if self.streamDepth:
+                                #         # dep = (dev.dac * dev.depth_scale).astype(np.float32)
+                                #         # ret, dep = cv2.threshold(dep, 1.7, 10, cv2.THRESH_TOZERO_INV)
 
 
-                                        np.savetxt(
-                                            './frames/single_camera/depth/unproc_depvals%d.txt' % cnt, dep, newline=' ', fmt='%1.4f')
-                                        arr = imControl.labelImagePixels(dep, './frames/single_camera/depth/comp_depvals%d.txt' % cnt)
-                                        # np.savetxt(
-                                        #     './frames/single_camera/depth/unproc_depvals%d.txt' % cnt, dep, fmt='%1.4f')
+                                #         np.savetxt(
+                                #             './frames/single_camera/depth/unproc_depvals%d.txt' % cnt, dep, newline=' ', fmt='%1.4f')
+                                #         arr = imControl.labelImagePixels(dep, './frames/single_camera/depth/comp_depvals%d.txt' % cnt)
+                                #         # np.savetxt(
+                                #         #     './frames/single_camera/depth/unproc_depvals%d.txt' % cnt, dep, fmt='%1.4f')
 
-                                        # ret, dTest = cv2.threshold(
-                                        #     dep, .9, 10, cv2.THRESH_TOZERO_INV)
-                                        # np.savetxt(
-                                        #     './frames/single_camera/depth/thresh_depvals%d.txt' % cnt, dTest, fmt='%1.4f')
+                                #         # ret, dTest = cv2.threshold(
+                                #         #     dep, .9, 10, cv2.THRESH_TOZERO_INV)
+                                #         # np.savetxt(
+                                #         #     './frames/single_camera/depth/thresh_depvals%d.txt' % cnt, dTest, fmt='%1.4f')
 
 
-                                    if self.streamColor:
-                                        cname = "./frames/single_camera/color/frame%d.png" % cnt
-                                        cv2.imwrite(cname, color)
+                                #     if self.streamColor:
+                                #         cname = "./frames/single_camera/color/frame%d.png" % cnt
+                                #         cv2.imwrite(cname, color)
 
-                                    if self.streamPts:
-                                        # ptname = "./frames/single_camera/points/frame%d.jpeg" % cnt
-                                        # cv2.imwrite(ptname, pts)
-                                        # xlayer = getArrayLayers(pts, 0)
-                                        # ylayer = getArrayLayers(pts, 1)
-                                        # zlayer = getArrayLayers(pts, 2)
-                                        xlayer, ylayer, zlayer = nonZeroData(pts)
-                                        # np.savetxt('./frames/points/xframe_vals%d.txt' % cnt, xlayer, fmt = '%.2f')
-                                        # np.savetxt('./frames/points/yframe_vals%d.txt' % cnt, ylayer, fmt = '%.2f')
-                                        # np.savetxt('./frames/points/zframe_vals%d.txt' % cnt, zlayer, fmt = '%.2f')
-                                        # make3DMap(xlayer, ylayer, zlayer)
+                                #     if self.streamPts:
+                                #         # ptname = "./frames/single_camera/points/frame%d.jpeg" % cnt
+                                #         # cv2.imwrite(ptname, pts)
+                                #         # xlayer = getArrayLayers(pts, 0)
+                                #         # ylayer = getArrayLayers(pts, 1)
+                                #         # zlayer = getArrayLayers(pts, 2)
+                                #         xlayer, ylayer, zlayer = nonZeroData(pts)
+                                #         # np.savetxt('./frames/points/xframe_vals%d.txt' % cnt, xlayer, fmt = '%.2f')
+                                #         # np.savetxt('./frames/points/yframe_vals%d.txt' % cnt, ylayer, fmt = '%.2f')
+                                #         # np.savetxt('./frames/points/zframe_vals%d.txt' % cnt, zlayer, fmt = '%.2f')
+                                #         # make3DMap(xlayer, ylayer, zlayer)
 
                     elif nCams == 2:
                         with serv.Device(device_id=0, streams=self.strms) as dev1, serv.Device(device_id=1, streams=self.strms) as  dev2:
