@@ -71,7 +71,7 @@ def getArrayLayers(arr, layer):
 
 """
 Takes 3D array and makes one layer into
-three 1D arrays of non-zero values 
+three 1D arrays of non-zero values
 
 Intended to take XYZ and return as thresholded
 XYZ data for pointclouds
@@ -88,15 +88,16 @@ def nonZeroData(arr):
     for r in xrange(nR):
         for c in xrange(nC):
             val = arr[r][c][2]
-            if val > 0.78 and val < 0.865:
+            #if val > 0.78 and val < 0.865:
+            if val != 0:
                 nzPts.append((arr[r][c][0], arr[r][c][1], arr[r][c][2]))
-                # ylayer.append()
-                # zlayer.append(arr[r][c][2])
+            # ylayer.append()
+            # zlayer.append(arr[r][c][2])
     return nzPts
 
 """
 Takes two 3D array and makes one layer into
-three 1D arrays of non-zero values 
+three 1D arrays of non-zero values
 
 Intended to take XYZ and BGR and return as thresholded
 XYZRGB data for pointclouds
@@ -174,6 +175,7 @@ class RSControl:
         self.findCorners = False
         self.XYZRGB = False
 
+
     """
     Add color to list of camera streams
     """
@@ -181,7 +183,7 @@ class RSControl:
     def addColorStream(self):
         self.strms.append(self.color_stream)
         self.streamColor = True
- 
+
     """
     Turn on RGBD imaging
     """
@@ -223,6 +225,7 @@ class RSControl:
             with pyrs.Service() as serv:
                 if nCams == 1:
                     with serv.Device(streams=self.strms) as dev:
+
 
                         dev.apply_ivcam_preset(0)
 
@@ -271,7 +274,7 @@ class RSControl:
                                 if self.findCorners:
                                     # (9,8) hardcoded based on test setup, is dimensions of board
                                     psize = (9,8)
-                                    ret, corners = imControl.getCheckerboardCorners(grayscale, psize)                        
+                                    ret, corners = imControl.getCheckerboardCorners(grayscale, psize)
                                     cv2.drawChessboardCorners(grayscale, psize, corners, ret)
 
                                 # cv2.namedWindow('ColorStream')
@@ -433,6 +436,10 @@ class RSControl:
                     if nCams == 1:
                         with serv.Device(streams=self.strms) as dev:
 
+                            offline.save_depth_intrinsics(dev, "./", "intrinsicsDepth.txt")
+                            offline.save_color_intrinsics(dev, "./", "intrinsicsColor.txt")
+                            # offline.save_depth_intrinsics(dev, "./", "intrinsicsDepth.txt")
+
                             dev.apply_ivcam_preset(0)
 
                             try:  # set custom gain/exposure values to obtain good depth image
@@ -493,7 +500,7 @@ class RSControl:
                                             dep, .9, 10, cv2.THRESH_TOZERO_INV)
                                         np.savetxt(
                                             './frames/single_camera/depth/thresh_depvals%d.txt' % cnt, dTest, fmt='%1.4f')
-                                        
+
 
                                         if self.colBasDepSeg:
                                             gname = "./frames/single_camera/gray/frame%d.jpg" % cnt
@@ -502,22 +509,17 @@ class RSControl:
                                             cv2.imwrite(gname, grayscale)
 
                                     if self.streamPts:
-                                        if self.XYZRGB:
-                                            print 'xyzrgb'
-                                            pts = dev.points                                            
-                                            rgbxyz = getThreshRGBD(color, pts)
-                                            if rgbxyz.size >= 6:
-                                                np.savetxt('./frames/single_camera/points/xyzrgb%d.txt' % cnt, rgbxyz, fmt = '%1.4f %1.4f %1.4f %i %i %i')
+                                        # if self.XYZRGB:
+                                        #     print 'xyzrgb'
+                                        #     pts = dev.points
+                                        #     rgbxyz = getThreshRGBD(color, pts)
+                                        #     if rgbxyz.size >= 6:
+                                        #         np.savetxt('./frames/single_camera/points/xyzrgb%d.txt' % cnt, rgbxyz, fmt = '%1.4f %1.4f %1.4f %i %i %i')
                                             # np.savetxt('./frames/single_camera/points/xyzrgb%d.txt' % cnt, rgbxyz, fmt = '%1.4f')
 
-                                        else:
-                                            pts = dev.points
-                                            # ptname = "./frames/single_camera/points/frame%d.jpeg" % cnt
-                      
-                                            pts = nonZeroData(pts)
-                                            # np.savetxt('./frames/single_camera/points/nonzeroPts%d.txt' % cnt, pts, fmt = '%1.4f')
-                                            np.savetxt('./frames/single_camera/points/nonzeroPts%d.txt' % cnt, pts, fmt = '%1.4f')
-                                            # make3DMap(xlayer, ylayer, zlayer)
+                                        pts = dev.points
+                                        pts = nonZeroData(pts)
+                                        np.savetxt('./frames/single_camera/points/nonzeroPts%d.txt' % cnt, pts, fmt = '%1.4f')
 
 
 
@@ -601,20 +603,14 @@ class RSControl:
                                             #     './frames/depth/unproc_depvals%d.txt' % cnt, dTest)
 
                                         if self.streamPts:
-                                            ptname1 = "./frames/two_camera/points1/frame%d.jpeg" % cnt
-                                            cv2.imwrite(ptname1, pts1)
-                                            ptname2 = "./frames/two_camera/points2/frame%d.jpeg" % cnt
-                                            cv2.imwrite(ptname2, pts2)
-                                            # xlayer = getArrayLayers(pts, 0)
-                                            # ylayer = getArrayLayers(pts, 1)
-                                            # zlayer = getArrayLayers(pts, 2)
-                                            # xlayer = nonZeroData(pts1, 0)
-                                            # ylayer = nonZeroData(pts1, 1)
-                                            # zlayer = nonZeroData(pts1, 2)
-                                            # np.savetxt('./frames/points/xframe_vals%d.txt' % cnt, xlayer, fmt = '%.2f')
-                                            # np.savetxt('./frames/points/yframe_vals%d.txt' % cnt, ylayer, fmt = '%.2f')
-                                            # np.savetxt('./frames/points/zframe_vals%d.txt' % cnt, zlayer, fmt = '%.2f')
-                                            # make3DMap(xlayer, ylayer, zlayer)
+                                            pts1 = dev1.points
+                                            pts1 = nonZeroData(pts1)
+                                            np.savetxt('./frames/single_camera/points/nonzeroPts1_%d.txt' % cnt, pts1, fmt = '%1.4f')
+                                            pts2 = dev2.points
+                                            pts2 = nonZeroData(pts2)
+                                            np.savetxt('./frames/single_camera/points/nonzeroPts2_%d.txt' % cnt, pts2, fmt = '%1.4f')
+
+
 
 
     def startStreamAndSave(self, saveRate, nCams):
@@ -654,8 +650,8 @@ class RSControl:
                                 # if want to stream depth images
                                 if self.streamDepth:
                                     dep = (dev.dac * dev.depth_scale).astype(np.float32)
-                                    # ret, dep = cv2.threshold(
-                                    #     dep, 0.88, 10, cv2.THRESH_TOZERO_INV)
+                                    ret, dep = cv2.threshold(
+                                        dep, 0.88, 10, cv2.THRESH_TOZERO_INV)
                                     cv2.namedWindow('DepthStream')
                                     cv2.imshow('DepthStream', dep)
 
@@ -672,8 +668,9 @@ class RSControl:
                                     color = cv2.cvtColor(dev.color, cv2.COLOR_RGB2BGR)
 
                                     if self.streamDepth:
+                                        # Eadom look here to control color segmentation
                                         imControl.segColFromDepth(color, dep, 0.88, True)
-                                        # imControl.segColFromDepth(color, dep, 0.65, False)
+                                        imControl.segColFromDepth(color, dep, 0.65, False)
 
                                     grayscale = cv2.cvtColor(
                                         color, cv2.COLOR_BGR2GRAY)
@@ -698,47 +695,33 @@ class RSControl:
                                 keyPress = cv2.waitKey(1) & 0xFF
                                 if keyPress == ord('q'):
                                     break
-                                if keyPress == ord('c'):
-                                    np.savetxt(
-                                        './frames/single_camera/depth/unproc_depvals%d.txt' % cnt, dep, newline=' ', fmt='%1.4f')
-                                    cname = "./frames/single_camera/color/frame%d.png" % cnt
-                                    cv2.imwrite(cname, color)
+                                # if keyPress == ord('c'):
+                                #     np.savetxt(
+                                #         './frames/single_camera/depth/unproc_depvals%d.txt' % cnt, dep, newline=' ', fmt='%1.4f')
+                                #     cname = "./frames/single_camera/color/frame%d.png" % cnt
+                                #     cv2.imwrite(cname, color)
 
 
                                 # if saving frames is requested, save desired streams
-                                # if saveRate and cnt % saveRate == 0:
-                                #     if self.streamDepth:
-                                #         # dep = (dev.dac * dev.depth_scale).astype(np.float32)
-                                #         # ret, dep = cv2.threshold(dep, 1.7, 10, cv2.THRESH_TOZERO_INV)
+                                if saveRate and cnt % saveRate == 0:
+                                    if self.streamDepth:
+                                        (x1, x2) = (10, 180)
+                                        (y1, y2) = (80, 150)
+
+                                        depCrop = dep[y1:y2, x1:x2]
+                                        np.savetxt('./frames/single_camera/depth/crop_depvals%d.txt' % cnt, depCrop, header=str(x2-x1)+" "+str(y2-y1)+"\n", comments='', newline=' ', fmt='%1.4f')
+                                        np.savetxt('./frames/single_camera/depth/unproc_depvals%d.txt' % cnt, dep, newline=' ', fmt='%1.4f')
 
 
-                                #         np.savetxt(
-                                #             './frames/single_camera/depth/unproc_depvals%d.txt' % cnt, dep, newline=' ', fmt='%1.4f')
-                                #         arr = imControl.labelImagePixels(dep, './frames/single_camera/depth/comp_depvals%d.txt' % cnt)
-                                #         # np.savetxt(
-                                #         #     './frames/single_camera/depth/unproc_depvals%d.txt' % cnt, dep, fmt='%1.4f')
+                                    if self.streamColor:
+                                        cname = "./frames/single_camera/color/frame%d.png" % cnt
+                                        cv2.imwrite(cname, color)
 
-                                #         # ret, dTest = cv2.threshold(
-                                #         #     dep, .9, 10, cv2.THRESH_TOZERO_INV)
-                                #         # np.savetxt(
-                                #         #     './frames/single_camera/depth/thresh_depvals%d.txt' % cnt, dTest, fmt='%1.4f')
+                                    if self.streamPts:
+                                            pts1 = dev1.points
+                                            pts1 = nonZeroData(pts1)
+                                            np.savetxt('./frames/single_camera/points/nonzeroPts%d.txt' % cnt, pts1, fmt = '%1.4f')
 
-
-                                #     if self.streamColor:
-                                #         cname = "./frames/single_camera/color/frame%d.png" % cnt
-                                #         cv2.imwrite(cname, color)
-
-                                #     if self.streamPts:
-                                #         # ptname = "./frames/single_camera/points/frame%d.jpeg" % cnt
-                                #         # cv2.imwrite(ptname, pts)
-                                #         # xlayer = getArrayLayers(pts, 0)
-                                #         # ylayer = getArrayLayers(pts, 1)
-                                #         # zlayer = getArrayLayers(pts, 2)
-                                #         xlayer, ylayer, zlayer = nonZeroData(pts)
-                                #         # np.savetxt('./frames/points/xframe_vals%d.txt' % cnt, xlayer, fmt = '%.2f')
-                                #         # np.savetxt('./frames/points/yframe_vals%d.txt' % cnt, ylayer, fmt = '%.2f')
-                                #         # np.savetxt('./frames/points/zframe_vals%d.txt' % cnt, zlayer, fmt = '%.2f')
-                                #         # make3DMap(xlayer, ylayer, zlayer)
 
                     elif nCams == 2:
                         with serv.Device(device_id=0, streams=self.strms) as dev1, serv.Device(device_id=1, streams=self.strms) as  dev2:
@@ -755,21 +738,11 @@ class RSControl:
                                 pass  # options are not available on all devices
 
                             cnt = 0
-                            last = time.time()
-                            smoothing = 0.9
-                            fps_smooth = 30
 
                             while True:
 
                                 cnt += 1
-                                if (cnt % 10) == 0:
-                                    now = time.time()
-                                    dt = now - last
-                                    fps = 10 / dt
-                                    fps_smooth = (fps_smooth * smoothing) + \
-                                        (fps * (1.0 - smoothing))
-                                    last = now
-
+                                
                                 dev1.wait_for_frames()
                                 dev2.wait_for_frames()
 
@@ -777,62 +750,24 @@ class RSControl:
                                 if self.streamColor:
 
                                     color1 = cv2.cvtColor(dev1.color, cv2.COLOR_RGB2BGR)
-                                    grayscale1 = cv2.cvtColor(
-                                        color1, cv2.COLOR_BGR2GRAY)
 
-                                    # grayscale = cv2.adaptiveThreshold(grayscale, 255, cv2.ADAPTIVE_THRESH_GAUSSIAN_C,
-                                    #                                   cv2.THRESH_BINARY, 17, 2)
                                     cv2.namedWindow('ColorStream1')
                                     cv2.imshow('ColorStream1', color1)
-                                    cv2.namedWindow('GrayStream1')
-                                    cv2.imshow('GrayStream1', grayscale1)
 
                                     color2 = cv2.cvtColor(dev2.color, cv2.COLOR_RGB2BGR)
-                                    grayscale2 = cv2.cvtColor(
-                                        color2, cv2.COLOR_BGR2GRAY)
-
-                                    # grayscale = cv2.adaptiveThreshold(grayscale, 255, cv2.ADAPTIVE_THRESH_GAUSSIAN_C,
-                                    #                                   cv2.THRESH_BINARY, 17, 2)
+                                    
                                     cv2.namedWindow('ColorStream2')
                                     cv2.imshow('ColorStream2', color2)
-                                    cv2.namedWindow('GrayStream2')
-                                    cv2.imshow('GrayStream2', grayscale2)
 
-                                    if self.waterSeg:
-                                        colSeg1 = color1
-                                        cv2.namedWindow('Watershed Seg1')
-                                        cv2.imshow('Watershed Seg1',
-                                                   imControl.watershedSegment(color1))
-
-                                        colSeg2 = color2
-                                        cv2.namedWindow('Watershed Seg2')
-                                        cv2.imshow('Watershed Seg2',
-                                                   imControl.watershedSegment(color2))
 
                                 # if want to stream depth images
                                 if self.streamDepth:
                                     dep1 = dev1.dac * dev1.depth_scale
-
-                                    #threshold depth to ignore beyond desired range
-                                    ret, dep1 = cv2.threshold(
-                                        dep1, 1.7, 10, cv2.THRESH_TOZERO_INV)
-
-                                    #clean depth image based on grayscale (ignore black)
-                                    segDepFromGrayscale(dep1, cv2.cvtColor(
-                                        dev1.color, cv2.COLOR_RGB2GRAY), 25)
-
+                                
                                     cv2.namedWindow('DepthStream1')
                                     cv2.imshow('DepthStream1', dep1)
 
                                     dep2 = dev2.dac * dev2.depth_scale
-
-                                    #threshold depth to ignore beyond desired range
-                                    ret, dep2 = cv2.threshold(
-                                        dep2, 1.7, 10, cv2.THRESH_TOZERO_INV)
-
-                                    #clean depth image based on grayscale (ignore black)
-                                    segDepFromGrayscale(dep2, cv2.cvtColor(
-                                        dev1.color, cv2.COLOR_RGB2GRAY), 25)
 
                                     cv2.namedWindow('DepthStream2')
                                     cv2.imshow('DepthStream2', dep2)
@@ -852,72 +787,36 @@ class RSControl:
                                 keyPress = cv2.waitKey(1) & 0xFF
                                 if keyPress == ord('q'):
                                     break
+                                elif keyPress == ord('c'):
+                                    if self.streamDepth:
+                                        np.savetxt(
+                                            './frames/two_camera/depth1/dep1_%d.txt' % cnt, dep1)
+                                        np.savetxt(
+                                            './frames/two_camera/depth2/dep2_%d.txt' % cnt, dep2)
+
+                                    if self.streamColor:
+                                        cname1 = "./frames/two_camera/color1/frame%d.jpg" % cnt
+                                        cv2.imwrite(cname1, color1)
+                                        cname2 = "./frames/two_camera/color2/frame%d.jpg" % cnt
+                                        cv2.imwrite(cname2, color2)
 
                                 # if saving frames is requested, save desired streams
                                 if saveRate and cnt % saveRate == 0:
                                     for x in xrange(1, nCams+1):
                                         if self.streamDepth:
-                                            dname1 = "./frames/depth1/frame%d.jpg" % cnt
-                                            cv2.imwrite(dname1, dep1)
-                                            ret, dTest1 = cv2.threshold(
-                                                dep1, 2, 10, cv2.THRESH_TOZERO_INV)
-                                            cv2.imwrite(dname, dTest1)
-
                                             np.savetxt(
-                                                './frames/depth/thresh_depvals%d.txt' % cnt, dep1)
+                                                './frames/two_camera/depth1/dep1_%d.txt' % cnt, dep1)
                                             np.savetxt(
-                                                './frames/depth/unproc_depvals%d.txt' % cnt, dTest1)
-
-                                            dname2 = "./frames/depth2/frame%d.jpg" % cnt
-                                            cv2.imwrite(dname2, dep2)
-                                            ret, dTest1 = cv2.threshold(
-                                                dep1, 2, 10, cv2.THRESH_TOZERO_INV)
-                                            cv2.imwrite(dname2, dTest2)
-
-                                            np.savetxt(
-                                                './frames/depth/thresh_depvals%d.txt' % cnt, dep2)
-                                            np.savetxt(
-                                                './frames/depth/unproc_depvals%d.txt' % cnt, dTest2)
-
-                                            if self.colBasDepSeg:
-                                                gname1 = "./frames/gray1/frame%d.jpg" % cnt
-                                                grayscale1 = cv2.cvtColor(
-                                                    dev1.color, cv2.COLOR_RGB2GRAY)
-                                                cv2.imwrite(gname1, grayscale1)
-                                                gname2 = "./frames/gray2/frame%d.jpg" % cnt
-                                                grayscale2 = cv2.cvtColor(
-                                                    dev2.color, cv2.COLOR_RGB2GRAY)
-                                                cv2.imwrite(gname2, grayscale2)
-
-
-                                            if self.colBasDepSeg:
-                                                gname1 = "./frames/gray1/frame%d.jpg" % cnt
-                                                grayscale1 = cv2.cvtColor(
-                                                    dev1.color, cv2.COLOR_RGB2GRAY)
-                                                cv2.imwrite(gname1, grayscale1)
+                                                './frames/two_camera/depth2/dep2_%d.txt' % cnt, dep2)
 
                                         if self.streamColor:
-                                            cname1 = "./frames/color1/frame%d.jpg" % cnt
-                                            gname1 = "./frames/gray1/frame%d.jpg" % cnt
+                                            cname1 = "./frames/two_camera/color1/frame%d.jpg" % cnt
                                             cv2.imwrite(cname1, color1)
-                                            cv2.imwrite(gname1, grayscale1)
-                                            cname2 = "./frames/color2/frame%d.jpg" % cnt
-                                            gname2 = "./frames/gray2/frame%d.jpg" % cnt
+                                            cname2 = "./frames/two_camera/color2/frame%d.jpg" % cnt
                                             cv2.imwrite(cname2, color2)
-                                            cv2.imwrite(gname2, grayscale2)
 
                                         if self.streamPts:
-                                            ptname1 = "./frames/points1/frame%d.jpeg" % cnt
-                                            cv2.imwrite(ptname1, pts1)
-                                            ptname2 = "./frames/points2/frame%d.jpeg" % cnt
-                                            cv2.imwrite(ptname2, pts2)
-                                            # xlayer = getArrayLayers(pts, 0)
-                                            # ylayer = getArrayLayers(pts, 1)
-                                            # zlayer = getArrayLayers(pts, 2)
-                                            # xlayer = nonZeroData(pts1, 0)
-                                            # ylayer = nonZeroData(pts1, 1)
-                                            # zlayer = nonZeroData(pts1, 2)
-                                            # np.savetxt('./frames/points/xframe_vals%d.txt' % cnt, xlayer, fmt = '%.2f')
-                                            # np.savetxt('./frames/points/yframe_vals%d.txt' % cnt, ylayer, fmt = '%.2f')
-                                            # np.savetxt('./frames/points/zframe_vals%d.txt' % cnt, zlayer, fmt = '%.2f')
-                                            # make3DMap(xlayer, ylayer, zlayer)
+                                            pts1 = nonZeroData(pts1)
+                                            np.savetxt('./frames/two_camera/points/nonzeroPts%d.txt' % cnt, pts1, fmt = '%1.4f')
+                                            pts2 = nonZeroData(pts2)
+                                            np.savetxt('./frames/two_camera/points/nonzeroPts%d.txt' % cnt, pts2, fmt = '%1.4f')

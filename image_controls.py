@@ -55,7 +55,7 @@ thresh - thresholding depth value
 over - boolean value (if True set vals > thresh to 0, if False set vals < thresh to 0)
 """
 def segColFromDepth(colImg, depImg, thresh, over):
-
+    return
     if over:
         rows, cols = np.nonzero(depImg > thresh)
     else:
