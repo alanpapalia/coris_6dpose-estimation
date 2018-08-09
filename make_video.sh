@@ -9,7 +9,7 @@
 echo "Enter the name of the trial number"
 read trialLabel
 
-nCams=1
+nCams=2
 
 streamColor='y'
 streamDepth='y'
@@ -68,7 +68,7 @@ if [[ nCams -eq 2 ]]; then
 	baseDir="./frames/two_camera/"
 
 	colorInDir=$baseDir"color"
-	grayInDir=$baseDir"/gray"
+	grayInDir=$baseDir"gray"
 	depthInDir=$baseDir"depth"
 	ptsInDir=$baseDir"points"
 
@@ -101,20 +101,20 @@ if [[ nCams -eq 2 ]]; then
 
 	python realsense_script.py $nCams $streamColor $streamDepth $streamPts $saveFrames $streamMode 
 
-	cp $colorInDir"1"*".jpg" $colorOutDir"1"  2>/dev/null
-	cp $colorInDir"1"*".png" $colorOutDir"1" 2>/dev/null
-	cp $grayInDir"1"*".jpg" $grayOutDir"1" 2>/dev/null
-	cp $depthInDir"1"*".txt" $depthOutDir"1" 2>/dev/null
-	cp $depthInDir"1"*".png" $depthOutDir"1" 2>/dev/null
-	cp $ptsInDir"1"*".txt" $ptsOutDir"1" 2>/dev/null
-	cp $ptsInDir"1"*".pts" $ptsOutDir"1" 2>/dev/null
-	cp $colorInDir"2"*".jpg" $colorOutDir"2"  2>/dev/null
-	cp $colorInDir"2"*".png" $colorOutDir"2" 2>/dev/null
-	cp $grayInDir"2"*".jpg" $grayOutDir"2" 2>/dev/null
-	cp $depthInDir"2"*".txt" $depthOutDir"2" 2>/dev/null
-	cp $depthInDir"2"*".png" $depthOutDir"2" 2>/dev/null
-	cp $ptsInDir"2"*".txt" $ptsOutDir"2" 2>/dev/null
-	cp $ptsInDir"2"*".pts" $ptsOutDir"2" 2>/dev/null
+	cp $colorInDir"1/"*".jpg" $colorOutDir"1"  2>/dev/null
+	cp $colorInDir"1/"*".png" $colorOutDir"1" 2>/dev/null
+	cp $grayInDir"1/"*".jpg" $grayOutDir"1" 2>/dev/null
+	cp $depthInDir"1/"*".txt" $depthOutDir"1" 2>/dev/null
+	cp $depthInDir"1/"*".png" $depthOutDir"1" 2>/dev/null
+	cp $ptsInDir"1/"*".txt" $ptsOutDir"1" 2>/dev/null
+	cp $ptsInDir"1/"*".pts" $ptsOutDir"1" 2>/dev/null
+	cp $colorInDir"2/"*".jpg" $colorOutDir"2"  2>/dev/null
+	cp $colorInDir"2/"*".png" $colorOutDir"2" 2>/dev/null
+	cp $grayInDir"2/"*".jpg" $grayOutDir"2" 2>/dev/null
+	cp $depthInDir"2/"*".txt" $depthOutDir"2" 2>/dev/null
+	cp $depthInDir"2/"*".png" $depthOutDir"2" 2>/dev/null
+	cp $ptsInDir"2/"*".txt" $ptsOutDir"2" 2>/dev/null
+	cp $ptsInDir"2/"*".pts" $ptsOutDir"2" 2>/dev/null
 fi
 
 # "Not enough arguments!!"
