@@ -229,51 +229,6 @@ def getFrameList(frameDir):
     return frames
 
 
-""" Runs background subtraction on images """
-
-
-def runBGSubMOG2(frames, transition_threshold):
-
-    fgbg = cv2.createBackgroundSubtractorMOG2()
-    prev = frames[0]
-    fgmask = fgbg.apply(prev)
-    cv2.namedWindow('original')
-    cv2.namedWindow('bg subtracted')
-    transitions = []
-
-    for (i, next) in enumerate(frames[1:]):
-        prev_gray = cv2.cvtColor(prev, cv2.COLOR_BGR2GRAY)
-        next_gray = cv2.cvtColor(next, cv2.COLOR_BGR2GRAY)
-        similarity_metric = compare_ssim(prev_gray, next_gray)
-        # print('prev/next similarity measure = %f' % similarity_metric)
-        # if similarity_metric < transition_threshold:
-        fgmask = fgbg.apply(next)
-        fgdn = denoise_foreground(next, fgmask)
-        transitions.append((1, fgdn))
-        # else:
-        #     fgmask = fgbg.apply(next)
-        #     transitions.append((0, None))
-        prev = next.copy()
-    return transitions
-
-
-"""Method pulled from online
-
-https://www.programcreek.com/python/example/89318/cv2.morphologyEx
-"""
-
-
-def denoise_foreground(img, fgmask):
-    img_bw = 255*(fgmask > 5).astype('uint8')
-    se1 = cv2.getStructuringElement(cv2.MORPH_RECT, (5, 5))
-    se2 = cv2.getStructuringElement(cv2.MORPH_RECT, (2, 2))
-    mask = cv2.morphologyEx(img_bw, cv2.MORPH_CLOSE, se1)
-    mask = cv2.morphologyEx(mask, cv2.MORPH_OPEN, se2)
-    mask = np.dstack([mask, mask, mask]) / 255
-    img_dn = img * mask
-    return img_dn
-
-
 """ Make a new directory given filepath
 if there is no existing directory
 """

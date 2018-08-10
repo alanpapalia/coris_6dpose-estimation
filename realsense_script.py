@@ -10,8 +10,6 @@ import realsense_controls as rsc
 import image_controls as imControl
 import tracking
 import sys
-import bgSubTesting as bgSub
-
 
 if len(sys.argv) != 7:
 	print "\n\nNot enough arguments!!"
@@ -105,4 +103,3 @@ else:
 	rs.startStreamAndSave(saveRate, nCams)
 
 imControl.makeGrayFrames("./frames/single_camera/color/")
-# bgSub.cannyDetectDepth("./frames/single_camera/depth/")

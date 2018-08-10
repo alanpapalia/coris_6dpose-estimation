@@ -16,8 +16,9 @@ streamDepth='y'
 streamPts='n'
 
 # how often to save frames 
-# (1 -> every frame, 2 -> every other frame, <= 0 -> no frames)
-saveFrames=1
+# (1 -> every frame, 2 -> every other frame, etc
+# if == 0 -> no frames)
+saveFrames=0
 
 # camera streaming mode
 # (1 -> stream only, 2 -> save images only, 3 -> stream and save imgs)
@@ -30,6 +31,11 @@ if [[ nCams -eq 1 ]]; then
 	grayInDir=$baseDir"/gray/"
 	depthInDir=$baseDir"depth/"
 	ptsInDir=$baseDir"points/"
+
+	rm -rf	$colorInDir*"/"*".jpg" $colorInDir*"/"*".txt" $colorInDir*"/"*".png"
+	rm -rf  $grayInDir*"/"*".jpg" $grayInDir*"/"*".txt" $grayInDir*"/"*".png"
+	rm -rf  $depthInDir*"/"*".jpg" $depthInDir*"/"*".txt" $depthInDir*"/"*".png"
+	rm -rf  $ptsInDir*"/"*".jpg" $ptsInDir*"/"*".txt" $ptsInDir*"/"*".png"
 
 	mkdir $colorInDir 2>/dev/null
 	mkdir $grayInDir 2>/dev/null
@@ -66,11 +72,18 @@ if [[ nCams -eq 1 ]]; then
 fi
 if [[ nCams -eq 2 ]]; then
 	baseDir="./frames/two_camera/"
+	mkdir $baseDir 2>/dev/null
+
 
 	colorInDir=$baseDir"color"
 	grayInDir=$baseDir"gray"
 	depthInDir=$baseDir"depth"
 	ptsInDir=$baseDir"points"
+
+	rm -rf	$colorInDir*"/"*".jpg" $colorInDir*"/"*".txt" $colorInDir*"/"*".png"
+	rm -rf  $grayInDir*"/"*".jpg" $grayInDir*"/"*".txt" $grayInDir*"/"*".png"
+	rm -rf  $depthInDir*"/"*".jpg" $depthInDir*"/"*".txt" $depthInDir*"/"*".png"
+	rm -rf  $ptsInDir*"/"*".jpg" $ptsInDir*"/"*".txt" $ptsInDir*"/"*".png"
 
 	mkdir $colorInDir"1" 2>/dev/null
 	mkdir $grayInDir"1" 2>/dev/null

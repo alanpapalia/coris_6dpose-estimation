@@ -7,8 +7,6 @@ __pycache__/
 
 #all saved frames, comment when want to share
 /frames/*
-/test_images/*
-/alan_test_images/*
 
 # C extensions
 *.so

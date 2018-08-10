@@ -1,4 +1,4 @@
-# coris_6dpose-estimation
+# realsense_data_collection
 
 Code written by Alan Papalia
 

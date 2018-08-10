@@ -22,6 +22,9 @@ import matplotlib.pyplot as plt
 from matplotlib import cm
 from matplotlib.ticker import LinearLocator, FormatStrFormatter
 
+
+
+
 def transformPCD(arr, T):
     pcd = np.array([[0] * 3] * len(arr), dtype=np.float32)
     for i in range(0, len(arr)):
@@ -35,52 +38,6 @@ def saveTransformedPCD(arr, fnameToWrite):
     fil.set_std_dev_mul_thresh (1.0)
     res = fil.filter()
     pcl.save(res, fnameToWrite)
-
-def convert_z16_to_bgr(frame):
-    '''Performs depth histogram normalization
-    This raw Python implementation is slow. See here for a fast implementation using Cython:
-    https://github.com/pupil-labs/pupil/blob/master/pupil_src/shared_modules/cython_methods/methods.pyx
-    '''
-    hist = np.histogram(frame, bins=0x10000)[0]
-    hist = np.cumsum(hist)
-    hist -= hist[0]
-    rgb_frame = np.empty(frame.shape[:2] + (3,), dtype=np.uint8)
-
-    zeros = frame == 0
-    non_zeros = frame != 0
-
-    f = hist[frame[non_zeros]] * 255 / hist[0xFFFF]
-    rgb_frame[non_zeros, 0] = 255 - f
-    rgb_frame[non_zeros, 1] = 0
-    rgb_frame[non_zeros, 2] = f
-    rgb_frame[zeros, 0] = 20
-    rgb_frame[zeros, 1] = 5
-    rgb_frame[zeros, 2] = 0
-
-    return rgb_frame
-
-
-"""
-Returns layers of 3D array
-
-arr - array passed in
-layer - index of desired layer
-"""
-
-
-def getArrayLayers(arr, layer):
-    nR, nC, nL = arr.shape
-    newArr = np.zeros(shape=(nR, nC))
-    for r in xrange(nR):
-        for c in xrange(nC):
-            val = arr[r][c][layer]
-            # if val >= 1:
-            # print ('layer%d: '%layer + str(arr[r][c][layer]))
-            if layer == 2 and val > 2.25:
-                newArr[r][c] = 0
-            else:
-                newArr[r][c] = arr[r][c][layer]
-    return newArr
 
 
 """
@@ -548,10 +505,10 @@ class RSControl:
                                 # if saving frames is requested, save desired streams
                                 if saveRate and cnt % saveRate == 0:
                                     if self.streamDepth:
-                                        depCrop = dep[self.cam1_y1:self.cam1_y2, self.cam1_x1:self.cam1_x2]
-                                        np.savetxt('./frames/single_camera/depth/crop_depvals%d.txt' % cnt, depCrop,
-                                            header=str(self.cam1_x2-self.cam1_x1)+" "+str(self.cam1_y2-self.cam1_y1)+"\n", comments='', newline=' ', fmt='%1.4f')
-                                        # np.savetxt('./frames/single_camera/depth/unproc_depvals%d.txt' % cnt, dep, newline=' ', fmt='%1.4f')
+                                        # depCrop = dep[self.cam1_y1:self.cam1_y2, self.cam1_x1:self.cam1_x2]
+                                        # np.savetxt('./frames/single_camera/depth/crop_depvals%d.txt' % cnt, depCrop,
+                                        #     header=str(self.cam1_x2-self.cam1_x1)+" "+str(self.cam1_y2-self.cam1_y1)+"\n", comments='', newline=' ', fmt='%1.4f')
+                                        np.savetxt('./frames/single_camera/depth/depth%d.txt' % cnt, dep, newline=' ', fmt='%1.4f')
 
 
                                     if self.streamColor:
@@ -610,16 +567,16 @@ class RSControl:
                                 # if want to stream depth images
                                 if self.streamDepth:
                                     dep1 = dev1.dac * dev1.depth_scale
-                                    depCrop1 = dep1[self.cam1_y1:self.cam1_y2, self.cam1_x1:self.cam1_x2]
+                                    # depCrop1 = dep1[self.cam1_y1:self.cam1_y2, self.cam1_x1:self.cam1_x2]
                                 
                                     cv2.namedWindow('DepthStream1')
-                                    cv2.imshow('DepthStream1', depCrop1)
+                                    cv2.imshow('DepthStream1', dep1)
 
                                     dep2 = dev2.dac * dev2.depth_scale
-                                    depCrop2 = dep2[self.cam2_y1:self.cam2_y2, self.cam2_x1:self.cam2_x2]
+                                    # depCrop2 = dep2[self.cam2_y1:self.cam2_y2, self.cam2_x1:self.cam2_x2]
 
                                     cv2.namedWindow('DepthStream2')
-                                    cv2.imshow('DepthStream2', depCrop2)
+                                    cv2.imshow('DepthStream2', dep2)
 
                                 # if want to stream point images
                                 if self.streamPts:
@@ -651,17 +608,18 @@ class RSControl:
 
                                 # if saving frames is requested, save desired streams
                                 if saveRate and cnt % saveRate == 0:
+                                    print saveRate
                                     for x in xrange(1, nCams+1):
                                         if self.streamDepth:
-                                            np.savetxt('./frames/two_camera/depth1/crop_depvals1_%d.txt' % cnt, depCrop1,
-                                                header=str(self.cam1_x2-self.cam1_x1)+" "+str(self.cam1_y2-self.cam1_y1)+"\n", comments='', newline=' ', fmt='%1.4f')
-                                            np.savetxt('./frames/two_camera/depth2/crop_depvals2_%d.txt' % cnt, depCrop2,
-                                                header=str(self.cam2_x2-self.cam2_x1)+" "+str(self.cam2_y2-self.cam2_y1)+"\n", comments='', newline=' ', fmt='%1.4f')
+                                            # np.savetxt('./frames/two_camera/depth1/crop_depvals1_%d.txt' % cnt, depCrop1,
+                                            #     header=str(self.cam1_x2-self.cam1_x1)+" "+str(self.cam1_y2-self.cam1_y1)+"\n", comments='', newline=' ', fmt='%1.4f')
+                                            # np.savetxt('./frames/two_camera/depth2/crop_depvals2_%d.txt' % cnt, depCrop2,
+                                            #     header=str(self.cam2_x2-self.cam2_x1)+" "+str(self.cam2_y2-self.cam2_y1)+"\n", comments='', newline=' ', fmt='%1.4f')
 
-                                            # np.savetxt(
-                                            #     './frames/two_camera/depth1/dep1_%d.txt' % cnt, dep1)
-                                            # np.savetxt(
-                                            #     './frames/two_camera/depth2/dep2_%d.txt' % cnt, dep2)
+                                            np.savetxt(
+                                                './frames/two_camera/depth1/dep1_%d.txt' % cnt, dep1)
+                                            np.savetxt(
+                                                './frames/two_camera/depth2/dep2_%d.txt' % cnt, dep2)
 
                                         if self.streamColor:
                                             cname1 = "./frames/two_camera/color1/frame%d.jpg" % cnt
