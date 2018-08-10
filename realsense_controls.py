@@ -548,20 +548,20 @@ class RSControl:
                                 if self.streamColor:
 
                                     color1 = cv2.cvtColor(dev1.color, cv2.COLOR_RGB2BGR)
-                                    cropColor1 = color1[self.cam1_y1:self.cam1_y2, self.cam1_x1:self.cam1_x2]
 
                                     cv2.namedWindow('ColorStream1')
                                     cv2.imshow('ColorStream1', color1)
-                                    cv2.namedWindow('CroppedColor1')
-                                    cv2.imshow('CroppedColor1', cropColor1)
+                                    # cropColor1 = color1[self.cam1_y1:self.cam1_y2, self.cam1_x1:self.cam1_x2]
+                                    # cv2.namedWindow('CroppedColor1')
+                                    # cv2.imshow('CroppedColor1', cropColor1)
 
                                     color2 = cv2.cvtColor(dev2.color, cv2.COLOR_RGB2BGR)
-                                    cropColor2 = color2[self.cam2_y1:self.cam2_y2, self.cam2_x1:self.cam2_x2]
 
                                     cv2.namedWindow('ColorStream2')
                                     cv2.imshow('ColorStream2', color2)
-                                    cv2.namedWindow('CroppedColor2')
-                                    cv2.imshow('CroppedColor2', cropColor2)
+                                    # cropColor2 = color2[self.cam2_y1:self.cam2_y2, self.cam2_x1:self.cam2_x2]
+                                    # cv2.namedWindow('CroppedColor2')
+                                    # cv2.imshow('CroppedColor2', cropColor2)
 
 
                                 # if want to stream depth images
