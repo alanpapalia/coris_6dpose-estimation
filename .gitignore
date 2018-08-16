@@ -6,7 +6,8 @@ __pycache__/
 *$py.class
 
 #all saved frames, comment when want to share
-/frames/single*
+/frames/one*
+/frames/two*
 
 # C extensions
 *.so
