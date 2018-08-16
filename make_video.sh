@@ -6,7 +6,7 @@
 
 
 
-echo "Enter the name of the trial number"
+echo "Enter the name of the trial"
 read trialLabel
 
 nCams=2
@@ -18,11 +18,13 @@ streamPts='n'
 # how often to save frames 
 # (1 -> every frame, 2 -> every other frame, etc
 # if == 0 -> no frames)
-saveFrames=0
+saveFrames=1
 
 # camera streaming mode
 # (1 -> stream only, 2 -> save images only, 3 -> stream and save imgs)
-streamMode=3 	
+streamMode=1 	
+
+trap "echo CTRL+C disabled. Please exit by pressing 'q'" INT TSTP
 
 if [[ nCams -eq 1 ]]; then
 	baseDir="./frames/single_camera/"
@@ -69,6 +71,7 @@ if [[ nCams -eq 1 ]]; then
 	cp $depthInDir*".png" $depthOutDir 2>/dev/null
 	cp $ptsInDir*".txt" $ptsOutDir 2>/dev/null
 	cp $ptsInDir*".pts" $ptsOutDir 2>/dev/null
+	cp $ptsInDir*".ply" $ptsOutDir 2>/dev/null
 fi
 if [[ nCams -eq 2 ]]; then
 	baseDir="./frames/two_camera/"
@@ -79,11 +82,13 @@ if [[ nCams -eq 2 ]]; then
 	grayInDir=$baseDir"gray"
 	depthInDir=$baseDir"depth"
 	ptsInDir=$baseDir"points"
+	timeInDir=$baseDir"time"
 
 	rm -rf	$colorInDir*"/"*".jpg" $colorInDir*"/"*".txt" $colorInDir*"/"*".png"
 	rm -rf  $grayInDir*"/"*".jpg" $grayInDir*"/"*".txt" $grayInDir*"/"*".png"
 	rm -rf  $depthInDir*"/"*".jpg" $depthInDir*"/"*".txt" $depthInDir*"/"*".png"
 	rm -rf  $ptsInDir*"/"*".jpg" $ptsInDir*"/"*".txt" $ptsInDir*"/"*".png"
+	rm -rf  $timeInDir*".txt"
 
 	mkdir $colorInDir"1" 2>/dev/null
 	mkdir $grayInDir"1" 2>/dev/null
@@ -93,6 +98,7 @@ if [[ nCams -eq 2 ]]; then
 	mkdir $grayInDir"2" 2>/dev/null
 	mkdir $depthInDir"2" 2>/dev/null
 	mkdir $ptsInDir"2" 2>/dev/null
+	mkdir $timeInDir 2>/dev/null
 	mkdir $baseDir"trials/" 2>/dev/null
 
 	vidName="output.mp4"
@@ -100,7 +106,8 @@ if [[ nCams -eq 2 ]]; then
 	colorOutDir=$baseDir"trials/"$trialLabel"/color"
 	grayOutDir=$baseDir"trials/"$trialLabel"/gray"
 	depthOutDir=$baseDir"trials/"$trialLabel"/depth"
-	ptsOutDir=$baseDir"trials/"$trialLabel"/pts"
+	ptsOutDir=$baseDir"trials/"$trialLabel"/points"
+	timeOutDir=$baseDir"trials/"$trialLabel"/time"
 
 	mkdir $baseDir"trials/"$trialLabel 2>/dev/null
 	mkdir $colorOutDir"1" 2>/dev/null
@@ -111,6 +118,7 @@ if [[ nCams -eq 2 ]]; then
 	mkdir $grayOutDir"2" 2>/dev/null
 	mkdir $depthOutDir"2" 2>/dev/null
 	mkdir $ptsOutDir"2" 2>/dev/null
+	mkdir $timeOutDir 2>/dev/null
 
 	python realsense_script.py $nCams $streamColor $streamDepth $streamPts $saveFrames $streamMode 
 
@@ -121,6 +129,7 @@ if [[ nCams -eq 2 ]]; then
 	cp $depthInDir"1/"*".png" $depthOutDir"1" 2>/dev/null
 	cp $ptsInDir"1/"*".txt" $ptsOutDir"1" 2>/dev/null
 	cp $ptsInDir"1/"*".pts" $ptsOutDir"1" 2>/dev/null
+	cp $ptsInDir"1/"*".ply" $ptsOutDir"1" 2>/dev/null
 	cp $colorInDir"2/"*".jpg" $colorOutDir"2"  2>/dev/null
 	cp $colorInDir"2/"*".png" $colorOutDir"2" 2>/dev/null
 	cp $grayInDir"2/"*".jpg" $grayOutDir"2" 2>/dev/null
@@ -128,26 +137,8 @@ if [[ nCams -eq 2 ]]; then
 	cp $depthInDir"2/"*".png" $depthOutDir"2" 2>/dev/null
 	cp $ptsInDir"2/"*".txt" $ptsOutDir"2" 2>/dev/null
 	cp $ptsInDir"2/"*".pts" $ptsOutDir"2" 2>/dev/null
+	cp $ptsInDir"2/"*".ply" $ptsOutDir"2" 2>/dev/null
+	cp $timeInDir"/"*".txt" $timeOutDir 2>/dev/null
+
 fi
 
-# "Not enough arguments!!"
-# "1) number of cameras (0/1/2)"
-# "2) How many cameras are you using? (0/1/2)"
-# "3) Do you want to stream color data? (y/n)"
-# "4) Do you want to stream depth data? (y/n)"
-# "5) Do you want to stream point data? (y/n)"
-# "6) Frame save rate? (0 for no save)"
-# "7) Camera Mode\n	(1) Stream Video\n   (2) Save Feed\n   (3) Stream Video and Save Feed"
-
-# makes movie from color images, assumes 30 fps
-# sudo ffmpeg -framerate 30 -i $colorInDir"frame%00d.jpg" -c:v libx264 -profile:v high -crf 20 -pix_fmt yuv420p $baseDir$trialLabel"/"$vidName
-
-
-# uncomment if want to generate xyz pointcloud
-# python pcl_testing.py $ptsOutDir
-
-# uncomment if want to generate xyzrgb pointcloud
-# python3 makeRGBXYZ.py $ptsOutDir"/xyzrgb3.txt"
-
-# sudo rm -f "./frames/single_camera/"*
-# sudo rm -f "./frames/two_camera/"*

@@ -97,9 +97,8 @@ except Exception as e:
 if camMode == 1:
 	rs.startStreams(saveRate, nCams)
 elif camMode == 2:
-	print "save Feed"
 	rs.saveFeed(saveRate, nCams)
 else:
 	rs.startStreamAndSave(saveRate, nCams)
 
-imControl.makeGrayFrames("./frames/single_camera/color/")
+# imControl.makeGrayFrames("./frames/single_camera/color/")
