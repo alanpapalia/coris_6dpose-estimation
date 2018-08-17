@@ -37,10 +37,10 @@ def transformPCD(arr, T):
 def savePCD(arr, fnameToWrite):
     p = pcl.PointCloud()
     p.from_array(np.array(arr,  dtype=np.float32))
-    # fil = p.make_statistical_outlier_filter()
-    # fil.set_mean_k (10)
-    # fil.set_std_dev_mul_thresh (1.0)
-    # res = fil.filter()
+    fil = p.make_statistical_outlier_filter()
+    fil.set_mean_k (10)
+    fil.set_std_dev_mul_thresh (1.0)
+    res = fil.filter()
     pcl.save(p, fnameToWrite)
 
 
@@ -367,11 +367,9 @@ class RSControl:
                                         color = cv2.cvtColor(dev.color, cv2.COLOR_RGB2BGR)
                                         cname = "./frames/single_camera/color/frame%d.jpg" % cnt
                                         cv2.imwrite(cname, color)
-
                                     if self.streamDepth:
                                         np.savetxt(
                                             './frames/single_camera/depth/unproc_depvals%d.txt' % cnt, dep, fmt='%1.4f')
-
                                     if self.streamPts:
                                         pts = dev.points
                                         pts = nonZeroData(pts)
@@ -401,33 +399,25 @@ class RSControl:
                             d = datetime.utcnow()
                             f.write(str(d) + ", " + str(time.time()) + "\n")
 
-                            cnt = 0
+                            frame = 0
                             while True:
 
                                 lines.append(str(time.time()) + "\n")
                                 dev1.wait_for_frames()
                                 dev2.wait_for_frames()
 
-                                cnt += 1
+                                frame += 1
                                 # if saving frames is requested, save desired streams
-                                if saveRate and cnt % saveRate == 0:
+                                if saveRate and frame % saveRate == 0:
                                     if self.streamColor:
-                                        col1List.append(dev1.color)
-                                        col2List.append(dev2.color)
-
+                                        col1List.append(color1)
+                                        col2List.append(color2)
                                     if self.streamDepth:
-                                        dep1List.append(dev1.dac)
-                                        dep2List.append(dev2.dac)
-
+                                        dep1List.append(dep1)
+                                        dep2List.append(dep2)
                                     if self.streamPts:
-                                        pts1 = dev1.points
-                                        pts1 = nonZeroData(pts1)
-                                        savePCD(pts1, "./frames/two_camera/points1/points1_%d.ply" % cnt)
-                                        #np.savetxt('./frames/two_camera/points/nonzeroPts1_%d.txt' % cnt, pts1, fmt = '%1.4f')
-                                        pts2 = dev2.points
-                                        pts2 = nonZeroData(pts2)
-                                        savePCD(pts2, "./frames/two_camera/points2/points2_%d.ply" % cnt)
-                                        #np.savetxt('./frames/two_camera/points/nonzeroPts2_%d.txt' % cnt, pts2, fmt = '%1.4f')
+                                        pts1List.append(pts1)
+                                        pts2List.append(pts2)
 
                                 # wait and check if 'q' was pressed. If so, end streams
                                 keyPress = cv2.waitKey(1) & 0xFF
@@ -436,20 +426,22 @@ class RSControl:
                                     ds1 = dev1.depth_scale
                                     ds2 = dev2.depth_scale
                                     cnt = 0
-                                    for x in xrange(len(col1List)):
-                                        cnt += 1
-                                        if self.streamColor:
-                                            color1 = cv2.cvtColor(col1List[x], cv2.COLOR_RGB2BGR)
-                                            color2 = cv2.cvtColor(col2List[x], cv2.COLOR_RGB2BGR)
-                                            cv2.imwrite("./frames/two_camera/color1/frame%d.jpg" % cnt, color1)
-                                            cv2.imwrite("./frames/two_camera/color2/frame%d.jpg" % cnt, color2)
-                                        if self.streamDepth:
-                                            dep1 = dep1List[x] * ds1
-                                            dep2 = dep2List[x] * ds2
-                                            np.savetxt(
-                                                './frames/two_camera/depth1/dep1_%d.txt' % cnt, dep1)
-                                            np.savetxt(
-                                                './frames/two_camera/depth2/dep2_%d.txt' % cnt, dep2)
+                                    numSaved = max(len(col1List), len(dep1List), len(pts1List))
+                                    if (numSaved):
+                                        for x in xrange(numSaved):
+                                            cnt += 1
+                                            if self.streamColor:
+                                                color1 = cv2.cvtColor(col1List[x], cv2.COLOR_RGB2BGR)
+                                                color2 = cv2.cvtColor(col2List[x], cv2.COLOR_RGB2BGR)
+                                                cv2.imwrite("./frames/two_camera/color1/frame%d.jpg" % cnt, color1)
+                                                cv2.imwrite("./frames/two_camera/color2/frame%d.jpg" % cnt, color2)
+                                            if self.streamDepth:
+                                                dep1 = dep1List[x] * ds1
+                                                dep2 = dep2List[x] * ds2
+                                                np.savetxt(
+                                                    './frames/two_camera/depth1/dep1_%d.txt' % cnt, dep1)
+                                                np.savetxt(
+                                                    './frames/two_camera/depth2/dep2_%d.txt' % cnt, dep2)
                                     break
                                 elif keyPress == ord('c') and saveRate == 0:
                                     if self.streamColor:
@@ -484,75 +476,70 @@ class RSControl:
                             except pyrs.RealsenseError:
                                 pass  # options are not available on all devices
 
+                            if self.streamColor:
+                                colList = []
+                            if self.streamDepth:
+                                depList = []
+                            if self.streamPts:
+                                ptsList = []
+
+
                             cnt = 0
                             while True:
-
                                 cnt += 1
-
                                 dev.wait_for_frames()
 
-
-                                # if want to stream depth images
+                                # Show desired streams
                                 if self.streamDepth:
                                     dep = (dev.dac * dev.depth_scale)
                                     cv2.namedWindow('DepthStream')
                                     cv2.imshow('DepthStream', dep)
-                                # if want to stream point images
                                 if self.streamPts:
                                     pts = dev.points
                                     # pts = cv2.cvtColor(pts, cv2.COLOR_XYZ2BGR)
                                     cv2.namedWindow('PointStream')
                                     cv2.imshow('PointStream', pts)
-                                # if want to stream color images
                                 if self.streamColor:
-
                                     color = cv2.cvtColor(dev.color, cv2.COLOR_RGB2BGR)
                                     cv2.namedWindow('ColorStream')
                                     cv2.imshow('ColorStream', color)
-
 
                                 # wait and check if 'q' was pressed. If so, end streams
                                 keyPress = cv2.waitKey(1) & 0xFF
                                 if keyPress == ord('q'):
                                     f.writelines(lines)
-                                    ds = dev.depth_scale
                                     cnt = 0
-                                    for x in xrange(len(colList)):
-                                        cnt += 1
-                                        if self.streamColor:
-                                            color = cv2.cvtColor(colList[x], cv2.COLOR_RGB2BGR)
-                                            cv2.imwrite("./frames/one_camera/color/frame%d.jpg" % cnt, color)
-                                        if self.streamDepth:
-                                            dep = depList[x] * ds
-                                            np.savetxt(
-                                                './frames/one_camera/depth/dep_%d.txt' % cnt, dep)
+                                    numSaved = max(len(colList), len(depList), len(ptsList))
+                                    if (numSaved):
+                                        for x in xrange(numSaved):
+                                            cnt += 1
+                                            if self.streamColor:
+                                                color = cv2.cvtColor(colList[x], cv2.COLOR_RGB2BGR)
+                                                cv2.imwrite("./frames/one_camera/color/frame%d.jpg" % cnt, color)
+                                            if self.streamDepth:
+                                                dep = depList[x]
+                                                np.savetxt(
+                                                    './frames/one_camera/depth/dep_%d.txt' % cnt, dep)
+                                            if self.streamPts:
+                                                pts = nonZeroData(ptsList[x])
+                                                savePCD(pts, "./frames/one_camera/points/points_%d.ply" % cnt)
                                     break
                                 elif keyPress == ord('c') and saveRate == 0:
                                     if self.streamColor:
-                                        colList.append(dev.color)
-
+                                        colList.append(color)
                                     if self.streamDepth:
-                                        depList.append(dev.dac)
-
+                                        depList.append(dep)
                                     if self.streamPts:
-                                        pts = dev.points
-                                        pts1 = nonZeroData(pts)
+                                        ptsList.append(pts)
 
                                 # if saving frames is requested, save desired streams
                                 if saveRate and cnt % saveRate == 0:
-                                    if self.streamDepth:
-                                        np.savetxt('./frames/single_camera/depth/depth%d.txt' % cnt, dep, newline=' ', fmt='%1.4f')
-
-
                                     if self.streamColor:
-                                        cname = "./frames/single_camera/color/frame%d.png" % cnt
-                                        cv2.imwrite(cname, color)
-
+                                        colList.append(color)
+                                    if self.streamDepth:
+                                        depList.append(dep)
                                     if self.streamPts:
-                                            pts1 = dev1.points
-                                            pts1 = nonZeroData(pts1)
-                                            np.savetxt('./frames/single_camera/points/nonzeroPts%d.txt' % cnt, pts1, fmt = '%1.4f')
-
+                                        ptsList.append(pts)
                     elif nCams == 2:
                         with serv.Device(device_id=0, streams=self.strms) as dev1, serv.Device(device_id=1, streams=self.strms) as  dev2:
 
@@ -567,7 +554,7 @@ class RSControl:
                             except pyrs.RealsenseError:
                                 pass  # options are not available on all devices
 
-                            cnt = 0
+                            frame = 0
                             f = open("./frames/two_camera/time/times.txt", "w")
                             lines = []
                             col1List = []
@@ -599,8 +586,7 @@ class RSControl:
                             while True:                            
                                 dev1.wait_for_frames()
                                 dev2.wait_for_frames()
-                                lines.append(str(time.time()) + "\n")
-
+                                frame += 1
                                 # Show desired streams
                                 if self.streamColor:
                                     color1 = cv2.cvtColor(dev1.color, cv2.COLOR_RGB2BGR)
@@ -625,30 +611,33 @@ class RSControl:
                                 if keyPress == ord('q'):
                                     f.writelines(lines)
                                     cnt = 0
-                                    for x in xrange(len(col1List)):
-                                        cnt += 1
-                                        if self.streamColor:
-                                            color1 = col1List[x]
-                                            color2 = col2List[x]
-                                            cv2.imwrite("./frames/two_camera/color1/frame%d.jpg" % cnt, color1)
-                                            cv2.imwrite("./frames/two_camera/color2/frame%d.jpg" % cnt, color2)
-                                        if self.streamDepth:
-                                            dep1 = dep1List[x]
-                                            dep2 = dep2List[x]
-                                            np.savetxt(
-                                                './frames/two_camera/depth1/dep1_%d.txt' % cnt, dep1)
-                                            np.savetxt(
-                                                './frames/two_camera/depth2/dep2_%d.txt' % cnt, dep2)
-                                        if self.streamPts:
-                                            pts1 = pts1List[x]
-                                            pts2 = pts2List[x]
-                                            pts1 = nonZeroData(pts1)
-                                            savePCD(pts1, "./frames/two_camera/points1/points1_%d.ply" % cnt)
-                                            pts2 = nonZeroData(pts2)
-                                            savePCD(pts2, "./frames/two_camera/points2/points2_%d.ply" % cnt)
+                                    numSaved = max(len(col1List), len(dep1List), len(pts1List))
+                                    if (numSaved):
+                                        for x in xrange(numSaved):
+                                            cnt += 1
+                                            if self.streamColor:
+                                                color1 = col1List[x]
+                                                color2 = col2List[x]
+                                                cv2.imwrite("./frames/two_camera/color1/frame%d.jpg" % cnt, color1)
+                                                cv2.imwrite("./frames/two_camera/color2/frame%d.jpg" % cnt, color2)
+                                            if self.streamDepth:
+                                                dep1 = dep1List[x]
+                                                dep2 = dep2List[x]
+                                                np.savetxt(
+                                                    './frames/two_camera/depth1/dep1_%d.txt' % cnt, dep1)
+                                                np.savetxt(
+                                                    './frames/two_camera/depth2/dep2_%d.txt' % cnt, dep2)
+                                            if self.streamPts:
+                                                pts1 = pts1List[x]
+                                                pts2 = pts2List[x]
+                                                pts1 = nonZeroData(pts1)
+                                                savePCD(pts1, "./frames/two_camera/points1/points1_%d.ply" % cnt)
+                                                pts2 = nonZeroData(pts2)
+                                                savePCD(pts2, "./frames/two_camera/points2/points2_%d.ply" % cnt)
                                     break
                                 # If 'c' was pressed and not continuous saving, save current frames
                                 elif keyPress == ord('c') and saveRate == 0:
+                                    lines.append(str(time.time()) + "\n")
                                     if self.streamColor:
                                         col1List.append(color1)
                                         col2List.append(color2)
@@ -659,7 +648,8 @@ class RSControl:
                                         pts1List.append(pts1)
                                         pts2List.append(pts2)
                                 # if saving frames is requested, save desired streams
-                                if saveRate and cnt % saveRate == 0:
+                                if saveRate and frame % saveRate == 0:
+                                    lines.append(str(time.time()) + "\n")
                                     if self.streamColor:
                                         col1List.append(color1)
                                         col2List.append(color2)

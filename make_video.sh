@@ -18,11 +18,13 @@ streamPts='n'
 # how often to save frames 
 # (1 -> every frame, 2 -> every other frame, etc
 # if == 0 -> no frames)
-saveFrames=1
+# Recordings are taken at 30 fps
+# so saveFrames=5 -> 30/5 = 6 fps saved
+saveFrames=5
 
 # camera streaming mode
 # (1 -> stream only, 2 -> save images only, 3 -> stream and save imgs)
-streamMode=1 	
+streamMode=3	
 
 trap "echo CTRL+C disabled. Please exit by pressing 'q'" INT TSTP
 
@@ -87,7 +89,7 @@ if [[ nCams -eq 2 ]]; then
 	rm -rf	$colorInDir*"/"*".jpg" $colorInDir*"/"*".txt" $colorInDir*"/"*".png"
 	rm -rf  $grayInDir*"/"*".jpg" $grayInDir*"/"*".txt" $grayInDir*"/"*".png"
 	rm -rf  $depthInDir*"/"*".jpg" $depthInDir*"/"*".txt" $depthInDir*"/"*".png"
-	rm -rf  $ptsInDir*"/"*".jpg" $ptsInDir*"/"*".txt" $ptsInDir*"/"*".png"
+	rm -rf  $ptsInDir*"/"*".ply" $ptsInDir*"/"*".txt" $ptsInDir*"/"*".png"
 	rm -rf  $timeInDir*".txt"
 
 	mkdir $colorInDir"1" 2>/dev/null
