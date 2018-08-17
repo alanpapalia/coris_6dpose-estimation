@@ -14,20 +14,19 @@ from pyrealsense import offline
 import image_controls as imControl
 import pcl
 import time
-
 from datetime import datetime
 import calendar
-
 from mpl_toolkits.mplot3d import axes3d
 import matplotlib.pyplot as plt
 from matplotlib import cm
 from matplotlib.ticker import LinearLocator, FormatStrFormatter
-
+from collections import deque
 import signal
+import multiprocessing
+
 
 
 # Array should be in form of 3 x N
-
 def transformPCD(arr, T):
     pcd = np.array([[0] * 3] * len(arr), dtype=np.float32)
     for i in range(0, len(arr)):
@@ -43,9 +42,47 @@ def savePCD(arr, fnameToWrite):
     res = fil.filter()
     pcl.save(p, fnameToWrite)
 
+def colWriter(colQueue, trialName):
+    while True:
+        item = colQueue.get()
+        img = item[0]
+        frameNum = item[1]
+        camNum = item[2]
+        if camNum == 0:
+            return
+        cv2.imwrite("./frames/two_camera/trials/" + trialName + "/color%d/frame%d.jpg" % (camNum, frameNum), img)
+
+def depWriter(depQueue, trialName):
+    while True:
+        item = depQueue.get()
+        img = item[0]
+        frameNum = item[1]
+        camNum = item[2]
+        if camNum == 0:
+            return
+        np.savetxt("./frames/two_camera/trials/" + trialName + "/depth%d/dep%d_%d.txt" % (camNum, camNum, frameNum), img)
+
+def ptsWriter(ptsQueue, trialName):
+    while True:
+        item = ptsQueue.get()
+        img = item[0]
+        frameNum = item[1]
+        camNum = item[2]
+        if camNum == 0:
+            return
+        pts = nonZeroData(img)
+        savePCD(img, "./frames/two_camera/trials/" + trialName + "/points%d/points%d_%d.ply" % (camNum, camNum, frameNum))
+
+def timeWriter(destFilename, timeQueue, stopToken):
+    with open(destFilename, 'w') as destFile:
+        while True: 
+            line = timeQueue.get()
+            if line == stopToken:
+                return
+            destFile.write(line)
+
 
 """
-
 Intended to take raw XYZ and return relevant
 XYZ data for pointclouds
 
@@ -120,7 +157,7 @@ def segDepFromGrayscale(dep, gs, thresh):
                 dep[i][j] = 0
 
 def ignoreSignals(num, stack):
-    print "\nIgnoring CTRL+C and CTRL+Z \nPlease quit by focusing on window and pressing \'q\'"
+    print("\nIgnoring CTRL+C and CTRL+Z \nPlease quit by focusing on window and pressing \'q\'")
 
 """
 Class to perform all controls for realsense cameras.
@@ -143,53 +180,18 @@ class RSControl:
         self.streamColor = False
         self.streamDepth = False
         self.streamPts = False
-        self.colBasDepSeg = False
-        self.waterSeg = False
-        self.findCorners = False
-        self.XYZRGB = False
-        self.cam1_x1 = 290
-        self.cam1_x2 = 405
-        self.cam1_y1 = 100
-        self.cam1_y2 = 180
-        self.cam2_x1 = 326
-        self.cam2_x2 = 385
-        self.cam2_y1 = 155
-        self.cam2_y2 = 300
+        self.trialName = ""
 
-    """
-    Add color to list of camera streams
-    """
+    def setTrialName(self, trial):
+        self.trialName = trial
 
+    # Add color to list of camera streams
     def addColorStream(self):
         self.strms.append(self.color_stream)
         self.streamColor = True
 
-
-    def setCropping(self, cam, x1, x2, y1, y2):
-        if cam == 1:
-            self.cam1_x1 = x1
-            self.cam1_x2 = x2
-            self.cam1_y1 = y1
-            self.cam1_y2 = y2
-        elif cam == 2:
-            self.cam2_x1 = x1
-            self.cam2_x2 = x2
-            self.cam2_y1 = y1
-            self.cam2_y2 = y2
-
-    """
-    Turn on RGBD imaging
-    """
-
-    def setXYZRGB(self):
-        self.XYZRGB = True
-
-    """
-    add depth to list of camera streams
-    """
-
+    # add depth to list of camera streams
     def addDepStream(self):
-
         if len(self.strms) == 0:  # if color_stream hasn't been added
             # because throws error w/o color stream
             self.strms.append(self.color_stream)
@@ -216,13 +218,9 @@ class RSControl:
     def startStreams(self, saveRate, nCams):
         if len(self.strms) != 0:
             with pyrs.Service() as serv:
-
-                
                 if nCams == 1:
                     with serv.Device(streams=self.strms) as dev:
-
                         dev.apply_ivcam_preset(0)
-
                         try:  # set custom gain/exposure values to obtain good depth image
                             custom_options = [(rs_option.RS_OPTION_R200_LR_EXPOSURE, 30.0),
                                               (rs_option.RS_OPTION_R200_LR_GAIN, 100.0)]
@@ -242,17 +240,13 @@ class RSControl:
                         while True:
 
                             cnt += 1
-
                             dev.wait_for_frames()
-
                             if self.streamColor:
                                 color = cv2.cvtColor(dev.color, cv2.COLOR_RGB2BGR)
                                 cv2.imshow('ColorStream', color)
-
                             if self.streamDepth:
                                 dep = (dev.dac * dev.depth_scale)
                                 cv2.imshow('DepthStream', dep)
-
                             if self.streamPts:
                                 pts = dev.points
                                 cv2.imshow('PointStream', pts)
@@ -344,9 +338,9 @@ class RSControl:
                             cnt = 0
 
                             f = open("./frames/two_camera/time/times.txt", "w")
-                            lines = []
-                            colList = []
-                            depList = []
+                            lines = deque([])
+                            colList = deque([])
+                            depList = deque([])
                             d = datetime.utcnow()
                             f.write(str(d) + ", " + str(time.time()) + "\n")                            
                             while True:
@@ -390,12 +384,12 @@ class RSControl:
 
                             f = open("./frames/two_camera/time/times.txt", "w")
                             lines = []
-                            col1List = []
-                            col2List = []
-                            dep1List = []
-                            dep2List = []
-                            pts1List = []
-                            pts2List = []
+                            col1List = deque([])
+                            col2List = deque([])
+                            dep1List = deque([])
+                            dep2List = deque([])
+                            pts1List = deque([])
+                            pts2List = deque([])
                             d = datetime.utcnow()
                             f.write(str(d) + ", " + str(time.time()) + "\n")
 
@@ -431,13 +425,13 @@ class RSControl:
                                         for x in xrange(numSaved):
                                             cnt += 1
                                             if self.streamColor:
-                                                color1 = cv2.cvtColor(col1List[x], cv2.COLOR_RGB2BGR)
-                                                color2 = cv2.cvtColor(col2List[x], cv2.COLOR_RGB2BGR)
+                                                color1 = cv2.cvtColor(col1List.popleft(), cv2.COLOR_RGB2BGR)
+                                                color2 = cv2.cvtColor(col2List.popleft(), cv2.COLOR_RGB2BGR)
                                                 cv2.imwrite("./frames/two_camera/color1/frame%d.jpg" % cnt, color1)
                                                 cv2.imwrite("./frames/two_camera/color2/frame%d.jpg" % cnt, color2)
                                             if self.streamDepth:
-                                                dep1 = dep1List[x] * ds1
-                                                dep2 = dep2List[x] * ds2
+                                                dep1 = dep1List.popleft() * ds1
+                                                dep2 = dep2List.popleft() * ds2
                                                 np.savetxt(
                                                     './frames/two_camera/depth1/dep1_%d.txt' % cnt, dep1)
                                                 np.savetxt(
@@ -475,14 +469,17 @@ class RSControl:
                                 dev.set_device_options(*zip(*custom_options))
                             except pyrs.RealsenseError:
                                 pass  # options are not available on all devices
-
+                            
+                            colList = deque([])
+                            depList = deque([])
+                            ptsList = deque([])
+                            
                             if self.streamColor:
-                                colList = []
+                                cv2.namedWindow('ColorStream')                                
                             if self.streamDepth:
-                                depList = []
+                                cv2.namedWindow('DepthStream')
                             if self.streamPts:
-                                ptsList = []
-
+                                cv2.namedWindow('PointStream')
 
                             cnt = 0
                             while True:
@@ -492,16 +489,13 @@ class RSControl:
                                 # Show desired streams
                                 if self.streamDepth:
                                     dep = (dev.dac * dev.depth_scale)
-                                    cv2.namedWindow('DepthStream')
                                     cv2.imshow('DepthStream', dep)
                                 if self.streamPts:
                                     pts = dev.points
                                     # pts = cv2.cvtColor(pts, cv2.COLOR_XYZ2BGR)
-                                    cv2.namedWindow('PointStream')
                                     cv2.imshow('PointStream', pts)
                                 if self.streamColor:
                                     color = cv2.cvtColor(dev.color, cv2.COLOR_RGB2BGR)
-                                    cv2.namedWindow('ColorStream')
                                     cv2.imshow('ColorStream', color)
 
                                 # wait and check if 'q' was pressed. If so, end streams
@@ -514,15 +508,15 @@ class RSControl:
                                         for x in xrange(numSaved):
                                             cnt += 1
                                             if self.streamColor:
-                                                color = cv2.cvtColor(colList[x], cv2.COLOR_RGB2BGR)
-                                                cv2.imwrite("./frames/one_camera/color/frame%d.jpg" % cnt, color)
+                                                color = cv2.cvtColor(colList.popleft(), cv2.COLOR_RGB2BGR)
+                                                cv2.imwrite("./frames/one_camera/trials/" + self.trialName + "/color/frame%d.jpg" % cnt, color)
                                             if self.streamDepth:
-                                                dep = depList[x]
+                                                dep = depList.popleft()
                                                 np.savetxt(
-                                                    './frames/one_camera/depth/dep_%d.txt' % cnt, dep)
+                                                    "./frames/one_camera/trials/" + self.trialName + "/depth/dep_%d.txt" % cnt, dep)
                                             if self.streamPts:
-                                                pts = nonZeroData(ptsList[x])
-                                                savePCD(pts, "./frames/one_camera/points/points_%d.ply" % cnt)
+                                                pts = nonZeroData(ptsList.popleft())
+                                                savePCD(pts, "./frames/one_camera/trials/" + self.trialName + "/points/points_%d.ply" % cnt)
                                     break
                                 elif keyPress == ord('c') and saveRate == 0:
                                     if self.streamColor:
@@ -555,38 +549,50 @@ class RSControl:
                                 pass  # options are not available on all devices
 
                             frame = 0
-                            f = open("./frames/two_camera/time/times.txt", "w")
-                            lines = []
-                            col1List = []
-                            col2List = []
-                            dep1List = []
-                            dep2List = []
-                            pts1List = []
-                            pts2List = []
-                            d = datetime.utcnow()
-                            f.write(str(d) + ", " + str(time.time()) + "\n")
                             
+                            # Implement timestamping file
+                            destFile = "./frames/two_camera/trials/" + self.trialName + "/time/times.txt"
+                            stopToken = "Stop Time"
+                            timeList = multiprocessing.Queue()
+                            timeProc = multiprocessing.Process(target = timeWriter, args=(destFile, timeList, stopToken))
+                            timeProc.start()
+
+                            d = datetime.utcnow()
+                            timeList.put(str(d) + ", " + str(time.time()) + "\n")
+                            
+                            if self.streamColor:
+                                colList = multiprocessing.Queue()
+                                colProc = multiprocessing.Process(target = colWriter, args=(colList, self.trialName))
+                                colProc.start()
+                            if self.streamDepth:
+                                dep1List = multiprocessing.Queue()
+                                dep1Proc = multiprocessing.Process(target = depWriter, args=(dep1List, self.trialName))
+                                dep1Proc.start()                                
+                                dep2List = multiprocessing.Queue()
+                                dep2Proc = multiprocessing.Process(target = depWriter, args=(dep2List, self.trialName))
+                                dep2Proc.start()                                
+                            if self.streamPts:
+                                ptsList = multiprocessing.Queue()
+                                ptsProc = multiprocessing.Process(target = ptsWriter, args=(ptsList, self.trialName))
+                                ptsProc.start()
+
+
                             # Make arrays to hold images and construct viewing windows
                             if self.streamColor:
                                 cv2.namedWindow('ColorStream1')
                                 cv2.namedWindow('ColorStream2')
-                                col1List = []
-                                col2List = []
                             if self.streamDepth:
                                 cv2.namedWindow('DepthStream1')
                                 cv2.namedWindow('DepthStream2')
-                                dep1List = []
-                                dep2List = []                                
                             if self.streamPts:
                                 cv2.namedWindow('PointStream1')
                                 cv2.namedWindow('PointStream2')
-                                pts1List = []
-                                pts2List = []
 
                             while True:                            
                                 dev1.wait_for_frames()
                                 dev2.wait_for_frames()
-                                frame += 1
+                                if saveRate != 0:
+                                    frame += 1
                                 # Show desired streams
                                 if self.streamColor:
                                     color1 = cv2.cvtColor(dev1.color, cv2.COLOR_RGB2BGR)
@@ -609,53 +615,42 @@ class RSControl:
                                 # If 'q' was pressed, save images and break
                                 keyPress = cv2.waitKey(1) & 0xFF
                                 if keyPress == ord('q'):
-                                    f.writelines(lines)
-                                    cnt = 0
-                                    numSaved = max(len(col1List), len(dep1List), len(pts1List))
-                                    if (numSaved):
-                                        for x in xrange(numSaved):
-                                            cnt += 1
-                                            if self.streamColor:
-                                                color1 = col1List[x]
-                                                color2 = col2List[x]
-                                                cv2.imwrite("./frames/two_camera/color1/frame%d.jpg" % cnt, color1)
-                                                cv2.imwrite("./frames/two_camera/color2/frame%d.jpg" % cnt, color2)
-                                            if self.streamDepth:
-                                                dep1 = dep1List[x]
-                                                dep2 = dep2List[x]
-                                                np.savetxt(
-                                                    './frames/two_camera/depth1/dep1_%d.txt' % cnt, dep1)
-                                                np.savetxt(
-                                                    './frames/two_camera/depth2/dep2_%d.txt' % cnt, dep2)
-                                            if self.streamPts:
-                                                pts1 = pts1List[x]
-                                                pts2 = pts2List[x]
-                                                pts1 = nonZeroData(pts1)
-                                                savePCD(pts1, "./frames/two_camera/points1/points1_%d.ply" % cnt)
-                                                pts2 = nonZeroData(pts2)
-                                                savePCD(pts2, "./frames/two_camera/points2/points2_%d.ply" % cnt)
+                                    if self.streamColor:
+                                        colList.put((color1, frame, 0))
+                                        colProc.join()
+                                    if self.streamDepth:
+                                        dep1List.put((dep1, frame, 0))
+                                        dep1Proc.join()
+                                        dep2List.put((dep1, frame, 0))
+                                        dep2Proc.join()
+                                    if self.streamPts:
+                                        ptsList.put((pts1, frame, 0))
+                                        ptsProc.join()
+                                    timeList.put(stopToken)
+                                    timeProc.join()
                                     break
                                 # If 'c' was pressed and not continuous saving, save current frames
                                 elif keyPress == ord('c') and saveRate == 0:
-                                    lines.append(str(time.time()) + "\n")
+                                    timeList.put(str(time.time()) + "\n")
+                                    frame += 1
                                     if self.streamColor:
-                                        col1List.append(color1)
-                                        col2List.append(color2)
+                                        colList.put((color1, frame))
+                                        colList.put((color2, frame))
                                     if self.streamDepth:
-                                        dep1List.append(dep1)
-                                        dep2List.append(dep2)
+                                        dep1List.put((dep1, frame))
+                                        dep2List.put((dep2, frame))
                                     if self.streamPts:
-                                        pts1List.append(pts1)
-                                        pts2List.append(pts2)
+                                        ptsList.put((pts1, frame))
+                                        ptsList.put((pts2, frame))
                                 # if saving frames is requested, save desired streams
                                 if saveRate and frame % saveRate == 0:
-                                    lines.append(str(time.time()) + "\n")
+                                    timeList.put(str(time.time()) + "\n")
                                     if self.streamColor:
-                                        col1List.append(color1)
-                                        col2List.append(color2)
+                                        colList.put((color1, frame, 1))
+                                        colList.put((color2, frame, 2))
                                     if self.streamDepth:
-                                        dep1List.append(dep1)
-                                        dep2List.append(dep2)
+                                        dep1List.put((dep1, frame, 1))
+                                        dep2List.put((dep2, frame, 2))
                                     if self.streamPts:
-                                        pts1List.append(pts1)
-                                        pts2List.append(pts2)
+                                        ptsList.put((pts1, frame, 1))
+                                        ptsList.put((pts2, frame, 2))

@@ -60,7 +60,7 @@ if [[ nCams -eq 1 ]]; then
 	mkdir $depthOutDir 2>/dev/null
 	mkdir $ptsOutDir 2>/dev/null
 
-	python realsense_script.py $nCams $streamColor $streamDepth $streamPts $saveFrames $streamMode 
+	python realsense_script.py $nCams $streamColor $streamDepth $streamPts $saveFrames $streamMode $trialLabel
 
 	# makes movie from color images, assumes 30 fps
 	# sudo ffmpeg -framerate 30 -i $colorInDir"frame%00d.jpg" -c:v libx264 -profile:v high -crf 20 -pix_fmt yuv420p $baseDir$trialLabel"/"$vidName
@@ -122,7 +122,10 @@ if [[ nCams -eq 2 ]]; then
 	mkdir $ptsOutDir"2" 2>/dev/null
 	mkdir $timeOutDir 2>/dev/null
 
-	python realsense_script.py $nCams $streamColor $streamDepth $streamPts $saveFrames $streamMode 
+	python realsense_script.py $nCams $streamColor $streamDepth $streamPts $saveFrames $streamMode $trialLabel
+
+	echo ""
+	echo "Copying All Files Into Trial Directory"
 
 	cp $colorInDir"1/"*".jpg" $colorOutDir"1"  2>/dev/null
 	cp $colorInDir"1/"*".png" $colorOutDir"1" 2>/dev/null
