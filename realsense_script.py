@@ -59,7 +59,6 @@ camMode = sys.argv[6]
 try:
 	camMode = int(camMode)
 	trialName = sys.argv[7]
-	print(trialName)
 except Exception as e:
 	print(e)
 	exit()

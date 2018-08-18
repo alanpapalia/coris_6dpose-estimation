@@ -26,7 +26,7 @@ saveFrames=5
 # (1 -> stream only, 2 -> save images only, 3 -> stream and save imgs)
 streamMode=3	
 
-trap "echo CTRL+C disabled. Please exit by pressing 'q'" INT TSTP
+# trap "echo CTRL+C disabled. Please exit by pressing 'q'" INT TSTP
 
 if [[ nCams -eq 1 ]]; then
 	baseDir="./frames/single_camera/"
@@ -124,26 +124,26 @@ if [[ nCams -eq 2 ]]; then
 
 	python realsense_script.py $nCams $streamColor $streamDepth $streamPts $saveFrames $streamMode $trialLabel
 
-	echo ""
-	echo "Copying All Files Into Trial Directory"
+	# echo ""
+	# echo "Copying All Files Into Trial Directory"
 
-	cp $colorInDir"1/"*".jpg" $colorOutDir"1"  2>/dev/null
-	cp $colorInDir"1/"*".png" $colorOutDir"1" 2>/dev/null
-	cp $grayInDir"1/"*".jpg" $grayOutDir"1" 2>/dev/null
-	cp $depthInDir"1/"*".txt" $depthOutDir"1" 2>/dev/null
-	cp $depthInDir"1/"*".png" $depthOutDir"1" 2>/dev/null
-	cp $ptsInDir"1/"*".txt" $ptsOutDir"1" 2>/dev/null
-	cp $ptsInDir"1/"*".pts" $ptsOutDir"1" 2>/dev/null
-	cp $ptsInDir"1/"*".ply" $ptsOutDir"1" 2>/dev/null
-	cp $colorInDir"2/"*".jpg" $colorOutDir"2"  2>/dev/null
-	cp $colorInDir"2/"*".png" $colorOutDir"2" 2>/dev/null
-	cp $grayInDir"2/"*".jpg" $grayOutDir"2" 2>/dev/null
-	cp $depthInDir"2/"*".txt" $depthOutDir"2" 2>/dev/null
-	cp $depthInDir"2/"*".png" $depthOutDir"2" 2>/dev/null
-	cp $ptsInDir"2/"*".txt" $ptsOutDir"2" 2>/dev/null
-	cp $ptsInDir"2/"*".pts" $ptsOutDir"2" 2>/dev/null
-	cp $ptsInDir"2/"*".ply" $ptsOutDir"2" 2>/dev/null
-	cp $timeInDir"/"*".txt" $timeOutDir 2>/dev/null
+	# cp $colorInDir"1/"*".jpg" $colorOutDir"1"  2>/dev/null
+	# cp $colorInDir"1/"*".png" $colorOutDir"1" 2>/dev/null
+	# cp $grayInDir"1/"*".jpg" $grayOutDir"1" 2>/dev/null
+	# cp $depthInDir"1/"*".txt" $depthOutDir"1" 2>/dev/null
+	# cp $depthInDir"1/"*".png" $depthOutDir"1" 2>/dev/null
+	# cp $ptsInDir"1/"*".txt" $ptsOutDir"1" 2>/dev/null
+	# cp $ptsInDir"1/"*".pts" $ptsOutDir"1" 2>/dev/null
+	# cp $ptsInDir"1/"*".ply" $ptsOutDir"1" 2>/dev/null
+	# cp $colorInDir"2/"*".jpg" $colorOutDir"2"  2>/dev/null
+	# cp $colorInDir"2/"*".png" $colorOutDir"2" 2>/dev/null
+	# cp $grayInDir"2/"*".jpg" $grayOutDir"2" 2>/dev/null
+	# cp $depthInDir"2/"*".txt" $depthOutDir"2" 2>/dev/null
+	# cp $depthInDir"2/"*".png" $depthOutDir"2" 2>/dev/null
+	# cp $ptsInDir"2/"*".txt" $ptsOutDir"2" 2>/dev/null
+	# cp $ptsInDir"2/"*".pts" $ptsOutDir"2" 2>/dev/null
+	# cp $ptsInDir"2/"*".ply" $ptsOutDir"2" 2>/dev/null
+	# cp $timeInDir"/"*".txt" $timeOutDir 2>/dev/null
 
 fi
 
