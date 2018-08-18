@@ -161,8 +161,8 @@ class RSControl:
 
     # add depth to list of camera streams
     def addDepStream(self):
-        if len(self.strms) == 0:  # if color_stream hasn't been added
-            # because throws error w/o color stream
+        # because throws error w/o color stream
+        if len(self.strms) == 0:
             self.strms.append(self.color_stream)
 
         self.strms.append(self.depth_stream)
@@ -170,12 +170,12 @@ class RSControl:
         self.streamDepth = True
 
     def addPointStream(self):
-        if len(self.strms) == 0:  # if color_stream hasn't been added
-            # because throws error w/o color stream
+        # because throws error w/o color stream
+        if len(self.strms) == 0:
             self.strms.append(self.color_stream)
 
-        if len(self.strms) == 1:  # if depth streams haven't been added
-            # because throws error w/o these streams
+        # because throws error w/o these streams
+        if len(self.strms) == 1: 
             self.strms.append(self.depth_stream)
             self.strms.append(self.dac_stream)
 
@@ -766,7 +766,7 @@ class RSControl:
                                         if self.streamPts:
                                             ptsList.put((pts1, frame))
                                             ptsList.put((pts2, frame))
-                                    elif saveRate and frame % saveRate == 0:
+                                    if saveRate and frame % saveRate == 0:
                                         timeList.put(str(time.time()) + "\n")
                                         if self.streamColor:
                                             colList.put((color1, frame, 1))
