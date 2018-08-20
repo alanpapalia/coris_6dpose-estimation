@@ -7,11 +7,9 @@ data collection through Intel RealSense ZR300 Cameras
 
 import logging
 import realsense_controls as rsc
-import image_controls as imControl
-import tracking
 import sys
 
-if len(sys.argv) != 8:
+if len(sys.argv) != 7:
 	print("\n\nNot enough arguments!!")
 	print("1) number of cameras (0/1/2)")
 	print("2) How many cameras are you using? (0/1/2)")
@@ -23,23 +21,16 @@ if len(sys.argv) != 8:
 	print("8) What is the name of the trial?")
 	exit()
 
-
-
-
 logging.basicConfig(level=logging.INFO)
-
 
 # initialize realsense device
 rs = rsc.RSControl()
-
 nCams = int(sys.argv[1])
 
 if sys.argv[2] == 'y':
     rs.addColorStream()
-
 if sys.argv[3] == 'y':
     rs.addDepStream()
-
 if sys.argv[4] == 'y':
     rs.addPointStream()
 
@@ -49,27 +40,11 @@ try:
 except:
     saveRate = 0
 
-
-# if want to save frames, first clear out old ones
-if saveRate != 0:
-    imControl.clearTestImages(nCams)
-
-camMode = sys.argv[6]
-
 try:
-	camMode = int(camMode)
-	trialName = sys.argv[7]
+	trialName = sys.argv[6]
 except Exception as e:
 	print(e)
 	exit()
 
 rs.setTrialName(trialName)
-
-if camMode == 1:
-	rs.startStreams(saveRate, nCams)
-elif camMode == 2:
-	rs.saveFeed(saveRate, nCams)
-else:
-	rs.startStreamAndSave(saveRate, nCams)
-
-# imControl.makeGrayFrames("./frames/single_camera/color/")
+rs.startStreamAndSave(saveRate, nCams)

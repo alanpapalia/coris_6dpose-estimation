@@ -22,10 +22,7 @@ streamPts='n'
 # so saveFrames=5 -> 30/5 = 6 fps saved
 saveFrames=5
 
-# camera streaming mode
-# (1 -> stream only, 2 -> save images only, 3 -> stream and save imgs)
-streamMode=3	
-
+# command to protect script from quitting by CTRL+C/Z uncomment at will
 # trap "echo CTRL+C disabled. Please exit by pressing 'q'" INT TSTP
 
 if [[ nCams -eq 1 ]]; then
@@ -60,25 +57,14 @@ if [[ nCams -eq 1 ]]; then
 	mkdir $depthOutDir 2>/dev/null
 	mkdir $ptsOutDir 2>/dev/null
 
-	python realsense_script.py $nCams $streamColor $streamDepth $streamPts $saveFrames $streamMode $trialLabel
+	python realsense_script.py $nCams $streamColor $streamDepth $streamPts $saveFrames $trialLabel
 
 	# makes movie from color images, assumes 30 fps
 	# sudo ffmpeg -framerate 30 -i $colorInDir"frame%00d.jpg" -c:v libx264 -profile:v high -crf 20 -pix_fmt yuv420p $baseDir$trialLabel"/"$vidName
-
-	# copy all of most recent trial into saved trial directories
-	cp $colorInDir*".jpg" $colorOutDir  2>/dev/null
-	cp $colorInDir*".png" $colorOutDir 2>/dev/null
-	cp $grayInDir*".jpg" $grayOutDir 2>/dev/null
-	cp $depthInDir*".txt" $depthOutDir 2>/dev/null
-	cp $depthInDir*".png" $depthOutDir 2>/dev/null
-	cp $ptsInDir*".txt" $ptsOutDir 2>/dev/null
-	cp $ptsInDir*".pts" $ptsOutDir 2>/dev/null
-	cp $ptsInDir*".ply" $ptsOutDir 2>/dev/null
 fi
 if [[ nCams -eq 2 ]]; then
 	baseDir="./frames/two_camera/"
 	mkdir $baseDir 2>/dev/null
-
 
 	colorInDir=$baseDir"color"
 	grayInDir=$baseDir"gray"
@@ -96,7 +82,7 @@ if [[ nCams -eq 2 ]]; then
 	mkdir $grayInDir"1" 2>/dev/null
 	mkdir $depthInDir"1" 2>/dev/null
 	mkdir $ptsInDir"1" 2>/dev/null
-	mkdir $colorInDir"2" 2>/dev/null
+	mkdir $colorInDir"2" 2>/dev/null`
 	mkdir $grayInDir"2" 2>/dev/null
 	mkdir $depthInDir"2" 2>/dev/null
 	mkdir $ptsInDir"2" 2>/dev/null
@@ -122,7 +108,7 @@ if [[ nCams -eq 2 ]]; then
 	mkdir $ptsOutDir"2" 2>/dev/null
 	mkdir $timeOutDir 2>/dev/null
 
-	python realsense_script.py $nCams $streamColor $streamDepth $streamPts $saveFrames $streamMode $trialLabel
+	python realsense_script.py $nCams $streamColor $streamDepth $streamPts $saveFrames $trialLabel
 
 	# echo ""
 	# echo "Copying All Files Into Trial Directory"
@@ -144,6 +130,5 @@ if [[ nCams -eq 2 ]]; then
 	# cp $ptsInDir"2/"*".pts" $ptsOutDir"2" 2>/dev/null
 	# cp $ptsInDir"2/"*".ply" $ptsOutDir"2" 2>/dev/null
 	# cp $timeInDir"/"*".txt" $timeOutDir 2>/dev/null
-
 fi
 
