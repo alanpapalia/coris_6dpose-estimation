@@ -24,6 +24,11 @@ import signal
 import multiprocessing
 import socket
 
+
+def makeDir(dir):
+    if not os.path.exists(dir):
+        os.makedirs(dl_path)
+
 # Saves array of XYZ data to pointcloud
 # Performs some filtering first
 def savePCD(arr, fnameToWrite):
@@ -43,12 +48,13 @@ def colWriter(colQueue, trialName):
         img = item[0]
         frameNum = item[1]
         camNum = item[2]
+        trialNum = item[3]
         if camNum == 0:
             return
         elif camNum == 1 or camNum == 2:
-            cv2.imwrite("./frames/two_camera/trials/" + trialName + "/color%d/frame%d.jpg" % (camNum, frameNum), img)
+            cv2.imwrite("./frames/two_camera/" + trialName + "/t" + trialNum + "/color%d/frame%d.jpg" % (camNum, frameNum), img)
         elif camNum == 3:
-            cv2.imwrite("./frames/one_camera/trials/" + trialName + "/color/frame%d.jpg" % frameNum, img)
+            cv2.imwrite("./frames/one_camera/" + trialName + "/t" + trialNum + "/color/frame%d.jpg" % frameNum, img)
 
 def depWriter(depQueue, trialName):
     while True:
@@ -56,12 +62,13 @@ def depWriter(depQueue, trialName):
         img = item[0]
         frameNum = item[1]
         camNum = item[2]
+        trialNum = item[3]
         if camNum == 0:
             return
         elif camNum == 1 or camNum == 2:
-            np.savetxt("./frames/two_camera/trials/" + trialName + "/depth%d/dep%d_%d.txt" % (camNum, camNum, frameNum), img)
+            np.savetxt("./frames/two_camera/" + trialName + "/t" + trialNum + "/depth%d/dep%d_%d.txt" % (camNum, camNum, frameNum), img)
         elif camNum == 3:
-            np.savetxt("./frames/one_camera/trials/" + trialName + "/depth/dep_%d.txt" % frameNum, img)
+            np.savetxt("./frames/one_camera/" + trialName + "/t" + trialNum + "/depth/dep_%d.txt" % frameNum, img)
 
 def ptsWriter(ptsQueue, trialName):
     while True:
@@ -69,21 +76,24 @@ def ptsWriter(ptsQueue, trialName):
         img = item[0]
         frameNum = item[1]
         camNum = item[2]
+        trialNum = item[3]
         if camNum == 0:
             return
         pts = nonZeroData(img)
         elif camNum == 1 or camNum == 2:
-            savePCD(img, "./frames/two_camera/trials/" + trialName + "/points%d/points%d_%d.ply" % (camNum, camNum, frameNum))
+            savePCD(img, "./frames/two_camera/" + trialName + "/t" + trialNum + "/points%d/points%d_%d.ply" % (camNum, camNum, frameNum))
         elif camNum == 3:
-            savePCD(img, "./frames/one_camera/trials/" + trialName + "/points/points_%d.ply" % frameNum)
+            savePCD(img, "./frames/one_camera/" + trialName + "/t" + trialNum + "/points/points_%d.ply" % frameNum)
 
-def timeWriter(destFilename, timeQueue, stopToken):
-    with open(destFilename, 'w') as destFile:
+def timeWriter(timeFile, timeQueue, stopToken):
+    with open(timeFile , 'w') as f:
         while True: 
-            line = timeQueue.get()
+            item = timeQueue.get()
+            line = item[0]
+            trialNum = item[1]
             if line == stopToken:
                 return
-            destFile.write(line)
+            f.write(line)
 
 """
 Intended to take raw XYZ and return
@@ -176,7 +186,7 @@ class RSControl:
                                 pass  # options are not available on all devices
                             
                             # Implement timestamping file
-                            timeDestFile = "./frames/one_camera/trials/" + self.trialName + "/time/times.txt"
+                            timeDestFile = "./frames/one_camera/" + self.trialName + "/time/times.txt"
                             stopToken = "Stop Time"
                             timeList = multiprocessing.Queue()
                             timeProc = multiprocessing.Process(target = timeWriter, args=(timeDestFile, timeList, stopToken))
@@ -213,7 +223,11 @@ class RSControl:
                             s.listen(5)
                             s.setblocking(False)
 
+                            stopToken = "Stop Time"
+                            baseDir = "./frames/one_camera/" + self.trialName + "/"  
+                            makeDir(baseDir)                          
                             frame = 0
+                            trialCounter = 0
                             while True:
 
                                 # Set up to control streaming by socket communication
@@ -222,6 +236,25 @@ class RSControl:
                                 try:
                                     conn, addr = s.accept()
                                     streaming = int(conn.recv(4096))
+                                    # if turned on, increment to next trial number 
+                                    if streaming:
+                                        trialCounter += 1
+                                        trialDir = baseDir + "t" + trialCounter + "/"
+                                        makeDir(trialDir)
+                                        if self.streamColor:
+                                            makeDir(trialDir + "color")
+                                        if self.streamDepth:
+                                            makeDir(trialDir + "depth")
+                                        if self.streamPts:
+                                            makeDir(trialDir + "points")
+                                        # Implement timestamping file
+                                        timeList = multiprocessing.Queue()
+                                        timeProc = multiprocessing.Process(target = timeWriter, args=(trialDir + "times.txt", timeList, stopToken))
+                                        timeProc.start()
+                                        d = datetime.utcnow()
+                                        timeList.put(str(d) + ", " + str(time.time()) + "\n")
+                                    else:
+                                        timeList.put((stopToken, trialCounter))
                                 except socket.error as e:
                                     continue
                                 print streaming
@@ -245,34 +278,34 @@ class RSControl:
                                     keyPress = cv2.waitKey(1) & 0xFF
                                     if keyPress == ord('q'):
                                         if self.streamColor:
-                                            colList.put((color, frame, 0))
+                                            colList.put((color, frame, 0, trialCounter))
                                             colProc.join()
                                         if self.streamDepth:
-                                            dep1List.put((dep, frame, 0))
+                                            dep1List.put((dep, frame, 0, trialCounter))
                                             dep1Proc.join()
                                         if self.streamPts:
-                                            ptsList.put((pts, frame, 0))
+                                            ptsList.put((pts, frame, 0, trialCounter))
                                             ptsProc.join()
-                                        timeList.put(stopToken)
+                                        timeList.put((stopToken, trialCounter))
                                         timeProc.join()
                                         break
                                     elif keyPress == ord('c') and saveRate == 0:
-                                        timeList.put(str(time.time()) + "\n")
+                                        timeList.put((str(time.time()) + "\n", trialCounter))
                                         frame += 1
                                         if self.streamColor:
-                                            colList.put((color, frame, 3))
+                                            colList.put((color, frame, 3, trialCounter))
                                         if self.streamDepth:
-                                            dep1List.put((dep, frame, 3))
+                                            dep1List.put((dep, frame, 3, trialCounter))
                                         if self.streamPts:
-                                            ptsList.put((pts, frame, 3))
+                                            ptsList.put((pts, frame, 3, trialCounter))
                                     elif saveRate and frame % saveRate == 0:
-                                        timeList.put(str(time.time()) + "\n")
+                                        timeList.put((str(time.time()) + "\n", trialCounter))
                                         if self.streamColor:
-                                            colList.put((color, frame, 3))
+                                            colList.put((color, frame, 3, trialCounter))
                                         if self.streamDepth:
-                                            dep1List.put((dep, frame, 3))
+                                            dep1List.put((dep, frame, 3, trialCounter))
                                         if self.streamPts:
-                                            ptsList.put((pts, frame, 3))
+                                            ptsList.put((pts, frame, 3, trialCounter))
                     elif nCams == 2:
                         with serv.Device(device_id=0, streams=self.strms) as dev1, serv.Device(device_id=1, streams=self.strms) as  dev2:
 
@@ -286,17 +319,7 @@ class RSControl:
                                 dev2.set_device_options(*zip(*custom_options))
                             except pyrs.RealsenseError:
                                 pass  # options are not available on all devices
-                    
-                            # Implement timestamping file
-                            destFile = "./frames/two_camera/trials/" + self.trialName + "/time/times.txt"
-                            stopToken = "Stop Time"
-                            timeList = multiprocessing.Queue()
-                            timeProc = multiprocessing.Process(target = timeWriter, args=(destFile, timeList, stopToken))
-                            timeProc.start()
-
-                            d = datetime.utcnow()
-                            timeList.put(str(d) + ", " + str(time.time()) + "\n")
-                            
+                                                
                             if self.streamColor:
                                 colList = multiprocessing.Queue()
                                 colProc = multiprocessing.Process(target = colWriter, args=(colList, self.trialName))
@@ -330,6 +353,10 @@ class RSControl:
                             s.listen(5)
                             s.setblocking(False)
 
+                            stopToken = "Stop Time"
+                            baseDir = "./frames/two_camera/" + self.trialName + "/"  
+                            makeDir(baseDir)                          
+                            trialCounter = 0
                             frame = 0
                             while True:
                                 # Set up to control streaming by socket communication
@@ -338,6 +365,28 @@ class RSControl:
                                 try:
                                     conn, addr = s.accept()
                                     streaming = int(conn.recv(4096))
+                                    # if turned on, increment to next trial number 
+                                    if streaming:
+                                        trialCounter += 1
+                                        trialDir = baseDir + "t" + trialCounter + "/"
+                                        makeDir(trialDir)
+                                        if self.streamColor:
+                                            makeDir(trialDir + "color1")
+                                            makeDir(trialDir + "color2")
+                                        if self.streamDepth:
+                                            makeDir(trialDir + "depth1")
+                                            makeDir(trialDir + "depth2")
+                                        if self.streamPts:  
+                                            makeDir(trialDir + "points1")
+                                            makeDir(trialDir + "points2")
+                                        # Implement timestamping file
+                                        timeList = multiprocessing.Queue()
+                                        timeProc = multiprocessing.Process(target = timeWriter, args=(trialDir + "times.txt", timeList, stopToken))
+                                        timeProc.start()
+                                        d = datetime.utcnow()
+                                        timeList.put(str(d) + ", " + str(time.time()) + "\n")
+                                    else:
+                                        timeList.put((stopToken, trialCounter))
                                 except socket.error as e:
                                     continue
                                 print streaming
@@ -372,39 +421,39 @@ class RSControl:
                                     keyPress = cv2.waitKey(1) & 0xFF
                                     if keyPress == ord('q'):
                                         if self.streamColor:
-                                            colList.put((color1, frame, 0))
+                                            colList.put((color1, frame, 0, trialCounter))
                                             colProc.join()
                                         if self.streamDepth:
-                                            dep1List.put((dep1, frame, 0))
+                                            dep1List.put((dep1, frame, 0, trialCounter))
                                             dep1Proc.join()
-                                            dep2List.put((dep1, frame, 0))
+                                            dep2List.put((dep1, frame, 0, trialCounter))
                                             dep2Proc.join()
                                         if self.streamPts:
-                                            ptsList.put((pts1, frame, 0))
+                                            ptsList.put((pts1, frame, 0, trialCounter))
                                             ptsProc.join()
-                                        timeList.put(stopToken)
+                                        timeList.put((stopToken, trialCounter))
                                         timeProc.join()
                                         break
                                     elif keyPress == ord('c') and saveRate == 0:
-                                        timeList.put(str(time.time()) + "\n")
+                                        timeList.put((str(time.time()) + "\n", trialCounter))
                                         frame += 1
                                         if self.streamColor:
-                                            colList.put((color1, frame))
-                                            colList.put((color2, frame))
+                                            colList.put((color1, frame, 1, trialCounter))
+                                            colList.put((color2, frame, 2, trialCounter))
                                         if self.streamDepth:
-                                            dep1List.put((dep1, frame))
-                                            dep2List.put((dep2, frame))
+                                            dep1List.put((dep1, frame, 1, trialCounter))
+                                            dep2List.put((dep2, frame, 2, trialCounter))
                                         if self.streamPts:
-                                            ptsList.put((pts1, frame))
-                                            ptsList.put((pts2, frame))
+                                            ptsList.put((pts1, frame, 1, trialCounter))
+                                            ptsList.put((pts2, frame, 2, trialCounter))
                                     if saveRate and frame % saveRate == 0:
-                                        timeList.put(str(time.time()) + "\n")
+                                        timeList.put((str(time.time()) + "\n", trialCounter))
                                         if self.streamColor:
-                                            colList.put((color1, frame, 1))
-                                            colList.put((color2, frame, 2))
+                                            colList.put((color1, frame, 1, trialCounter))
+                                            colList.put((color2, frame, 2, trialCounter))
                                         if self.streamDepth:
-                                            dep1List.put((dep1, frame, 1))
-                                            dep2List.put((dep2, frame, 2))
+                                            dep1List.put((dep1, frame, 1, trialCounter))
+                                            dep2List.put((dep2, frame, 2, trialCounter))
                                         if self.streamPts:
-                                            ptsList.put((pts1, frame, 1))
-                                            ptsList.put((pts2, frame, 2))
+                                            ptsList.put((pts1, frame, 1, trialCounter))
+                                            ptsList.put((pts2, frame, 2, trialCounter))
