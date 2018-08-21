@@ -25,9 +25,9 @@ import multiprocessing
 import socket
 
 
-def makeDir(dir):
-    if not os.path.exists(dir):
-        os.makedirs(dl_path)
+def makeDir(newDir):
+    if not os.path.exists(newDir):
+        os.makedirs(newDir)
 
 # Saves array of XYZ data to pointcloud
 # Performs some filtering first
@@ -52,9 +52,9 @@ def colWriter(colQueue, trialName):
         if camNum == 0:
             return
         elif camNum == 1 or camNum == 2:
-            cv2.imwrite("./frames/two_camera/" + trialName + "/t" + trialNum + "/color%d/frame%d.jpg" % (camNum, frameNum), img)
+            cv2.imwrite("./frames/two_camera/" + trialName + "/t%d/color%d/frame%d.jpg" % (trialNum, camNum, frameNum), img)
         elif camNum == 3:
-            cv2.imwrite("./frames/one_camera/" + trialName + "/t" + trialNum + "/color/frame%d.jpg" % frameNum, img)
+            cv2.imwrite("./frames/one_camera/" + trialName + "/t%d/color/frame%d.jpg" % (trialNum, frameNum), img)
 
 def depWriter(depQueue, trialName):
     while True:
@@ -66,24 +66,24 @@ def depWriter(depQueue, trialName):
         if camNum == 0:
             return
         elif camNum == 1 or camNum == 2:
-            np.savetxt("./frames/two_camera/" + trialName + "/t" + trialNum + "/depth%d/dep%d_%d.txt" % (camNum, camNum, frameNum), img)
+            np.savetxt("./frames/two_camera/" + trialName + "/t%d/depth%d/dep%d_%d.txt" % (trialNum, camNum, camNum, frameNum), img)
         elif camNum == 3:
-            np.savetxt("./frames/one_camera/" + trialName + "/t" + trialNum + "/depth/dep_%d.txt" % frameNum, img)
+            np.savetxt("./frames/one_camera/" + trialName + "/t%d/depth/dep_%d.txt" % (trialNum, frameNum), img)
 
 def ptsWriter(ptsQueue, trialName):
     while True:
         item = ptsQueue.get()
         img = item[0]
+        pts = nonZeroData(img)
         frameNum = item[1]
         camNum = item[2]
         trialNum = item[3]
         if camNum == 0:
             return
-        pts = nonZeroData(img)
         elif camNum == 1 or camNum == 2:
-            savePCD(img, "./frames/two_camera/" + trialName + "/t" + trialNum + "/points%d/points%d_%d.ply" % (camNum, camNum, frameNum))
+            savePCD(img, "./frames/two_camera/" + trialName + "/t%d/points%d/points%d_%d.ply" % (trialNum, camNum, camNum, frameNum))
         elif camNum == 3:
-            savePCD(img, "./frames/one_camera/" + trialName + "/t" + trialNum + "/points/points_%d.ply" % frameNum)
+            savePCD(img, "./frames/one_camera/" + trialName + "/t%d/points/points_%d.ply" % (trialNum, frameNum))
 
 def timeWriter(timeFile, timeQueue, stopToken):
     with open(timeFile , 'w') as f:
@@ -170,8 +170,8 @@ class RSControl:
 
     def startStreamAndSave(self, saveRate, nCams):
             if len(self.strms) != 0:
-                signal.signal(signal.SIGINT, ignoreSignals)
-                signal.signal(signal.SIGTSTP, ignoreSignals)
+                # signal.signal(signal.SIGINT, ignoreSignals)
+                # signal.signal(signal.SIGTSTP, ignoreSignals)
                 with pyrs.Service() as serv:
                     if nCams == 1:
                         with serv.Device(streams=self.strms) as dev:
@@ -239,7 +239,7 @@ class RSControl:
                                     # if turned on, increment to next trial number 
                                     if streaming:
                                         trialCounter += 1
-                                        trialDir = baseDir + "t" + trialCounter + "/"
+                                        trialDir = baseDir + "t" + str(trialCounter) + "/"
                                         makeDir(trialDir)
                                         if self.streamColor:
                                             makeDir(trialDir + "color")
@@ -351,47 +351,54 @@ class RSControl:
                             s = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
                             s.bind(('10.0.0.60', 12345))
                             s.listen(5)
-                            s.setblocking(False)
 
                             stopToken = "Stop Time"
                             baseDir = "./frames/two_camera/" + self.trialName + "/"  
                             makeDir(baseDir)                          
                             trialCounter = 0
                             frame = 0
+                            curStreaming = False
+                            s.setblocking(False)
                             while True:
                                 # Set up to control streaming by socket communication
                                 # Not fully debugged yet                                
-                                streaming = 0
                                 try:
                                     conn, addr = s.accept()
-                                    streaming = int(conn.recv(4096))
+                                    conn.setblocking(False)
+                                    streamMsg = (conn.recv(4096))
+                                    print(streamMsg)
+                                    print(time.time())
                                     # if turned on, increment to next trial number 
-                                    if streaming:
-                                        trialCounter += 1
-                                        trialDir = baseDir + "t" + trialCounter + "/"
-                                        makeDir(trialDir)
-                                        if self.streamColor:
-                                            makeDir(trialDir + "color1")
-                                            makeDir(trialDir + "color2")
-                                        if self.streamDepth:
-                                            makeDir(trialDir + "depth1")
-                                            makeDir(trialDir + "depth2")
-                                        if self.streamPts:  
-                                            makeDir(trialDir + "points1")
-                                            makeDir(trialDir + "points2")
-                                        # Implement timestamping file
-                                        timeList = multiprocessing.Queue()
-                                        timeProc = multiprocessing.Process(target = timeWriter, args=(trialDir + "times.txt", timeList, stopToken))
-                                        timeProc.start()
-                                        d = datetime.utcnow()
-                                        timeList.put(str(d) + ", " + str(time.time()) + "\n")
-                                    else:
-                                        timeList.put((stopToken, trialCounter))
-                                except socket.error as e:
-                                    continue
-                                print streaming
+                                    if streamMsg != curStreaming:
+                                        curStreaming = streamMsg
+                                        if streamMsg:
+                                            trialCounter += 1
+                                            trialDir = baseDir + "t" + str(trialCounter) + "/"
+                                            makeDir(trialDir)
+                                            if self.streamColor:
+                                                makeDir(trialDir + "color1")
+                                                makeDir(trialDir + "color2")
+                                            if self.streamDepth:
+                                                makeDir(trialDir + "depth1")
+                                                makeDir(trialDir + "depth2")
+                                            if self.streamPts:  
+                                                makeDir(trialDir + "points1")
+                                                makeDir(trialDir + "points2")
+                                            # Implement timestamping file
+                                            timeList = multiprocessing.Queue()
+                                            timeProc = multiprocessing.Process(target = timeWriter, args=(trialDir + "times.txt", timeList, stopToken))
+                                            timeProc.start()
+                                            d = datetime.utcnow()
+                                            timeList.put(str(d) + ", " + str(time.time()) + "\n")
+                                        elif trialCounter > 0:
+                                            try:
+                                                timeList.put((stopToken, trialCounter))
+                                            except:
+                                                print("no time records yet")
+                                except:
+                                    pass
 
-                                if streaming:                            
+                                if curStreaming:                            
                                     dev1.wait_for_frames()
                                     dev2.wait_for_frames()
                                     if saveRate != 0:

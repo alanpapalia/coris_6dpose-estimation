@@ -28,6 +28,7 @@ saveFrames=5
 if [[ nCams -eq 1 ]]; then
 	baseDir="./frames/single_camera/"
 	mkdir $baseDir 2>/dev/null
+	mkdir $baseDir$trialLabel 2>/dev/null
 
 	python realsense_script.py $nCams $streamColor $streamDepth $streamPts $saveFrames $trialLabel
 
@@ -38,6 +39,7 @@ fi
 if [[ nCams -eq 2 ]]; then
 	baseDir="./frames/two_camera/"
 	mkdir $baseDir 2>/dev/null
+	mkdir $baseDir$trialLabel 2>/dev/null
 
 	python realsense_script.py $nCams $streamColor $streamDepth $streamPts $saveFrames $trialLabel
 
