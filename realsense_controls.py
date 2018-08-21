@@ -140,6 +140,9 @@ class RSControl:
         self.streamDepth = False
         self.streamPts = False
 
+        # to track whether streams should be displayed
+        self.showStreams = True
+
     def setTrialName(self, trial):
         self.trialName = trial
 
