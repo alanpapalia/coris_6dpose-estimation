@@ -363,14 +363,12 @@ class RSControl:
                             curStreaming = False
                             s.setblocking(False)
                             while True:
-                                # Set up to control streaming by socket communication
-                                # Not fully debugged yet                                
                                 try:
                                     conn, addr = s.accept()
                                     conn.setblocking(False)
-                                    streamMsg = (conn.recv(4096))
-                                    print(streamMsg)
-                                    print(time.time())
+                                    streamMsg = (conn.recv(4096)) # assuming getting 1 or 0 (on/off)
+                                    # print(streamMsg)
+                                    # print(time.time())
                                     # if turned on, increment to next trial number 
                                     if streamMsg != curStreaming:
                                         curStreaming = streamMsg
