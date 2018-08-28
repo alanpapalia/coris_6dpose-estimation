@@ -351,9 +351,9 @@ class RSControl:
                                 cv2.namedWindow('PointStream2')
 
                             # Make socket to listen to other computer
-                            s = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
-                            s.bind(('10.0.0.60', 12345))
-                            s.listen(5)
+                            # s = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
+                            # s.bind(('10.0.0.60', 12345))
+                            # s.listen(5)
 
                             stopToken = "Stop Time"
                             baseDir = "./frames/two_camera/" + self.trialName + "/"  
@@ -361,45 +361,51 @@ class RSControl:
                             trialCounter = 0
                             frame = 0
                             curStreaming = False
-                            s.setblocking(False)
+                            # s.setblocking(False)
+                            timeList = multiprocessing.Queue()
+                            timeProc = multiprocessing.Process(target = timeWriter, args=(baseDir + "times.txt", timeList, stopToken))
+                            timeProc.start()
+                            d = datetime.utcnow()
+                            timeList.put(str(d) + ", " + str(time.time()) + "\n")
+
                             while True:
-                                try:
-                                    conn, addr = s.accept()
-                                    conn.setblocking(False)
-                                    streamMsg = (conn.recv(4096)) # assuming getting 1 or 0 (on/off)
+                                # try:
+                                    # conn, addr = s.accept()
+                                    # conn.setblocking(False)
+                                    # streamMsg = (conn.recv(4096)) # assuming getting 1 or 0 (on/off)
                                     # print(streamMsg)
                                     # print(time.time())
                                     # if turned on, increment to next trial number 
-                                    if streamMsg != curStreaming:
-                                        curStreaming = streamMsg
-                                        if streamMsg:
-                                            trialCounter += 1
-                                            trialDir = baseDir + "t" + str(trialCounter) + "/"
-                                            makeDir(trialDir)
-                                            if self.streamColor:
-                                                makeDir(trialDir + "color1")
-                                                makeDir(trialDir + "color2")
-                                            if self.streamDepth:
-                                                makeDir(trialDir + "depth1")
-                                                makeDir(trialDir + "depth2")
-                                            if self.streamPts:  
-                                                makeDir(trialDir + "points1")
-                                                makeDir(trialDir + "points2")
-                                            # Implement timestamping file
-                                            timeList = multiprocessing.Queue()
-                                            timeProc = multiprocessing.Process(target = timeWriter, args=(trialDir + "times.txt", timeList, stopToken))
-                                            timeProc.start()
-                                            d = datetime.utcnow()
-                                            timeList.put(str(d) + ", " + str(time.time()) + "\n")
-                                        elif trialCounter > 0:
-                                            try:
-                                                timeList.put((stopToken, trialCounter))
-                                            except:
-                                                print("no time records yet")
-                                except:
-                                    pass
+                                #     if streamMsg != curStreaming:
+                                #         curStreaming = streamMsg
+                                #         if streamMsg:
+                                #             trialCounter += 1
+                                #             trialDir = baseDir + "t" + str(trialCounter) + "/"
+                                #             makeDir(trialDir)
+                                #             if self.streamColor:
+                                #                 makeDir(trialDir + "color1")
+                                #                 makeDir(trialDir + "color2")
+                                #             if self.streamDepth:
+                                #                 makeDir(trialDir + "depth1")
+                                #                 makeDir(trialDir + "depth2")
+                                #             if self.streamPts:  
+                                #                 makeDir(trialDir + "points1")
+                                #                 makeDir(trialDir + "points2")
+                                #             # Implement timestamping file
+                                #             timeList = multiprocessing.Queue()
+                                #             timeProc = multiprocessing.Process(target = timeWriter, args=(trialDir + "times.txt", timeList, stopToken))
+                                #             timeProc.start()
+                                #             d = datetime.utcnow()
+                                #             timeList.put(str(d) + ", " + str(time.time()) + "\n")
+                                #         elif trialCounter > 0:
+                                #             try:
+                                #                 timeList.put((stopToken, trialCounter))
+                                #             except:
+                                #                 print("no time records yet")
+                                # except:
+                                #     pass
 
-                                if curStreaming:                            
+                                if True:                            
                                     dev1.wait_for_frames()
                                     dev2.wait_for_frames()
                                     if saveRate != 0:
