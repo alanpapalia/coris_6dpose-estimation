@@ -357,7 +357,18 @@ class RSControl:
 
                             stopToken = "Stop Time"
                             baseDir = "./frames/two_camera/" + self.trialName + "/"  
-                            makeDir(baseDir)                          
+
+                            makeDir(baseDir)
+                            if self.streamColor:
+                                makeDir(baseDir + "color1")
+                                makeDir(baseDir + "color2")
+                            if self.streamDepth:
+                                makeDir(baseDir + "depth1")
+                                makeDir(baseDir + "depth2")
+                            if self.streamPts:  
+                                makeDir(baseDir + "points1")
+                                makeDir(baseDir + "points2")
+
                             trialCounter = 0
                             frame = 0
                             curStreaming = False
